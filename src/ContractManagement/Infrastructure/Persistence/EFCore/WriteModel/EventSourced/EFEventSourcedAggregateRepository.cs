@@ -121,11 +121,13 @@ public class EFEventSourcedAggregateRepository<TAggregateRoot> : IAggregateRepos
         }
     }
 
-    private static TAggregateRoot RehydrateAggregate(EventSourcedEntityId aggregateId, IList<Event> domainEvents) =>
-        (TAggregateRoot)Activator.CreateInstance(
-            typeof(TAggregateRoot),
-            aggregateId,
-            domainEvents)!;
+    private static TAggregateRoot RehydrateAggregate(
+        EventSourcedEntityId aggregateId, 
+        IList<Event> domainEvents) =>
+            (TAggregateRoot)Activator.CreateInstance(
+                typeof(TAggregateRoot),
+                aggregateId,
+                domainEvents)!;
 
     /// <remarks>
     /// Method must be static because it's used in an EF Core Linq expression.
