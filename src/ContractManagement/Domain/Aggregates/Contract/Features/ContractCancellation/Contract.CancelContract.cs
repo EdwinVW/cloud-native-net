@@ -11,7 +11,9 @@ namespace ContractManagement.Domain.Aggregates.ContractAggregate
             }
 
             var contractCancelled = ContractCancelled.CreateFrom(command);
+
             ApplyDomainEvent(contractCancelled);
+            
             return ValueTask.CompletedTask;
         }
 
@@ -29,7 +31,7 @@ namespace ContractManagement.Domain.Aggregates.ContractAggregate
 
             if (DateTime.Now.Date >= ContractTerm?.EndDate.Date.AddYears(-3))
             {
-                AddBusinessRuleViolation("Contract can not be cancelled of it is within 3 years from the end of its term.");
+                AddBusinessRuleViolation("Contract can not be cancelled if it is within 3 years from the end of its term.");
             }            
         }
     }

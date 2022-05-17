@@ -14,7 +14,9 @@ public class ContractCancelledHandler : IEventHandler<DomainEvents.ContractCance
     public ValueTask HandleAsync(DomainEvents.ContractCancelled domainEvent)
     {
         var integrationEvent = IntegrationEvents.ContractCancelled.CreateFrom(domainEvent);
+
         _unitOfWork.AddIntegrationEventToPublish(integrationEvent);
+        
         return ValueTask.CompletedTask;
     }
 }

@@ -11,8 +11,11 @@ public class CancelContractHandler : ICommandHandler<CancelContract>
 
     public async ValueTask HandleAsync(CancelContract command)
     {
-        var contract = await _aggregateService.RehydrateAsync(command.ContractNumber, command.ExpectedVersion);
+        var contract = await _aggregateService.RehydrateAsync(
+            command.ContractNumber, command.ExpectedVersion);
+            
         await contract.CancelContract(command);
+        
         await _aggregateService.ProcessChangesAsync(contract);
     }
 }
