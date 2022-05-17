@@ -34,6 +34,22 @@ The diagram below shows the logical solution architecture of the sample applicat
 
 ![Solution Architecture](img/solution-architecture.png)
 
+## Generic Service Pattern
+
+The Contract Management service is structured according to a generic pattern that I've defined. The pattern is supported by a modest set of convenience base-classes (not even big enough to call it a framework i.m.h.o.). These base-classes make sure that handling commands within the service is always done in a certain way. This also eliminates the need for the devs to write identical boiler-plate code over and over again. These base-classes are situated in the `Common` folder of the repo. 
+
+The diagram below shows the high-level overview of the pattern:
+
+![Generic service pattern](img/generic-service-pattern.png)
+
+You should be able to recognize the layers in the folder structure in the `ContractManagement` folder. 
+
+## Command-handling flow
+
+The `ContractManagement `service offers a command API that can be used to fire commands at it. This will trigger business-logic and change the state of a contract aggregate. The diagram below shows the flow that is followed when a command is fired at the service:
+
+![Command-handling flow](img/command-handling-flow.png)
+
 ## DISCLAIMER
 
 The code in this repository is only used for experimenting with the architectural concepts DDD, CQRS and Event Sourcing and for demos during the presentation. It is NOT production grade code, functionality is not complete (and may not even work correctly). Take this into account when just copying and pasting code from this repo into your own code-base (which is never a good idea by the way).
