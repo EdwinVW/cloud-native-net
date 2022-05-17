@@ -1,0 +1,94 @@
+# RegisterContract Command Version 1 (obsolete)
+
+POST https://localhost:7044/contractmanagement/command/registercontract
+Content-Type: application/json
+
+{
+    "contractNumber": "CTR-{{$datetime 'YYYYMMDD'}}-0001",
+    "customerNumber": "C13976",
+    "productNumber": "FAC-00011",
+    "amount": "{{$randomInt 10000 99999}}",
+    "startDate": "{{$datetime iso8601}}", 
+    "endDate": "{{$datetime iso8601 12 y}}"
+}
+
+###
+
+# RegisterContract Command Version 2
+
+POST https://localhost:7044/contractmanagement/command/registercontractv2
+Content-Type: application/json
+
+{
+    "contractNumber": "CTR-{{$datetime 'YYYYMMDD'}}-0002",
+    "customerNumber": "C13976",
+    "productNumber": "FAC-00011",
+    "amount": "{{$randomInt 10000 99999}}",
+    "startDate": "{{$datetime iso8601}}", 
+    "endDate": "{{$datetime iso8601 10 y}}",
+    "paymentPeriod": "Yearly"
+}
+
+###
+
+# ChangeContractAmount Command
+
+POST https://localhost:7044/contractmanagement/command/changecontractamount
+Content-Type: application/json
+
+{
+    "contractNumber": "CTR-{{$datetime 'YYYYMMDD'}}-0002",
+    "newAmount": "{{$randomInt 10000 99999}}",
+    "expectedVersion": 1
+}
+
+### 
+
+# ChangeContractAmount Command 
+# (Contract with obsolete RegisterContract event in event stream)
+
+POST https://localhost:7044/contractmanagement/command/changecontractamount
+Content-Type: application/json
+
+{
+    "contractNumber": "CTR-{{$datetime 'YYYYMMDD'}}-0002",
+    "newAmount": "{{$randomInt 10000 99999}}",
+    "expectedVersion": 1
+}
+
+###
+
+# ChangeContractTerm Command
+
+POST https://localhost:7044/contractmanagement/command/changecontractterm
+Content-Type: application/json
+
+{
+    "contractNumber": "CTR-{{$datetime 'YYYYMMDD'}}-0002",
+    "startDate": "{{$datetime iso8601 5 y}}", 
+    "endDate": "{{$datetime iso8601 15 y}}"
+}
+
+###
+
+# CancelContract Command
+
+POST https://localhost:7044/contractmanagement/command/cancelcontract
+Content-Type: application/json
+
+{
+    "contractNumber": "CTR-{{$datetime 'YYYYMMDD'}}-0002",
+    "reason": "Replaced with different contract"
+}
+
+###
+
+# Query Contracts
+
+GET https://localhost:7044/contractmanagement/query/contracts
+
+###
+
+# Query Contract by ContractNumber
+
+GET https://localhost:7044/contractmanagement/query/contracts/CTR-{{$datetime 'YYYYMMDD'}}-0002

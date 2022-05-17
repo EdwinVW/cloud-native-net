@@ -1,0 +1,1 @@
+& wt -M -d D:\dev\cloud-native-net\src\ContractManagement\WebAPI `; split-pane -H -d D:\dev\cloud-native-net\src\OutputManagement\OutputManagementService `; split-pane -V -d D:\dev\cloud-native-net\src\!Support\MessageSender `; move-focus up `; split-pane -V -d D:\dev\cloud-native-net\src\ContractManagement\MessageReceiver `; move-focus left

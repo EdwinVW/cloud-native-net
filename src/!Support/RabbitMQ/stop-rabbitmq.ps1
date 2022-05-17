@@ -1,0 +1,1 @@
+docker rm cloud-native-net-rabbitmq -f
