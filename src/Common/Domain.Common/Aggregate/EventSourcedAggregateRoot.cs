@@ -43,6 +43,10 @@ public abstract class EventSourcedAggregateRoot : AggregateRoot<EventSourcedEnti
 
         // check the overall consistency of the aggregate after the changes
         EnsureConsistency();
+        if (!IsConsistent)
+        {
+            return;
+        }
 
         // publish the domain event
         PublishDomainEvent(domainEvent);
