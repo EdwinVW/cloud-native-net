@@ -20,7 +20,7 @@ public class EFContractReadModelRepository : IContractReadModelRepository
         _logger.LogInformation("Added contract {contractNumber}.", contract.ContractNumber);
     }
 
-    public async ValueTask<Model.Contract> GetContractByContractNumberAsync(string contractNumber)
+    public async ValueTask<Model.Contract?> GetContractByContractNumberAsync(string contractNumber)
     {
         return await _dbContext.Contracts.FirstOrDefaultAsync(c => c.ContractNumber == contractNumber);
     }

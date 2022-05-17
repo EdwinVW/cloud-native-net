@@ -4,7 +4,7 @@ public interface IContractReadModelRepository
 {
     Task AddContractAsync(ReadModels.Contract contract);
 
-    ValueTask<ReadModels.Contract> GetContractByContractNumberAsync(string contractNumber);
+    ValueTask<ReadModels.Contract?> GetContractByContractNumberAsync(string contractNumber);
 
     Task DeleteContractAsync(string contractNumber);
 }
