@@ -6,11 +6,13 @@ namespace ContractManagement.Domain.Aggregates.ContractAggregate
         {
             EnsureNotCancelled();
             EnsureValidTerm(command.StartDate, command.EndDate);
+
             if (IsValid)
             {
                 var contractTermChanged = ContractTermChanged.CreateFrom(command);
                 ApplyDomainEvent(contractTermChanged);
             }
+            
             return ValueTask.CompletedTask;
         }
 

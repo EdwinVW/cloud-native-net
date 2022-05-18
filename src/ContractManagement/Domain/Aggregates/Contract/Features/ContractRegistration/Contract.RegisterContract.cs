@@ -11,14 +11,13 @@ namespace ContractManagement.Domain.Aggregates.ContractAggregate
             EnsureValidTerm(command.StartDate, command.EndDate);
             await EnsureExistingCustomer(command.CustomerNumber, customerService);
             await EnsureExistingProduct(command.ProductNumber, productService);
-            if (!IsValid)
-            {
-                return;
-            }
 
-            // handle command
-            var contractRegistered = ContractRegisteredV2.CreateFrom(command);
-            ApplyDomainEvent(contractRegistered);
+            if (IsValid)
+            {
+                // handle command
+                var contractRegistered = ContractRegisteredV2.CreateFrom(command);
+                ApplyDomainEvent(contractRegistered);
+            }
         }
 
         private void Handle(ContractRegisteredV2 domainEvent)
