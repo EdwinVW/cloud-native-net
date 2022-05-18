@@ -10,7 +10,7 @@ public class ConcurrencyExceptionFilter : IActionFilter, IOrderedFilter
     {
         if (context.Exception is ConcurrencyException exception)
         {
-            context.Result = new JsonResult(new { Message = exception.Message })
+            context.Result = new ObjectResult(exception.Message)
             {
                 StatusCode = (int)HttpStatusCode.Conflict
             };

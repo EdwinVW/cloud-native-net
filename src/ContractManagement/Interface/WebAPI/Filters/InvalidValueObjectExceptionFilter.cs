@@ -10,7 +10,7 @@ public class InvalidValueObjectExceptionFilter : IActionFilter, IOrderedFilter
     {
         if (context.Exception is InvalidValueObjectException exception)
         {
-            context.Result = new JsonResult(new { Message = exception.Message })
+            context.Result = new ObjectResult(exception.Message)
             {
                 StatusCode = (int)HttpStatusCode.BadRequest
             };

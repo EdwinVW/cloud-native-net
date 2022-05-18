@@ -1,4 +1,6 @@
-﻿namespace ContractManagement.WebApi.Filters;
+﻿using System.Text;
+
+namespace ContractManagement.WebApi.Filters;
 
 public class BusinessRuleViolationExceptionFilter : IActionFilter, IOrderedFilter
 {
@@ -10,12 +12,13 @@ public class BusinessRuleViolationExceptionFilter : IActionFilter, IOrderedFilte
     {
         if (context.Exception is BusinessRuleViolationException exception)
         {
-            var data = new
+            var message = new StringBuilder();
+            message.AppendLine(exception.Message);
+            foreach (var detail in exception.Details)
             {
-                Message = exception.Message,
-                Details = new List<string>(exception.Details)
-            };
-            context.Result = new ObjectResult(data)
+                message.AppendLine($"- {detail}");
+            }
+            context.Result = new ObjectResult(message.ToString())
             {
                 StatusCode = (int)HttpStatusCode.BadRequest
             };
