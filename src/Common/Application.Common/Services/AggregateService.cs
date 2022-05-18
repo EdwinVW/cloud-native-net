@@ -65,7 +65,7 @@ public class AggregateService<TAggregateId, TAggregateRoot> : IAggregateService<
                 "The handling of the command left the aggregate in an inconsistent state.");
             foreach (var violation in aggregate.GetBusinessRuleViolations())
             {
-                exception.AddDetail(violation);
+                exception.AddViolation(violation);
             }
             throw exception;
         }

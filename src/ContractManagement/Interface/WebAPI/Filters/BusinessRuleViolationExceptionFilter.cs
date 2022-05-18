@@ -14,9 +14,9 @@ public class BusinessRuleViolationExceptionFilter : IActionFilter, IOrderedFilte
         {
             var message = new StringBuilder();
             message.AppendLine(exception.Message);
-            foreach (var detail in exception.Details)
+            foreach (var violationMessage in exception.Violations)
             {
-                message.AppendLine($"- {detail}");
+                message.AppendLine($"- {violationMessage}");
             }
             context.Result = new ObjectResult(message.ToString())
             {

@@ -3,9 +3,9 @@ namespace Application.Common.Exceptions;
 [Serializable]
 public class BusinessRuleViolationException : Exception
 {
-    private List<string> _details = new List<string>();
+    private List<string> _violations = new List<string>();
 
-    public IEnumerable<string> Details => _details;
+    public IEnumerable<string> Violations => _violations;
 
     public BusinessRuleViolationException()
     {
@@ -23,8 +23,8 @@ public class BusinessRuleViolationException : Exception
     {
     }
 
-    public void AddDetail(string detailMessage)
+    public void AddViolation(string violationMessage)
     {
-        _details.Add(detailMessage);
+        _violations.Add(violationMessage);
     }
 }
