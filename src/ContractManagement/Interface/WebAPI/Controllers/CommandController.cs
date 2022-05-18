@@ -31,13 +31,9 @@ public class CommandController : ControllerBase
     {
         if (ModelState.IsValid)
         {
-            // Map command to latest version
             var commandV2 = RegisterContractV2.CreateFrom(command);
-
-            _logger.LogInformation("Mapped {@command} to {@mappedCommand}", command.Type, commandV2.Type);
-
-            // Handle event (call latest version)
-            return RedirectToActionPreserveMethod(actionName: "HandleRegisterContractV2", routeValues: commandV2);
+            return RedirectToActionPreserveMethod(
+                actionName: "HandleRegisterContractV2", routeValues: commandV2);
         }
 
         return BadRequest();
