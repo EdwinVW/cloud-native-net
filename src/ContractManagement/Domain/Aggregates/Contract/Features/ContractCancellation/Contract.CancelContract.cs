@@ -5,7 +5,7 @@ namespace ContractManagement.Domain.Aggregates.ContractAggregate
         public ValueTask CancelContract(CancelContract command)
         {
             CheckBusinessRules();
-            if (!IsConsistent)
+            if (!IsValid)
             {
                 return ValueTask.CompletedTask;
             }
@@ -24,11 +24,8 @@ namespace ContractManagement.Domain.Aggregates.ContractAggregate
 
         private void CheckBusinessRules()
         {
-            if (Cancelled)
-            {
-                AddBusinessRuleViolation("Contract has already been cancelled.");
-            }
-
+            EnsureNotCancelled();
+            
             if (DateTime.Now.Date >= ContractTerm?.EndDate.Date.AddYears(-3))
             {
                 AddBusinessRuleViolation("Contract can not be cancelled if it is within 3 years from the end of its term.");

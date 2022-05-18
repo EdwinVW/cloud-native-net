@@ -16,7 +16,7 @@ public abstract class AggregateRoot<TId> : Entity<TId>, IAggregateRoot<TId>
     /// </summary>
     protected readonly List<Event> _domainEvents;
 
-    public bool IsConsistent { get; private set; }
+    public bool IsValid { get; private set; }
 
     /// <summary>
     /// Constructor for creating an empty aggregate.
@@ -27,7 +27,7 @@ public abstract class AggregateRoot<TId> : Entity<TId>, IAggregateRoot<TId>
     {
         _domainEvents = new();
         _businessRuleViolations = new List<string>();
-        IsConsistent = true;
+        IsValid = true;
         Version = originalVersion;
     }
 
@@ -52,7 +52,7 @@ public abstract class AggregateRoot<TId> : Entity<TId>, IAggregateRoot<TId>
     public void AddBusinessRuleViolation(string violation)
     {
         _businessRuleViolations.Add(violation);
-        IsConsistent = false;
+        IsValid = false;
     }
 
     public IEnumerable<string> GetBusinessRuleViolations()

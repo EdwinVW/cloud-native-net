@@ -28,17 +28,6 @@ public partial class Contract : EventSourcedAggregateRoot
 
     protected override bool TryHandleDomainEvent(Event domainEvent, bool rehydrating)
     {
-        // check overall pre-validation business rules
-        // (only when not rehydrating state)
-        if (!rehydrating)
-        {
-            if (Cancelled)
-            {
-                AddBusinessRuleViolation("The contract was cancelled.");
-                return true;
-            }
-        }
-
         // Upgrade events to latest version
         if (domainEvent is ContractRegistered)
         {
@@ -74,32 +63,62 @@ public partial class Contract : EventSourcedAggregateRoot
     /// </summary>
     public override void EnsureConsistency()
     {
+        // A yearly PaymentPeriod is only allowed for contracts below 5.000.000 euros
+        if (PaymentPeriod == PaymentPeriod.Yearly && Amount?.Value >= 5000000)
+        {
+            AddBusinessRuleViolation(
+                "Invalid PaymentPeriod. PaymentPeriod 'Yearly' is only allowed for contracts below 5.000.000 euros.");
+        }
+    }
+
+    private async Task EnsureExistingProduct(string productNumber, IProductService productService)
+    {
+        if (!await productService.IsExistingProductAsync(productNumber))
+        {
+            AddBusinessRuleViolation($"Product with product-number {productNumber} not found.");
+        }
+    }
+
+    private async Task EnsureExistingCustomer(string customerNumber, ICustomerService customerService)
+    {
+        if (!await customerService.IsExistingCustomerAsync(customerNumber))
+        {
+            AddBusinessRuleViolation($"Customer with customer-number {customerNumber} not found.");
+        }
+    }
+
+    private void EnsureNotCancelled()
+    {
+        if (Cancelled)
+        {
+            AddBusinessRuleViolation("The contract was cancelled.");
+        }
+    }
+
+    private void EnsureValidAmount(decimal amount)
+    {
         // Contract amount must be between 1000 and 10000000
-        if (Amount?.Value < 1000 || Amount?.Value > 10000000)
+        if (amount < 1000 || amount > 10000000)
         {
             AddBusinessRuleViolation(
                 "Invalid amount. The amount on a contract must be between 1.000 and 10.000.000 Euros.");
         }
+    }
 
+    private void EnsureValidTerm(DateTime startDate, DateTime endDate)
+    {
         // Contract term must be at least 5 years
-        if (ContractTerm?.EndDate < ContractTerm?.StartDate.Date.AddYears(5))
+        if (endDate < startDate.Date.AddYears(5))
         {
             AddBusinessRuleViolation(
                 "Invalid contract term. The term should be at least 5 years.");
         }
 
         // Contract term must be no longer than 50 years
-        if (ContractTerm?.EndDate > ContractTerm?.StartDate.Date.AddYears(50))
+        if (endDate > startDate.Date.AddYears(50))
         {
             AddBusinessRuleViolation(
                 "Invalid contract term. The term should be no longer than 50 years.");
-        }        
-
-        // A yearly PaymentPeriod is only allowed for contracts below 5.000.000 euros
-        if (PaymentPeriod == PaymentPeriod.Yearly && Amount?.Value >= 5000000)
-        {
-            AddBusinessRuleViolation(
-                "Invalid PaymentPeriod. PaymentPeriod 'Yearly' is only allowed for contracts below 5.000.000 euros.");
-        }        
+        }
     }
 }

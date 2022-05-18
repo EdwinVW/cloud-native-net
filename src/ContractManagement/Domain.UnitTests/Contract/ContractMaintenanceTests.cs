@@ -17,7 +17,7 @@ public class ContractMaintenanceTests
         sut.ChangeContractAmount(changeContractAmount);
 
         // Assert
-        sut.IsConsistent.Should().BeTrue();
+        sut.IsValid.Should().BeTrue();
         sut.ContractNumber.Value.Should().BeEquivalentTo(contractRegistered.ContractNumber);
         sut.CustomerNumber!.Value.Should().BeEquivalentTo(contractRegistered.CustomerNumber);
         sut.ProductNumber!.Value.Should().BeEquivalentTo(contractRegistered.ProductNumber);
@@ -48,7 +48,7 @@ public class ContractMaintenanceTests
         sut.ChangeContractAmount(changeContractAmount);
 
         // Assert
-        sut.IsConsistent.Should().BeFalse();
+        sut.IsValid.Should().BeFalse();
         sut.GetBusinessRuleViolations().Should().ContainSingle(
             "Invalid amount. The amount on a contract must be between 1.000 and 10.000.000 Euros.");
     }
@@ -68,7 +68,7 @@ public class ContractMaintenanceTests
         sut.ChangeContractAmount(changeContractAmount);
 
         // Assert
-        sut.IsConsistent.Should().BeFalse();
+        sut.IsValid.Should().BeFalse();
         sut.GetBusinessRuleViolations().Should().ContainSingle(
             "Invalid amount. The amount on a contract must be between 1.000 and 10.000.000 Euros.");
     }
@@ -87,7 +87,7 @@ public class ContractMaintenanceTests
         sut.ChangeContractTerm(changeContractTerm);
 
         // Assert
-        sut.IsConsistent.Should().BeTrue();
+        sut.IsValid.Should().BeTrue();
         sut.ContractNumber.Value.Should().BeEquivalentTo(contractRegistered.ContractNumber);
         sut.CustomerNumber!.Value.Should().BeEquivalentTo(contractRegistered.CustomerNumber);
         sut.ProductNumber!.Value.Should().BeEquivalentTo(contractRegistered.ProductNumber);
@@ -117,7 +117,7 @@ public class ContractMaintenanceTests
         sut.ChangeContractTerm(changeContractTerm);
 
         // Assert
-        sut.IsConsistent.Should().BeFalse();
+        sut.IsValid.Should().BeFalse();
         sut.GetBusinessRuleViolations().Should().ContainSingle(
             "Invalid contract term. The term should be at least 5 years.");
     }
@@ -136,7 +136,7 @@ public class ContractMaintenanceTests
         sut.ChangeContractTerm(changeContractTerm);
 
         // Assert
-        sut.IsConsistent.Should().BeFalse();
+        sut.IsValid.Should().BeFalse();
         sut.GetBusinessRuleViolations().Should().ContainSingle(
             "Invalid contract term. The term should be no longer than 50 years.");
     }
@@ -157,7 +157,7 @@ public class ContractMaintenanceTests
         sut.ChangeContractAmount(changeContractAmount);
 
         // Assert
-        sut.IsConsistent.Should().BeFalse();
+        sut.IsValid.Should().BeFalse();
         sut.GetBusinessRuleViolations().Should().ContainSingle(
             "Invalid amount. The amount on a contract must be between 1.000 and 10.000.000 Euros.");
     }

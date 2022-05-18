@@ -59,9 +59,9 @@ public class AggregateService<TAggregateId, TAggregateRoot> : IAggregateService<
     public async ValueTask ProcessChangesAsync(TAggregateRoot aggregate)
     {
         // Before saving the aggregate, make sure it it is consistent.
-        if (!aggregate.IsConsistent)
+        if (!aggregate.IsValid)
         {
-            var exception = new ConsistencyException(
+            var exception = new BusinessRuleViolationException(
                 "The handling of the command left the aggregate in an inconsistent state.");
             foreach (var violation in aggregate.GetBusinessRuleViolations())
             {

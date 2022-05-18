@@ -4,8 +4,13 @@ namespace ContractManagement.Domain.Aggregates.ContractAggregate
     {
         public ValueTask ChangeContractAmount(ChangeContractAmount command)
         {
-            var contractAmountChanged = ContractAmountChanged.CreateFrom(command);
-            ApplyDomainEvent(contractAmountChanged);
+            EnsureNotCancelled();
+            EnsureValidAmount(command.NewAmount);
+            if (IsValid)
+            {
+                var contractAmountChanged = ContractAmountChanged.CreateFrom(command);
+                ApplyDomainEvent(contractAmountChanged);
+            }
             return ValueTask.CompletedTask;
         }
 

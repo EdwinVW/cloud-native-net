@@ -17,7 +17,7 @@ public class ContractCancellationTests
         sut.CancelContract(cancelContract);
 
         // Assert
-        sut.IsConsistent.Should().BeTrue();
+        sut.IsValid.Should().BeTrue();
         sut.ContractNumber.Value.Should().BeEquivalentTo(contractRegistered.ContractNumber);
         sut.CustomerNumber!.Value.Should().BeEquivalentTo(contractRegistered.CustomerNumber);
         sut.ProductNumber!.Value.Should().BeEquivalentTo(contractRegistered.ProductNumber);

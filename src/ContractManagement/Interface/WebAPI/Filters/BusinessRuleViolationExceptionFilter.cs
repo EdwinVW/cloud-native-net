@@ -1,6 +1,6 @@
 ﻿namespace ContractManagement.WebApi.Filters;
 
-public class ConsistencyExceptionFilter : IActionFilter, IOrderedFilter
+public class BusinessRuleViolationExceptionFilter : IActionFilter, IOrderedFilter
 {
     public int Order => int.MaxValue - 10;
 
@@ -8,7 +8,7 @@ public class ConsistencyExceptionFilter : IActionFilter, IOrderedFilter
 
     public void OnActionExecuted(ActionExecutedContext context)
     {
-        if (context.Exception is ConsistencyException exception)
+        if (context.Exception is BusinessRuleViolationException exception)
         {
             var data = new
             {

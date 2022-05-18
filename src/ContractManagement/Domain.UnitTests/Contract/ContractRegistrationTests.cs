@@ -20,7 +20,7 @@ public class ContractRegistrationTests
 
 
         // Assert
-        sut.IsConsistent.Should().BeTrue();
+        sut.IsValid.Should().BeTrue();
         sut.ContractNumber.Value.Should().BeEquivalentTo(command.ContractNumber);
         sut.CustomerNumber!.Value.Should().BeEquivalentTo(command.CustomerNumber);
         sut.ProductNumber!.Value.Should().BeEquivalentTo(command.ProductNumber);
@@ -48,7 +48,7 @@ public class ContractRegistrationTests
             new List<Event> { domainEvent });
 
         // Assert
-        sut.IsConsistent.Should().BeTrue();
+        sut.IsValid.Should().BeTrue();
         sut.ContractNumber.Value.Should().BeEquivalentTo(domainEvent.ContractNumber);
         sut.CustomerNumber!.Value.Should().BeEquivalentTo(domainEvent.CustomerNumber);
         sut.ProductNumber!.Value.Should().BeEquivalentTo(domainEvent.ProductNumber);
@@ -77,7 +77,7 @@ public class ContractRegistrationTests
             new List<Event> { domainEvent });
 
         // Assert
-        sut.IsConsistent.Should().BeTrue();
+        sut.IsValid.Should().BeTrue();
         sut.ContractNumber.Value.Should().BeEquivalentTo(domainEvent.ContractNumber);
         sut.CustomerNumber!.Value.Should().BeEquivalentTo(domainEvent.CustomerNumber);
         sut.ProductNumber!.Value.Should().BeEquivalentTo(domainEvent.ProductNumber);
@@ -94,8 +94,7 @@ public class ContractRegistrationTests
     public async Task RegisterContract_WithNonExistingCustomer_ShouldYieldViolation()
     {
         // Arrange
-        var command = RegisterContractV2Builder.Build()
-            with { EndDate = new DateTime(2025, 4, 24, 18, 33, 5) };
+        var command = RegisterContractV2Builder.Build();
         var customerServiceMock = CustomerServiceMock.ForNonExistingCustomer(command.CustomerNumber);
         var productServiceMock = ProductServiceMock.ForExistingProduct(command.ProductNumber);
         var sut = new Contract(command.ContractNumber);
@@ -107,7 +106,7 @@ public class ContractRegistrationTests
             productServiceMock.Object);
 
         // Assert
-        sut.IsConsistent.Should().BeFalse();
+        sut.IsValid.Should().BeFalse();
         sut.GetBusinessRuleViolations().Should().ContainSingle(
             $"Customer with customer-number {command.CustomerNumber} not found.");
     }
@@ -116,8 +115,7 @@ public class ContractRegistrationTests
     public async Task RegisterContract_WithNonExistingProduct_ShouldYieldViolation()
     {
         // Arrange
-        var command = RegisterContractV2Builder.Build()
-            with { EndDate = new DateTime(2025, 4, 24, 18, 33, 5) };
+        var command = RegisterContractV2Builder.Build();
         var customerServiceMock = CustomerServiceMock.ForExistingCustomer(command.CustomerNumber);
         var productServiceMock = ProductServiceMock.ForNonExistingProduct(command.ProductNumber);
         var sut = new Contract(command.ContractNumber);
@@ -129,7 +127,7 @@ public class ContractRegistrationTests
             productServiceMock.Object);
 
         // Assert
-        sut.IsConsistent.Should().BeFalse();
+        sut.IsValid.Should().BeFalse();
         sut.GetBusinessRuleViolations().Should().ContainSingle(
             $"Product with product-number {command.ProductNumber} not found.");
     }     
@@ -151,7 +149,7 @@ public class ContractRegistrationTests
             productServiceMock.Object);
 
         // Assert
-        sut.IsConsistent.Should().BeFalse();
+        sut.IsValid.Should().BeFalse();
         sut.GetBusinessRuleViolations().Should().ContainSingle(
             "Invalid contract term. The term should be at least 5 years.");
     }   
@@ -173,7 +171,7 @@ public class ContractRegistrationTests
             productServiceMock.Object);
 
         // Assert
-        sut.IsConsistent.Should().BeFalse();
+        sut.IsValid.Should().BeFalse();
         sut.GetBusinessRuleViolations().Should().ContainSingle(
             "Invalid contract term. The term should be no longer than 50 years.");
     }          
@@ -195,7 +193,7 @@ public class ContractRegistrationTests
             productServiceMock.Object);
 
         // Assert
-        sut.IsConsistent.Should().BeFalse();
+        sut.IsValid.Should().BeFalse();
         sut.GetBusinessRuleViolations().Should().ContainSingle(
             "Invalid PaymentPeriod. PaymentPeriod 'Yearly' is only allowed for contracts below 5.000.000 euros.");
     }   
@@ -217,7 +215,7 @@ public class ContractRegistrationTests
             productServiceMock.Object);
 
         // Assert
-        sut.IsConsistent.Should().BeFalse();
+        sut.IsValid.Should().BeFalse();
         sut.GetBusinessRuleViolations().Should().ContainSingle(
             "Invalid PaymentPeriod. PaymentPeriod 'Yearly' is only allowed for contracts below 5.000.000 euros.");
     }        

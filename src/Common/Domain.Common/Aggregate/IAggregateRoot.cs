@@ -8,7 +8,7 @@ public interface IAggregateRoot<TId> : IEntity<TId>
 
     void AddBusinessRuleViolation(string violation);
 
-    bool IsConsistent { get; }
+    bool IsValid { get; }
 
     IEnumerable<string> GetBusinessRuleViolations();
 

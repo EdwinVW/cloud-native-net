@@ -4,8 +4,13 @@ namespace ContractManagement.Domain.Aggregates.ContractAggregate
     {
         public ValueTask ChangeContractTerm(ChangeContractTerm command)
         {
-            var contractTermChanged = ContractTermChanged.CreateFrom(command);
-            ApplyDomainEvent(contractTermChanged);
+            EnsureNotCancelled();
+            EnsureValidTerm(command.StartDate, command.EndDate);
+            if (IsValid)
+            {
+                var contractTermChanged = ContractTermChanged.CreateFrom(command);
+                ApplyDomainEvent(contractTermChanged);
+            }
             return ValueTask.CompletedTask;
         }
 

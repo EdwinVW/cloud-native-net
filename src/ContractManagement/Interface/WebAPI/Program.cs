@@ -15,7 +15,7 @@ builder.Services
     .AddControllers(options =>
     {
         options.Filters.Add<ConcurrencyExceptionFilter>();
-        options.Filters.Add<ConsistencyExceptionFilter>();
+        options.Filters.Add<BusinessRuleViolationExceptionFilter>();
         options.Filters.Add<InvalidValueObjectExceptionFilter>();
     })
     .AddFluentValidation(configuration => configuration.DisableDataAnnotationsValidation = true)
