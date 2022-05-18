@@ -19,26 +19,6 @@ public class CommandController : ControllerBase
         _logger = logger;
     }
 
-    /// <summary>
-    /// This is a method that only exists during the transition from RegisterContract 
-    /// to RegisterContractV2. As soon as no clients use RegisterContract anymore, this 
-    /// method (and the command) can be removed from the codebase.
-    /// </summary>
-    [Obsolete]
-    [HttpPost("registercontract")]
-    public IActionResult HandleRegisterContract(
-        [FromBody] RegisterContract command)
-    {
-        if (ModelState.IsValid)
-        {
-            var commandV2 = RegisterContractV2.CreateFrom(command);
-            return RedirectToActionPreserveMethod(
-                actionName: "HandleRegisterContractV2", routeValues: commandV2);
-        }
-
-        return BadRequest();
-    }
-
     [HttpPost("registercontractv2", Name = "HandleRegisterContractV2")]
     public async Task<IActionResult> HandleRegisterContractV2(
         [FromBody] RegisterContractV2 command,
@@ -62,6 +42,26 @@ public class CommandController : ControllerBase
         [FromBody] CancelContract command,
         [FromServices] ICommandHandler<CancelContract> commandHandler) => 
             await HandleCommand(command, commandHandler);    
+
+    /// <summary>
+    /// This is a method that only exists during the transition from RegisterContract 
+    /// to RegisterContractV2. As soon as no clients use RegisterContract anymore, this 
+    /// method (and the command) can be removed from the codebase.
+    /// </summary>
+    [Obsolete]
+    [HttpPost("registercontract")]
+    public IActionResult HandleRegisterContract(
+        [FromBody] RegisterContract command)
+    {
+        if (ModelState.IsValid)
+        {
+            var commandV2 = RegisterContractV2.CreateFrom(command);
+            return RedirectToActionPreserveMethod(
+                actionName: "HandleRegisterContractV2", routeValues: commandV2);
+        }
+
+        return BadRequest();
+    }
 
     private async Task<IActionResult> HandleCommand<T>(
         Command command, ICommandHandler<T> commandHandler) where T : Command
