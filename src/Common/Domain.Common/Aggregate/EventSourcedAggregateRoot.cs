@@ -17,7 +17,7 @@ public abstract class EventSourcedAggregateRoot : AggregateRoot<EventSourcedEnti
     {
         foreach (var domainEvent in domainEvents)
         {
-            TryHandleDomainEvent(domainEvent, rehydrating: true);
+            TryHandleDomainEvent(domainEvent);
         }
 
         ClearDomainEvents();
@@ -52,6 +52,5 @@ public abstract class EventSourcedAggregateRoot : AggregateRoot<EventSourcedEnti
         PublishDomainEvent(domainEvent);
     }
 
-    protected abstract bool TryHandleDomainEvent(
-        Event domainEvent, bool rehydrating = false);
+    protected abstract bool TryHandleDomainEvent(Event domainEvent);
 }

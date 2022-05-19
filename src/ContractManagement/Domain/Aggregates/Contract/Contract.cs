@@ -26,7 +26,7 @@ public partial class Contract : EventSourcedAggregateRoot
         ContractNumber = ContractNumber.Parse(id.Value);
     }
 
-    protected override bool TryHandleDomainEvent(Event domainEvent, bool rehydrating)
+    protected override bool TryHandleDomainEvent(Event domainEvent)
     {
         // Upgrade events to latest version
         if (domainEvent is ContractRegistered)
