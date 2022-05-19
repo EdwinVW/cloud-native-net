@@ -74,7 +74,9 @@ public class CommandController : ControllerBase
                 command);
 
             await commandHandler.HandleAsync((T)command);
+
             await _unitOfWork.CommitAsync();
+            
             return Ok();
         }
 
