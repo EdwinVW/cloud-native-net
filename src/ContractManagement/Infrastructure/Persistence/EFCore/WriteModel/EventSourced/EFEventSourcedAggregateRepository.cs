@@ -1,7 +1,8 @@
 namespace ContractManagement.Infrastructure.Persistence.EFCore.Repositories.Aggregate;
 
-public class EFEventSourcedAggregateRepository<TAggregateRoot> : IAggregateRepository<EventSourcedEntityId, TAggregateRoot>
-    where TAggregateRoot : EventSourcedAggregateRoot
+public class EFEventSourcedAggregateRepository<TAggregateRoot> : 
+    IAggregateRepository<EventSourcedEntityId, TAggregateRoot>
+        where TAggregateRoot : EventSourcedAggregateRoot
 {
     private readonly string _eventTypeFormatString;
 
@@ -30,7 +31,9 @@ public class EFEventSourcedAggregateRepository<TAggregateRoot> : IAggregateRepos
 
         _logger.LogDebug("Retrieved events {@events}", domainEvents);
 
-        return domainEvents.Any() ? RehydrateAggregate(aggregateId, domainEvents) : default(TAggregateRoot);
+        return domainEvents.Any() ? 
+            RehydrateAggregate(aggregateId, domainEvents) : 
+            default(TAggregateRoot);
     }
 
     public ValueTask AddAggregateAsync(TAggregateRoot aggregate)
