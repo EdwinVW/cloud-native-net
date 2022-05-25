@@ -51,7 +51,7 @@ public partial class Contract : EventSourcedAggregateRoot
     // of the folowing steps:
     // - Check business rules
     // - Create domain-event
-    // - Apply the domain event to the aggregate
+    // - Apply the domain-event to the aggregate
     //===================================================================================
 
     public async ValueTask RegisterContractAsync(
