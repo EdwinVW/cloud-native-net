@@ -2,6 +2,10 @@ namespace ContractManagement.Domain.Aggregates.ContractAggregate;
 
 public partial class Contract : EventSourcedAggregateRoot
 {
+    //===================================================================================
+    // The properties hold the state of the aggregate.
+    //===================================================================================
+
     public ContractNumber ContractNumber { get; init; }
 
     public CustomerNumber? CustomerNumber { get; private set; }
@@ -18,11 +22,21 @@ public partial class Contract : EventSourcedAggregateRoot
 
     #region Constructors
 
+    /// <summary>
+    /// Create a new aggregate instance.
+    /// </summary>
+    /// <param name="id">The unique aggregate Id to use.</param>
     public Contract(EventSourcedEntityId id) : base(id)
     {
         ContractNumber = ContractNumber.Parse(id.Value);
     }
 
+    /// <summary>
+    /// Create a new aggregate instance and rehydrate the state of the aggregate from an event-stream.
+    /// </summary>
+    /// <param name="id">The unique aggregate Id to use.</param>
+    /// <param name="domainEvents">The events from the event-stream for the aggregate.</param>
+    /// <remarks>The base implementation will call TryHandleDomainEvent for each event in the specified list of events.</remarks>
     public Contract(EventSourcedEntityId id, IList<Event> domainEvents) : base(id, domainEvents)
     {
         ContractNumber = ContractNumber.Parse(id.Value);
@@ -31,6 +45,14 @@ public partial class Contract : EventSourcedAggregateRoot
     #endregion
 
     #region Commandhandling
+
+    //===================================================================================
+    // This region contains the methods that handle commands. Handling a command consists 
+    // of the folowing steps:
+    // - Check business rules
+    // - Create domain-event
+    // - Apply the domain event to the aggregate
+    //===================================================================================
 
     public async ValueTask RegisterContractAsync(
         RegisterContractV2 command,
@@ -94,14 +116,11 @@ public partial class Contract : EventSourcedAggregateRoot
 
     #region Eventhandling
 
-    private void Handle(ContractRegisteredV2 domainEvent)
-    {
-        CustomerNumber = CustomerNumber.Parse(domainEvent.CustomerNumber);
-        ProductNumber = ProductNumber.Parse(domainEvent.ProductNumber);
-        Amount = MoneyAmount.Parse(domainEvent.Amount);
-        ContractTerm = Duration.Parse(domainEvent.StartDate, domainEvent.EndDate);
-        PaymentPeriod = domainEvent.PaymentPeriod;
-    }
+    //===================================================================================
+    // This region contains the methods that handle domain-events. Handling domain-events 
+    // only changes the state of the aggregate (properties). Within these methods, it is 
+    // never allowed to introduce side-effects or call any external services.
+    //===================================================================================    
 
     protected override bool TryHandleDomainEvent(Event domainEvent)
     {
@@ -135,6 +154,15 @@ public partial class Contract : EventSourcedAggregateRoot
         }
     }
 
+    private void Handle(ContractRegisteredV2 domainEvent)
+    {
+        CustomerNumber = CustomerNumber.Parse(domainEvent.CustomerNumber);
+        ProductNumber = ProductNumber.Parse(domainEvent.ProductNumber);
+        Amount = MoneyAmount.Parse(domainEvent.Amount);
+        ContractTerm = Duration.Parse(domainEvent.StartDate, domainEvent.EndDate);
+        PaymentPeriod = domainEvent.PaymentPeriod;
+    }    
+
     private void Handle(ContractAmountChanged domainEvent)
     {
         Amount = MoneyAmount.Parse(domainEvent.NewAmount);
@@ -153,6 +181,12 @@ public partial class Contract : EventSourcedAggregateRoot
     #endregion
 
     #region Business Rules
+
+    //===================================================================================
+    // This region contains the methods that check business-rules. This can be rules that 
+    // apply to the state (properties) of the aggregate or to specific values passed in 
+    // as part of a command.
+    //===================================================================================     
 
     private async Task EnsureExistingProduct(string productNumber, IProductService productService)
     {
