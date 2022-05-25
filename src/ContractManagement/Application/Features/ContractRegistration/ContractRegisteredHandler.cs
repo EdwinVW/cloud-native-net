@@ -1,6 +1,6 @@
 ﻿namespace Contractmanagement.Features.ContractRegistration;
 
-using DomainEvents = ContractManagement.Domain.Aggregates.ContractAggregate.DomainEvents;
+using DomainEvents = ContractManagement.Domain.Aggregates.Contract.DomainEvents;
 using IntegrationEvents = ContractManagement.Application.IntegrationEvents;
 
 public class ContractRegisteredHandler : IEventHandler<DomainEvents.ContractRegisteredV2>

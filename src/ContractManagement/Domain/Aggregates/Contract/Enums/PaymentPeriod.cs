@@ -1,4 +1,4 @@
-namespace ContractManagement.Domain.Aggregates.ContractAggregate.Enums;
+namespace ContractManagement.Domain.Aggregates.Contract.Enums;
 
 public enum PaymentPeriod
 {

@@ -1,6 +1,6 @@
 namespace OutputManagementService.Repositories;
 
-using ContractManagement.Domain.Aggregates.ContractAggregate.Enums;
+using ContractManagement.Domain.Aggregates.Contract.Enums;
 
 public interface IContractRepository
 {

@@ -9,7 +9,7 @@ public class ServiceDbContext : DbContext
     // Event Sourced write models 
     private static readonly string[] EventSourcedAggregates = new[]
     {
-        nameof(ContractManagement.Domain.Aggregates.ContractAggregate.Contract)
+        nameof(ContractManagement.Domain.Aggregates.Contract.Contract)
     };
 
     // Read models

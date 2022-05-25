@@ -1,4 +1,4 @@
-﻿using ContractManagement.Domain.Aggregates.ContractAggregate.Enums;
+﻿using ContractManagement.Domain.Aggregates.Contract.Enums;
 using Model = ContractManagement.Application.ReadModels;
 
 namespace ContractManagement.Infrastructure.Persistence.EFCore.ReadModel.Configurations;

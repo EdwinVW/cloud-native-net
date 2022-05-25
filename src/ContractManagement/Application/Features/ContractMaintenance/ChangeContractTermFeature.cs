@@ -1,6 +1,6 @@
 namespace Contractmanagement.Features.ContractMaintenance;
 
-using DomainEvents = ContractManagement.Domain.Aggregates.ContractAggregate.DomainEvents;
+using DomainEvents = ContractManagement.Domain.Aggregates.Contract.DomainEvents;
 using IntegrationEvents = ContractManagement.Application.IntegrationEvents;
 
 public class ChangeContractTermFeature : 

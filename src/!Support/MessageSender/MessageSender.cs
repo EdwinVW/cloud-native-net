@@ -3,8 +3,8 @@ using ProductManagement.Application.IntegrationEvents;
 using Generic.IntegrationEvents;
 using MassTransit;
 using System.Globalization;
-using ContractManagement.Domain.Aggregates.ContractAggregate.Commands;
-using ContractManagement.Domain.Aggregates.ContractAggregate.Enums;
+using ContractManagement.Domain.Aggregates.Contract.Commands;
+using ContractManagement.Domain.Aggregates.Contract.Enums;
 using System.Net.Http.Json;
 
 public class MessageSender : BackgroundService

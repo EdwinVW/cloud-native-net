@@ -9,7 +9,7 @@ global using FluentValidation.AspNetCore;
 global using Application.Common.Interfaces;
 global using Application.Common.Exceptions;
 
-global using ContractManagement.Domain.Aggregates.ContractAggregate.Commands;
+global using ContractManagement.Domain.Aggregates.Contract.Commands;
 
 global using ContractManagement.Infrastructure.Persistence.EFCore;
 

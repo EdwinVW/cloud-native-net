@@ -1,4 +1,4 @@
-namespace ContractManagement.Domain.Aggregates.ContractAggregate.Commands;
+namespace ContractManagement.Domain.Aggregates.Contract.Commands;
 
 public record ChangeContractTerm(
     string ContractNumber,

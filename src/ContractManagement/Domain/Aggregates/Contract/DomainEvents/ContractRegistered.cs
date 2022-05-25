@@ -1,4 +1,4 @@
-namespace ContractManagement.Domain.Aggregates.ContractAggregate.DomainEvents;
+namespace ContractManagement.Domain.Aggregates.Contract.DomainEvents;
 
 /// <summary>
 /// This event version is obsolete, but could still be part of the event-stream in the event-store. 

@@ -1,6 +1,6 @@
 ﻿namespace ContractManagement.Application.IntegrationEvents;
 
-using ContractManagement.Domain.Aggregates.ContractAggregate.Enums;
+using ContractManagement.Domain.Aggregates.Contract.Enums;
 
 public record ContractRegistered(
     Guid EventId,

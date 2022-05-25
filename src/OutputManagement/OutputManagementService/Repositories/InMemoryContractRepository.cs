@@ -1,4 +1,4 @@
-using ContractManagement.Domain.Aggregates.ContractAggregate.Enums;
+using ContractManagement.Domain.Aggregates.Contract.Enums;
 
 namespace OutputManagementService.Repositories
 {

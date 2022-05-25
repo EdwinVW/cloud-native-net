@@ -1,6 +1,6 @@
-using ContractManagement.Domain.Aggregates.ContractAggregate.Enums;
+using ContractManagement.Domain.Aggregates.Contract.Enums;
 
-namespace ContractManagement.Domain.Aggregates.ContractAggregate.Commands;
+namespace ContractManagement.Domain.Aggregates.Contract.Commands;
 
 public record RegisterContractV2(
     Guid Id,

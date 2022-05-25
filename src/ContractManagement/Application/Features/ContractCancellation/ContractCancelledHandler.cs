@@ -1,6 +1,6 @@
 ﻿namespace Contractmanagement.Features.ContractCancellation;
 
-using DomainEvents = ContractManagement.Domain.Aggregates.ContractAggregate.DomainEvents;
+using DomainEvents = ContractManagement.Domain.Aggregates.Contract.DomainEvents;
 using IntegrationEvents = ContractManagement.Application.IntegrationEvents;
 
 public class ContractCancelledHandler : IEventHandler<DomainEvents.ContractCancelled>

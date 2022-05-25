@@ -1,4 +1,4 @@
-namespace ContractManagement.Domain.Aggregates.ContractAggregate;
+namespace ContractManagement.Domain.Aggregates.Contract;
 
 public partial class Contract : EventSourcedAggregateRoot
 {

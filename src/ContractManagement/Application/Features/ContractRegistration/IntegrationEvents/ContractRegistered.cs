@@ -1,6 +1,6 @@
 namespace ContractManagement.Application.IntegrationEvents;
 
-using DomainEvents = ContractManagement.Domain.Aggregates.ContractAggregate.DomainEvents;
+using DomainEvents = ContractManagement.Domain.Aggregates.Contract.DomainEvents;
 
 public record ContractRegistered(
     string ContractNumber,

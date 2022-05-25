@@ -1,4 +1,4 @@
-namespace ContractManagement.Domain.Aggregates.ContractAggregate.DomainEvents;
+namespace ContractManagement.Domain.Aggregates.Contract.DomainEvents;
 
 public record ContractTermChanged(
     string ContractNumber,
