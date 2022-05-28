@@ -7,8 +7,9 @@ public class ContractMaintenanceTests
     public void ChangeContractAmount_ShouldUpdateContract()
     {
         // Arrange
-        var contractRegistered = ContractRegisteredV2Builder.Build();
-        var changeContractAmount = ChangeContractAmountBuilder.Build();
+        string aggregateId = "CTR-20220424-0001";
+        var contractRegistered = ContractRegisteredV2Builder.Build(aggregateId);
+        var changeContractAmount = ChangeContractAmountBuilder.Build(aggregateId);
         var sut = new Contract(
             contractRegistered.ContractNumber, 
             new List<Event> { contractRegistered });
@@ -37,8 +38,9 @@ public class ContractMaintenanceTests
     public void ChangeContractAmount_WithTooSmallAmount_ShouldYieldViolation()
     {
         // Arrange
-        var contractRegistered = ContractRegisteredV2Builder.Build();
-        var changeContractAmount = ChangeContractAmountBuilder.Build()
+        string aggregateId = "CTR-20220424-0001";
+        var contractRegistered = ContractRegisteredV2Builder.Build(aggregateId);
+        var changeContractAmount = ChangeContractAmountBuilder.Build(aggregateId)
             with { NewAmount = 500 }; // minimum amount is 1000
         var sut = new Contract(
             contractRegistered.ContractNumber, 
@@ -57,8 +59,9 @@ public class ContractMaintenanceTests
     public void ChangeContractAmount_WithTooLargeAmount_ShouldYieldViolation()
     {
         // Arrange
-        var contractRegistered = ContractRegisteredV2Builder.Build();
-        var changeContractAmount = ChangeContractAmountBuilder.Build()
+        string aggregateId = "CTR-20220424-0001";
+        var contractRegistered = ContractRegisteredV2Builder.Build(aggregateId);
+        var changeContractAmount = ChangeContractAmountBuilder.Build(aggregateId)
             with { NewAmount = 20000000 }; // maximum amount is 10000000
         var sut = new Contract(
             contractRegistered.ContractNumber, 
@@ -77,8 +80,9 @@ public class ContractMaintenanceTests
     public void ChangeContractTerm_ShouldUpdateContract()
     {
         // Arrange
-        var contractRegistered = ContractRegisteredV2Builder.Build();
-        var changeContractTerm = ChangeContractTermBuilder.Build();
+        string aggregateId = "CTR-20220424-0001";
+        var contractRegistered = ContractRegisteredV2Builder.Build(aggregateId);
+        var changeContractTerm = ChangeContractTermBuilder.Build(aggregateId);
         var sut = new Contract(
             contractRegistered.ContractNumber, 
             new List<Event> { contractRegistered });
@@ -106,8 +110,10 @@ public class ContractMaintenanceTests
     [TestMethod]
     public void ChangeContractTerm_WithTooShortContractTerm_ShouldYieldViolation()
     {
-        var contractRegistered = ContractRegisteredV2Builder.Build();
-        var changeContractTerm = ChangeContractTermBuilder.Build()
+        // Arrange
+        string aggregateId = "CTR-20220424-0001";
+        var contractRegistered = ContractRegisteredV2Builder.Build(aggregateId);
+        var changeContractTerm = ChangeContractTermBuilder.Build(aggregateId)
             with { EndDate = new DateTime(2025, 4, 24, 18, 33, 5) };
         var sut = new Contract(
             contractRegistered.ContractNumber, 
@@ -125,8 +131,10 @@ public class ContractMaintenanceTests
     [TestMethod]
     public void ChangeContractTerm_WithTooLongContractTerm_ShouldYieldViolation()
     {
-        var contractRegistered = ContractRegisteredV2Builder.Build();
-        var changeContractTerm = ChangeContractTermBuilder.Build()
+        // Arrange
+        string aggregateId = "CTR-20220424-0001";
+        var contractRegistered = ContractRegisteredV2Builder.Build(aggregateId);
+        var changeContractTerm = ChangeContractTermBuilder.Build(aggregateId)
             with { EndDate = new DateTime(2085, 4, 24, 18, 33, 5) };
         var sut = new Contract(
             contractRegistered.ContractNumber, 
@@ -145,9 +153,10 @@ public class ContractMaintenanceTests
     public void ChangeContractAmountToMoreThan5mln_ForContractWithPaymentPeriodYearly_ShouldYieldViolation()
     {
         // Arrange
-        var contractRegistered = ContractRegisteredV2Builder.Build()
+        string aggregateId = "CTR-20220424-0001";
+        var contractRegistered = ContractRegisteredV2Builder.Build(aggregateId)
             with { PaymentPeriod = PaymentPeriod.Yearly };
-        var changeContractAmount = ChangeContractAmountBuilder.Build()
+        var changeContractAmount = ChangeContractAmountBuilder.Build(aggregateId)
             with { NewAmount = 6000000 };
         var sut = new Contract(
             contractRegistered.ContractNumber, 

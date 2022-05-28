@@ -2,9 +2,9 @@ namespace Domain.UnitTests.TestDataBuilders.Commands;
 
 public class ChangeContractTermBuilder
 {
-    public static ChangeContractTerm Build()
+    public static ChangeContractTerm Build(string aggregateId)
     {
-        var _contractNumber = "CTR-20220424-0001";
+        var _contractNumber = aggregateId;
         DateTime _startDate = new DateTime(2025, 1, 1, 13, 47, 26);
         DateTime _endDate = new DateTime(2035, 1, 1, 18, 33, 5);
  

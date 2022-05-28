@@ -2,9 +2,9 @@ namespace Domain.UnitTests.TestDataBuilders.Events;
 
 public class ContractRegisteredBuilder
 {
-    public static ContractRegistered Build()
+    public static ContractRegistered Build(string aggregateId)
     {
-        var contractNumber = "CTR-20220424-0001";
+        var contractNumber = aggregateId;
         var customerNumber = "C72856";
         var productNumber = "FAC-00241";
         decimal amount = 100000;

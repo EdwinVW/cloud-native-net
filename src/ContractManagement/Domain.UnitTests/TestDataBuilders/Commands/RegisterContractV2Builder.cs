@@ -2,9 +2,9 @@ namespace Domain.UnitTests.TestDataBuilders.Commands;
 
 public class RegisterContractV2Builder
 {
-    public static RegisterContractV2 Build()
+    public static RegisterContractV2 Build(string aggregateId)
     {
-        var _contractNumber = "CTR-20220424-0001";
+        var _contractNumber = aggregateId;
         var _customerNumber = "C72856";
         var _productNumber = "FAC-00241";
         decimal _amount = 100000;

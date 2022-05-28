@@ -7,7 +7,8 @@ public class ContractRegistrationTests
     public async Task RegisterContract_WithCorrectValues_ShouldYieldValidContract()
     {
         // Arrange
-        var command = RegisterContractV2Builder.Build();
+        string aggregateId = "CTR-20220424-0001";
+        var command = RegisterContractV2Builder.Build(aggregateId);
         var customerServiceMock = CustomerServiceMock.ForExistingCustomer(command.CustomerNumber);
         var productServiceMock = ProductServiceMock.ForExistingProduct(command.ProductNumber);
         var sut = new Contract(command.ContractNumber);
@@ -40,7 +41,8 @@ public class ContractRegistrationTests
     public void Rehydrate_ContractRegistered_ShouldYieldValidContract()
     {
         // Arrange
-        var domainEvent = ContractRegisteredBuilder.Build();
+        string aggregateId = "CTR-20220424-0001";
+        var domainEvent = ContractRegisteredBuilder.Build(aggregateId);
 
         // Act
         var sut = new Contract(
@@ -67,7 +69,8 @@ public class ContractRegistrationTests
     public void Rehydrate_ContractRegisteredV2_ShouldYieldValidContract()
     {
         // Arrange
-        var domainEvent = ContractRegisteredV2Builder.Build()
+        string aggregateId = "CTR-20220424-0001";
+        var domainEvent = ContractRegisteredV2Builder.Build(aggregateId)
             with
         { PaymentPeriod = PaymentPeriod.Quarterly };
 
@@ -94,7 +97,8 @@ public class ContractRegistrationTests
     public async Task RegisterContract_WithNonExistingCustomer_ShouldYieldViolation()
     {
         // Arrange
-        var command = RegisterContractV2Builder.Build();
+        string aggregateId = "CTR-20220424-0001";
+        var command = RegisterContractV2Builder.Build(aggregateId);
         var customerServiceMock = CustomerServiceMock.ForNonExistingCustomer(command.CustomerNumber);
         var productServiceMock = ProductServiceMock.ForExistingProduct(command.ProductNumber);
         var sut = new Contract(command.ContractNumber);
@@ -115,7 +119,8 @@ public class ContractRegistrationTests
     public async Task RegisterContract_WithNonExistingProduct_ShouldYieldViolation()
     {
         // Arrange
-        var command = RegisterContractV2Builder.Build();
+        string aggregateId = "CTR-20220424-0001";
+        var command = RegisterContractV2Builder.Build(aggregateId);
         var customerServiceMock = CustomerServiceMock.ForExistingCustomer(command.CustomerNumber);
         var productServiceMock = ProductServiceMock.ForNonExistingProduct(command.ProductNumber);
         var sut = new Contract(command.ContractNumber);
@@ -136,7 +141,8 @@ public class ContractRegistrationTests
     public async Task RegisterContract_WithTooShortContractTerm_ShouldYieldViolation()
     {
         // Arrange
-        var command = RegisterContractV2Builder.Build()
+        string aggregateId = "CTR-20220424-0001";
+        var command = RegisterContractV2Builder.Build(aggregateId)
             with { EndDate = new DateTime(2025, 4, 24, 18, 33, 5) };
         var customerServiceMock = CustomerServiceMock.ForExistingCustomer(command.CustomerNumber);
         var productServiceMock = ProductServiceMock.ForExistingProduct(command.ProductNumber);
@@ -158,7 +164,8 @@ public class ContractRegistrationTests
     public async Task RegisterContract_WithTooLongContractTerm_ShouldYieldViolation()
     {
         // Arrange
-        var command = RegisterContractV2Builder.Build()
+        string aggregateId = "CTR-20220424-0001";
+        var command = RegisterContractV2Builder.Build(aggregateId)
             with { EndDate = new DateTime(2085, 4, 24, 18, 33, 5) };
         var customerServiceMock = CustomerServiceMock.ForExistingCustomer(command.CustomerNumber);
         var productServiceMock = ProductServiceMock.ForExistingProduct(command.ProductNumber);
@@ -180,7 +187,8 @@ public class ContractRegistrationTests
     public async Task RegisterContract_WithTooLargeAmount_ShouldYieldViolation()
     {
         // Arrange
-        var command = RegisterContractV2Builder.Build()
+        string aggregateId = "CTR-20220424-0001";
+        var command = RegisterContractV2Builder.Build(aggregateId)
             with { Amount = 20000000 };
         var customerServiceMock = CustomerServiceMock.ForExistingCustomer(command.CustomerNumber);
         var productServiceMock = ProductServiceMock.ForExistingProduct(command.ProductNumber);
@@ -202,7 +210,8 @@ public class ContractRegistrationTests
     public async Task RegisterContract_WithAmountMoreThan5mln_AndPaymentPeriodYearly_ShouldYieldViolation()
     {
         // Arrange
-        var command = RegisterContractV2Builder.Build()
+        string aggregateId = "CTR-20220424-0001";
+        var command = RegisterContractV2Builder.Build(aggregateId)
             with { Amount = 6000000, PaymentPeriod = PaymentPeriod.Yearly };
         var customerServiceMock = CustomerServiceMock.ForExistingCustomer(command.CustomerNumber);
         var productServiceMock = ProductServiceMock.ForExistingProduct(command.ProductNumber);

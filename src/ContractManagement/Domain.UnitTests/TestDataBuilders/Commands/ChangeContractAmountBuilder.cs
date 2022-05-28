@@ -2,9 +2,9 @@ namespace Domain.UnitTests.TestDataBuilders.Commands;
 
 public class ChangeContractAmountBuilder
 {
-    public static ChangeContractAmount Build()
+    public static ChangeContractAmount Build(string aggregateId)
     {
-        var _contractNumber = "CTR-20220424-0001";
+        var _contractNumber = aggregateId;
         decimal _newAmount = 200000;
  
         return new ChangeContractAmount(
