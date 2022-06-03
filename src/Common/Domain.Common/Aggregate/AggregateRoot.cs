@@ -16,7 +16,10 @@ public abstract class AggregateRoot<TId> : Entity<TId>, IAggregateRoot<TId>
     /// </summary>
     protected readonly List<Event> _domainEvents;
 
-    public bool IsValid { get; private set; }
+    /// <summary>
+    /// Indication whether the aggregate in in a valid state (true) or not (false).
+    /// </summary>
+    public bool IsValid => !_businessRuleViolations.Any();
 
     /// <summary>
     /// Constructor for creating an empty aggregate.
@@ -26,8 +29,7 @@ public abstract class AggregateRoot<TId> : Entity<TId>, IAggregateRoot<TId>
         : base(id)
     {
         _domainEvents = new();
-        _businessRuleViolations = new List<string>();
-        IsValid = true;
+        _businessRuleViolations = new();
         Version = originalVersion;
     }
 
@@ -52,7 +54,6 @@ public abstract class AggregateRoot<TId> : Entity<TId>, IAggregateRoot<TId>
     public void AddBusinessRuleViolation(string violation)
     {
         _businessRuleViolations.Add(violation);
-        IsValid = false;
     }
 
     public IEnumerable<string> GetBusinessRuleViolations()
