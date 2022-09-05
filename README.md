@@ -1,6 +1,6 @@
 # Lessons learned building a cloud-native architecture in .NET
 
-This repository contains samples (.NET / C#) that I use in my presentation *Lessons learned building a cloud-native architecture in .NET*. 
+This repository contains samples (.NET / C#) that I use in my presentation *Lessons learned implementing CQRS, DDD and Event Sourcing in .NET*. 
 
 The session will give an insight into the way .NET Core was used for implementing several cloud-native systems using DDD, the CQRS pattern and event-sourcing for storing state. It will cover the rationale behind the choices made and the lessons learned while designing and building this system. The session will cover both concepts as well as code.
 
