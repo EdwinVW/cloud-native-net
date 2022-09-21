@@ -3,18 +3,18 @@
     <PackageVersion Include="Coverlet.Collector" Version="3.1.2" />
 
     <PackageVersion Include="FluentAssertions" Version="6.7.0" />
-    <PackageVersion Include="FluentValidation.AspNetCore" Version="11.2.1" />
+    <PackageVersion Include="FluentValidation.AspNetCore" Version="11.2.2" />
 
     <PackageVersion Include="Microsoft.AspNetCore.Mvc.Versioning" Version="5.0.0" />
 
-    <PackageVersion Include="Microsoft.EntityFrameworkCore" Version="6.0.8" />
-    <PackageVersion Include="Microsoft.EntityFrameworkCore.Design" Version="6.0.8"/>
-    <PackageVersion Include="Microsoft.EntityFrameworkCore.Relational" Version="6.0.8" />
-    <PackageVersion Include="Microsoft.EntityFrameworkCore.SqlServer" Version="6.0.8" />
+    <PackageVersion Include="Microsoft.EntityFrameworkCore" Version="6.0.9" />
+    <PackageVersion Include="Microsoft.EntityFrameworkCore.Design" Version="6.0.9"/>
+    <PackageVersion Include="Microsoft.EntityFrameworkCore.Relational" Version="6.0.9" />
+    <PackageVersion Include="Microsoft.EntityFrameworkCore.SqlServer" Version="6.0.9" />
 
     <PackageVersion Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="6.0.0" />
     <PackageVersion Include="Microsoft.Extensions.Hosting" Version="6.0.1" />
-    <PackageVersion Include="Microsoft.Extensions.Logging.Abstractions" Version="6.0.1" />
+    <PackageVersion Include="Microsoft.Extensions.Logging.Abstractions" Version="6.0.2" />
 
     <PackageVersion Include="MassTransit" Version="8.0.6" />
     <PackageVersion Include="MassTransit.Grpc" Version="8.0.6" />
