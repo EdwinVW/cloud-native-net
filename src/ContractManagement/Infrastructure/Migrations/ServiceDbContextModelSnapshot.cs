@@ -6,6 +6,8 @@ using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
+#nullable disable
+
 namespace Infrastructure.Migrations
 {
     [DbContext(typeof(ServiceDbContext))]
@@ -15,9 +17,10 @@ namespace Infrastructure.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("Relational:MaxIdentifierLength", 128)
-                .HasAnnotation("ProductVersion", "5.0.9")
-                .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                .HasAnnotation("ProductVersion", "6.0.9")
+                .HasAnnotation("Relational:MaxIdentifierLength", 128);
+
+            SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder, 1L, 1);
 
             modelBuilder.Entity("ContractAggregate", b =>
                 {
@@ -56,7 +59,7 @@ namespace Infrastructure.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("MessageType")
+                    b.Property<string>("EventType")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
@@ -73,11 +76,11 @@ namespace Infrastructure.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("9a616bab-9e29-4ed7-ad51-10b35128b164"),
+                            Id = new Guid("a3ca1822-4971-4196-8895-6d51918d887c"),
                             AggregateId = "CTR-20220502-9999",
                             EventData = "{\"ContractNumber\": \"CTR-20220502-9999\",\"CustomerNumber\": \"C13976\",\"ProductNumber\": \"FAC-00011\",\"Amount\": 20000,\"StartDate\": \"2022-05-02T12:40:35.876Z\",\"EndDate\": \"2034-05-02T12:40:35.877Z\",\"EventId\": \"f0074479-4cea-41ff-a669-bdb3649f6e7b\"}",
-                            MessageType = "ContractRegistered",
-                            Timestamp = new DateTime(2022, 5, 15, 21, 59, 21, 571, DateTimeKind.Local).AddTicks(8765),
+                            EventType = "ContractRegistered",
+                            Timestamp = new DateTime(2022, 10, 10, 12, 56, 49, 301, DateTimeKind.Local).AddTicks(3447),
                             Version = 1L
                         });
                 });
@@ -87,7 +90,7 @@ namespace Infrastructure.Migrations
                     b.Property<string>("ContractNumber")
                         .HasMaxLength(18)
                         .HasColumnType("nchar(18)")
-                        .IsFixedLength(true);
+                        .IsFixedLength();
 
                     b.Property<decimal?>("Amount")
                         .HasPrecision(10, 2)
@@ -96,7 +99,7 @@ namespace Infrastructure.Migrations
                     b.Property<string>("CustomerNumber")
                         .HasMaxLength(6)
                         .HasColumnType("nchar(6)")
-                        .IsFixedLength(true);
+                        .IsFixedLength();
 
                     b.Property<DateTime?>("EndDate")
                         .HasColumnType("datetime2");
@@ -114,7 +117,7 @@ namespace Infrastructure.Migrations
 
                     b.HasKey("ContractNumber");
 
-                    b.ToTable("Contract");
+                    b.ToTable("Contract", (string)null);
 
                     b.HasData(
                         new
@@ -134,7 +137,7 @@ namespace Infrastructure.Migrations
                     b.Property<string>("CustomerNumber")
                         .HasMaxLength(6)
                         .HasColumnType("nchar(6)")
-                        .IsFixedLength(true);
+                        .IsFixedLength();
 
                     b.Property<string>("Address")
                         .HasMaxLength(100)
@@ -150,7 +153,7 @@ namespace Infrastructure.Migrations
 
                     b.HasKey("CustomerNumber");
 
-                    b.ToTable("Customer");
+                    b.ToTable("Customer", (string)null);
 
                     b.HasData(
                         new
@@ -174,14 +177,14 @@ namespace Infrastructure.Migrations
                     b.Property<string>("ProductNumber")
                         .HasMaxLength(18)
                         .HasColumnType("nchar(18)")
-                        .IsFixedLength(true);
+                        .IsFixedLength();
 
                     b.Property<string>("Description")
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("ProductNumber");
 
-                    b.ToTable("Product");
+                    b.ToTable("Product", (string)null);
 
                     b.HasData(
                         new

@@ -116,7 +116,7 @@ public class EFEventSourcedAggregateRepository<TAggregateRoot> :
                 AggregateId = aggregate.Id,
                 Version = nextEventVersion++,
                 Timestamp = DateTime.UtcNow,
-                MessageType = domainEvent.Type,
+                EventType = domainEvent.Type,
                 EventData = JsonSerializer.Serialize(domainEvent, domainEvent.GetType())
             };
 
@@ -137,7 +137,7 @@ public class EFEventSourcedAggregateRepository<TAggregateRoot> :
     /// </remarks>
     private static Event DeserializeEvent(EventEntity eventEntity, string eventTypeFormatString)
     {
-        var eventTypeName = string.Format(eventTypeFormatString, eventEntity.MessageType);
+        var eventTypeName = string.Format(eventTypeFormatString, eventEntity.EventType);
         var eventType = Type.GetType(eventTypeName);
         if (eventType is null)
         {

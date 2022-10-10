@@ -1,6 +1,8 @@
 ﻿using System;
 using Microsoft.EntityFrameworkCore.Migrations;
 
+#nullable disable
+
 namespace Infrastructure.Migrations
 {
     public partial class Initial : Migration
@@ -44,7 +46,7 @@ namespace Infrastructure.Migrations
                     AggregateId = table.Column<string>(type: "nvarchar(64)", maxLength: 64, nullable: false),
                     Version = table.Column<uint>(type: "bigint", nullable: false),
                     Timestamp = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    MessageType = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    EventType = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     EventData = table.Column<string>(type: "nvarchar(max)", nullable: false)
                 },
                 constraints: table =>
@@ -90,8 +92,8 @@ namespace Infrastructure.Migrations
 
             migrationBuilder.InsertData(
                 table: "ContractEvent",
-                columns: new[] { "Id", "AggregateId", "EventData", "MessageType", "Timestamp", "Version" },
-                values: new object[] { new Guid("9a616bab-9e29-4ed7-ad51-10b35128b164"), "CTR-20220502-9999", "{\"ContractNumber\": \"CTR-20220502-9999\",\"CustomerNumber\": \"C13976\",\"ProductNumber\": \"FAC-00011\",\"Amount\": 20000,\"StartDate\": \"2022-05-02T12:40:35.876Z\",\"EndDate\": \"2034-05-02T12:40:35.877Z\",\"EventId\": \"f0074479-4cea-41ff-a669-bdb3649f6e7b\"}", "ContractRegistered", new DateTime(2022, 5, 15, 21, 59, 21, 571, DateTimeKind.Local).AddTicks(8765), 1u });
+                columns: new[] { "Id", "AggregateId", "EventData", "EventType", "Timestamp", "Version" },
+                values: new object[] { new Guid("a3ca1822-4971-4196-8895-6d51918d887c"), "CTR-20220502-9999", "{\"ContractNumber\": \"CTR-20220502-9999\",\"CustomerNumber\": \"C13976\",\"ProductNumber\": \"FAC-00011\",\"Amount\": 20000,\"StartDate\": \"2022-05-02T12:40:35.876Z\",\"EndDate\": \"2034-05-02T12:40:35.877Z\",\"EventId\": \"f0074479-4cea-41ff-a669-bdb3649f6e7b\"}", "ContractRegistered", new DateTime(2022, 10, 10, 12, 56, 49, 301, DateTimeKind.Local).AddTicks(3447), 1u });
 
             migrationBuilder.InsertData(
                 table: "Customer",

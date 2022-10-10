@@ -66,7 +66,7 @@ public static class EventSourcedAggregateConfiguration
                     AggregateId = "CTR-20220502-9999",
                     Version = 1,
                     Timestamp = DateTime.Now,
-                    MessageType = "ContractRegistered",
+                    EventType = "ContractRegistered",
                     EventData = @"{""ContractNumber"": ""CTR-20220502-9999"",""CustomerNumber"": ""C13976"",""ProductNumber"": ""FAC-00011""," +
                                 @"""Amount"": 20000,""StartDate"": ""2022-05-02T12:40:35.876Z"",""EndDate"": ""2034-05-02T12:40:35.877Z""," +
                                 @"""EventId"": ""f0074479-4cea-41ff-a669-bdb3649f6e7b""}"

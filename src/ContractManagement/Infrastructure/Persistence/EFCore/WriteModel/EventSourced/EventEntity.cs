@@ -10,7 +10,7 @@ public class EventEntity
 
     public DateTime Timestamp { get; set; } = DateTime.UtcNow;
 
-    public string MessageType { get; set; } = string.Empty;
+    public string EventType { get; set; } = string.Empty;
 
     public string EventData { get; set; } = string.Empty;
 }
