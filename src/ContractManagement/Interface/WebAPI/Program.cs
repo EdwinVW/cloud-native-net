@@ -18,15 +18,18 @@ builder.Services
         options.Filters.Add<BusinessRuleViolationExceptionFilter>();
         options.Filters.Add<InvalidValueObjectExceptionFilter>();
     })
-    .AddFluentValidation(configuration => configuration.DisableDataAnnotationsValidation = true)
     .AddJsonOptions(j => j.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter()));
+
+builder.Services
+    .AddFluentValidationAutoValidation(configuration => configuration.DisableDataAnnotationsValidation = true)
+    .AddFluentValidationClientsideAdapters();
 
 builder.Services
     .AddEndpointsApiExplorer()
     .AddSwaggerGen();
 
 // Add Application services
-builder.Services.AddApplication();
+builder.Services.AddApplication("BankingCorp");
 
 // Add Infrastructure services
 var connectionString = builder.Configuration.GetConnectionString("Database");

@@ -29,6 +29,7 @@ public class RegisterContractHandler : ICommandHandler<RegisterContractV2>
         }
 
         await contract.RegisterContractAsync(command, _customerService, _productService);
+
         await _aggregateService.ProcessChangesAsync(contract);
     }
 }

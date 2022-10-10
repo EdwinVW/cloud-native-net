@@ -1,0 +1,30 @@
+
+skinparam folderBackgroundColor #EEEEEE
+skinparam packageBackgroundColor #CCCCCC
+
+skinparam componentArrowColor #000000
+skinparam componentBorderColor #000000
+
+skinparam componentBackgroundColor #99DDFF
+skinparam classBackgroundColor #99DDFF
+skinparam classBorderColor #000000
+skinparam databaseBackgroundColor #CCCCCC
+
+skinparam titleFontSize 20
+skinparam titleFontStyle Bold
+
+skinparam noteBorderColor #000000
+
+skinparam sequence {
+    participantBackgroundColor #99DDFF
+    actorBackgroundColor #99DDFF
+    participantBorderColor #000000
+    actorBorderColor #000000
+    LifeLineBorderColor #000000
+    GroupBodyBackgroundColor Transparent
+}
+
+skinparam LegendBackgroundColor #EEEEEE55
+skinparam LegendBorderThickness 1
+
+skinparam BoxPadding 10

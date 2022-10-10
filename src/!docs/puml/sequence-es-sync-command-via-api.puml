@@ -1,0 +1,105 @@
+@startuml Event Sourced service - Synchronous API
+
+!include styling.puml
+
+hide footbox
+
+participant ExternalSystem
+
+box "Interface" #DeepSkyBlue
+    participant WebAPI
+end box
+
+box "Application" #Orange
+    participant CommandHandler
+end box
+
+box "Common" #LightGray
+    participant AggregateService
+    participant ProjectionEngine
+end box
+
+box "Application" #Orange
+    participant Projection
+end box
+
+box "Domain" #LightGreen
+    participant Aggregate
+end box
+
+box "Infrastructure" #MediumPurple
+    participant UnitOfWork
+    participant WriteModelRepo
+    participant ReadModelRepo
+    participant DBContext
+    participant MessageBroker
+end box
+
+' WebAPI
+ExternalSystem -> WebAPI: Command
+WebAPI -> CommandHandler: Handle(command)
+
+CommandHandler -> AggregateService: TryRehydrate(AggregateId)
+AggregateService -> Aggregate: Create(events)
+activate Aggregate
+Aggregate -> Aggregate: ReplayEvents
+CommandHandler <-- AggregateService
+CommandHandler -> Aggregate: HandleCommand(Command)
+Aggregate -> Aggregate: Check business rules
+alt Errors
+    CommandHandler <-- Aggregate: BusinessrulesViolation\nException
+    WebAPI <-- CommandHandler: BusinessrulesViolation\nException
+    ExternalSystem <-- WebAPI: HTTP Status-code\n+ Problemdetails
+    |||
+else No errors
+    Aggregate -> Aggregate: Create DomainEvent
+    Aggregate -> Aggregate: HandleEvent(domainEvent)
+    CommandHandler <-- Aggregate
+    |||
+    CommandHandler -> AggregateService: ProcessChangesAsync(aggregate)
+    AggregateService -> AggregateService: Check Validity
+    AggregateService -> Aggregate: Get domain events
+    AggregateService <-- Aggregate
+    |||
+    group UoW
+        AggregateService -> WriteModelRepo: Persist(domainEvents)
+        WriteModelRepo -> DBContext: UpdateDB
+        WriteModelRepo <-- DBContext
+        AggregateService <-- WriteModelRepo
+        AggregateService -> ProjectionEngine: Project(domainEvents)
+        |||
+        loop foreach domainEvent
+            ProjectionEngine -> Projection : Project(domainEvent)
+            Projection -> Projection: MapEvent
+            Projection -> ReadModelRepo: Persist
+            ReadModelRepo -> DBContext: UpdateDB
+            ReadModelRepo <-- DBContext
+            Projection <-- ReadModelRepo
+            ProjectionEngine <-- Projection
+            |||
+        end
+        |||
+        AggregateService <-- ProjectionEngine
+        |||
+        AggregateService -> UnitOfWork: AddDomainEventsToPublish(domainEvents)
+        UnitOfWork -> UnitOfWork: Add(domainEvents)
+        AggregateService <-- UnitOfWork
+        CommandHandler <-- AggregateService
+        WebAPI <-- CommandHandler
+        WebAPI -> UnitOfWork: Commit
+        UnitOfWork -> DBContext: SaveChanges
+        UnitOfWork <-- DBContext
+        |||
+        loop foreach domainEvent to publish
+            UnitOfWork -/ MessageBroker: Publish(domainEvent)
+            |||
+        end
+        WebAPI <-- UnitOfWork
+        |||
+    end
+    |||
+    ExternalSystem <-- WebAPI
+    |||
+end
+
+@enduml

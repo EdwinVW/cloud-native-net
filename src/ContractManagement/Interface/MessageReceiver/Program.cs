@@ -22,7 +22,7 @@ builder
         };
 
         services.AddInfrastructure(connectionString, maxRetryCount, massTransitOptions);
-        services.AddApplication();
+        services.AddApplication("BankingCorp");
     });
 
 var app = builder.Build();
