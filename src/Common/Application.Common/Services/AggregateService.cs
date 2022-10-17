@@ -70,7 +70,7 @@ public class AggregateService<TAggregateId, TAggregateRoot> : IAggregateService<
             throw exception;
         }
 
-        // Update write model.
+        // Update write model
         if (aggregate.IsNew)
         {
             await _repository.AddAggregateAsync(aggregate);
@@ -79,14 +79,15 @@ public class AggregateService<TAggregateId, TAggregateRoot> : IAggregateService<
         {
             await _repository.UpdateAggregateAsync(aggregate);
         }
-
+    
+        // Process domain event(s)
         var domainEvents = aggregate.GetDomainEvents();
         if (domainEvents.Any())
         {
-            // Update read model
+            // Update read model(s)
             await _projectionEngine.RunProjectionsAsync(domainEvents);
 
-            // Register domain events to publish
+            // Register domain event(s) to publish
             _unitOfWork.AddDomainEventsToPublish(domainEvents);
         }
     }
