@@ -127,9 +127,11 @@ public partial class Contract : EventSourcedAggregateRoot
     protected override bool TryHandleDomainEvent(Event domainEvent)
     {
         // Upgrade events to latest version
-        if (domainEvent is ContractRegistered)
+        switch (domainEvent)
         {
-            domainEvent = ContractRegisteredV2.CreateFrom((ContractRegistered)domainEvent);
+            case ContractRegistered contractRegisteredV1:
+                domainEvent = ContractRegisteredV2.CreateFrom(contractRegisteredV1);
+                break;
         }
 
         // Handle event
