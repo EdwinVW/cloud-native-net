@@ -5,7 +5,8 @@ public record CustomerNumber
     public const int MaxLength = 6;
 
     // Allowed pattern is a 'C' followed by 5 digits (99999).
-    private static readonly Regex _regex = new(@"^C\d{5}$", RegexOptions.CultureInvariant | RegexOptions.Singleline);
+    private static readonly Regex _regex = 
+        new(@"^C\d{5}$", RegexOptions.CultureInvariant | RegexOptions.Singleline);
 
     public string Value { get; }
 

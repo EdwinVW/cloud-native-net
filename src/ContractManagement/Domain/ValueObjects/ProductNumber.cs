@@ -6,7 +6,8 @@ public record ProductNumber
 
     // Allowed pattern is 'FAC-', followed by 5 digits product code.
     // The abbreviation 'FAC' comes from 'Facility' (the term used for products in the Product Management domain).
-    private static readonly Regex _regex = new(@"^FAC-\d{5}$", RegexOptions.CultureInvariant | RegexOptions.Singleline);
+    private static readonly Regex _regex = 
+        new(@"^FAC-\d{5}$", RegexOptions.CultureInvariant | RegexOptions.Singleline);
 
     public string Value { get; }
 
