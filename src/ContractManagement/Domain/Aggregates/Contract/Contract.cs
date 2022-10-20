@@ -119,7 +119,9 @@ public partial class Contract : EventSourcedAggregateRoot
     //===================================================================================
     // This region contains the methods that handle domain-events. Handling domain-events 
     // only changes the state of the aggregate (properties). Within these methods, it is 
-    // never allowed to introduce side-effects or call any external services.
+    // never allowed to introduce side-effects or call any external services. This is
+    // because this method is also called when replaying events when rehydrating the 
+    // state of the aggregate from the event-store.
     //===================================================================================    
 
     protected override bool TryHandleDomainEvent(Event domainEvent)
