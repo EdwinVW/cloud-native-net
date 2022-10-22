@@ -1,0 +1,93 @@
+@startuml Event Sourced service - Synchronous API
+
+!include styling.puml
+
+interface IEquatable<Entity<TId>> {
+    bool Equals(TId other)
+}
+
+interface IEntity<TId> {
+    TId Id
+    void EnsureConsistency();
+}
+
+interface IAggregateRoot<TId> {
+    bool IsNew { get; }
+    AggregateVersion? Version { get; set; }
+    void AddBusinessRuleViolation(string violation);
+    bool IsValid { get; }
+    IEnumerable<string> GetBusinessRuleViolations();
+    IEnumerable<Event> GetDomainEvents();
+    void ClearDomainEvents();    
+}
+
+class Entity<TId> {
+    + TId Id
+    # Entity(TId id)
+    # {abstract} void EnsureConsistency()
+    + override bool Equals(object? obj)
+    + {abstract} virtual bool Equals(Entity<TId>? other)
+    + override int GetHashCode()
+    + {static} bool operator ==(Entity<TId> left, Entity<TId> right)
+    + {static} bool operator !=(Entity<TId> left, Entity<TId> right)
+}
+
+class AggregateRoot<TId> {
+    - List<string> _businessRuleViolations
+    # List<Event> _domainEvents
+    + bool IsNew
+    + {abstract} AggregateVersion? Version
+    + bool IsValid
+
+    + AggregateRoot(TId id, AggregateVersion? originalVersion)
+    + IEnumerable<Event> GetDomainEvents()
+    + void ClearDomainEvents()
+    + void PublishDomainEvents(Event domainEvent)
+    + void AddBusinessRuleViolation(string violation)
+    + IEnumerable<string> GetBusinessRuleViolations()
+}
+
+class EventSourcedAggregateRoot<EventSourcedEntityId> {
+    # EventSourcedAggregateRoot(EventSourcedEntityId id)
+    # EventSourcedAggregateRoot(EventSourcedEntityId id, IList<Event> domainEvents)
+    # void ApplyDomainEvent(Event domainEvent)
+    # {abstract} bool TryHandleDomainEvent(Event domainEvent)
+}
+
+class Contract {
+    + ContractNumber ContractNumber
+    + CustomerNumber? CustomerNumber
+    + ProductNumber? ProductNumber
+    + MoneyAmount? Amount
+    + Duration? ContractTerm
+    + PaymentPeriod PaymentPeriod
+    + bool Cancelled
+    
+    + Contract(EventSourcedEntityId id)
+    + Contract(EventSourcedEntityId id, IList<Event> domainEvents)
+    + ValueTask RegisterContractAsync()
+    + ValueTask ChangeContractAmount()
+    + ValueTask ChangeContractTerm()
+    + ValueTask CancelContract()
+    # override bool TryHandleDomainEvent(Event domainEvent)
+    - void Handle(ContractRegisteredV2 domainEvent)
+    - void Handle(ContractAmountChanged domainEvent)
+    - void Handle(ContractTermChanged domainEvent)
+    - void Handle(ContractCancelled domainEvent)
+    - Task EnsureExistingProduct(string productNumber, IProductService productService)
+    - Task EnsureExistingCustomer(string customerNumber, ICustomerService customerServ
+    - void EnsureNotCancelled()
+    - void EnsureValidAmount(decimal amount)
+    - void EnsureValidTerm(DateTime startDate, DateTime endDate)
+    - void EnsureValidTermForCancellation()
+    + override void EnsureConsistency()
+}
+
+EventSourcedAggregateRoot <|-- Contract
+AggregateRoot <|-- EventSourcedAggregateRoot
+Entity <|-- AggregateRoot
+IAggregateRoot <|-- AggregateRoot
+IEquatable <|-- Entity
+IEntity <|-- Entity
+
+@enduml

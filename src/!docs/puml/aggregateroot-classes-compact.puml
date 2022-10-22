@@ -1,0 +1,19 @@
+@startuml Event Sourced service - Synchronous API
+
+!include styling.puml
+
+interface IAggregateRoot
+
+class Entity
+
+class AggregateRoot
+
+class EventSourcedAggregateRoot
+
+class Contract
+EventSourcedAggregateRoot <|-- Contract
+AggregateRoot <|-- EventSourcedAggregateRoot
+Entity <|-- AggregateRoot
+IAggregateRoot <|-- AggregateRoot
+
+@enduml
