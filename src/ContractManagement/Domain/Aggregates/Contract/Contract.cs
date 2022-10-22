@@ -158,7 +158,9 @@ public class Contract : EventSourcedAggregateRoot
         }
 
         // An alternative (a bit hacky) implementation, is using a cast to a dynamic:
+        // --------------------------------
         // Handle((dynamic)domainEvent);
+        // --------------------------------
         // In that case, you leave it to .NET to call the correct overload based on the .NET 
         // type of the event. 
         // The advantage is that when a new eventhandler is added, you don't need to explicitely 
