@@ -7,6 +7,11 @@ public abstract class AggregateRoot<TId> : Entity<TId>, IAggregateRoot<TId>
 {
     private List<string> _businessRuleViolations;
 
+    /// <summary>
+    /// Indication whether the aggregate in in a valid state (true) or not (false).
+    /// </summary>
+    public bool IsValid => !_businessRuleViolations.Any();
+
     public bool IsNew => Version is null;
 
     public virtual AggregateVersion? Version { get; set; }
@@ -15,11 +20,6 @@ public abstract class AggregateRoot<TId> : Entity<TId>, IAggregateRoot<TId>
     /// The list of domain events that are created when handling a command.
     /// </summary>
     protected readonly List<Event> _domainEvents;
-
-    /// <summary>
-    /// Indication whether the aggregate in in a valid state (true) or not (false).
-    /// </summary>
-    public bool IsValid => !_businessRuleViolations.Any();
 
     /// <summary>
     /// Constructor for creating an empty aggregate.
