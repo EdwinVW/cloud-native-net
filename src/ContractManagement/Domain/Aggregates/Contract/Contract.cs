@@ -1,6 +1,6 @@
 namespace ContractManagement.Domain.Aggregates.Contract;
 
-public partial class Contract : EventSourcedAggregateRoot
+public class Contract : EventSourcedAggregateRoot
 {
     //===================================================================================
     // The properties hold the state of the aggregate.
