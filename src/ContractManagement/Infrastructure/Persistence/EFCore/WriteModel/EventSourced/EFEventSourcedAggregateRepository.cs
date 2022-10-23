@@ -70,7 +70,7 @@ public class EFEventSourcedAggregateRepository<TAggregateRoot> :
         AggregateEntity newAggregate = new()
         {
             AggregateId = aggregate.Id,
-            Version = (ulong)aggregate.GetDomainEvents().Count()
+            Version = (uint)aggregate.GetDomainEvents().Count()
         };
 
         _aggregateSet.Add(newAggregate);
@@ -96,7 +96,7 @@ public class EFEventSourcedAggregateRepository<TAggregateRoot> :
             // the original version number is in the context. We update it
             // to the new version number and get a optimistic concurrency check
             // because Version is marked as a concurrency token.
-            aggregateEntity.Version += (ulong)aggregate.GetDomainEvents().Count();
+            aggregateEntity.Version += (uint)aggregate.GetDomainEvents().Count();
         }
         else
         {
@@ -107,7 +107,7 @@ public class EFEventSourcedAggregateRepository<TAggregateRoot> :
 
     private void AddEventEntities(TAggregateRoot aggregate)
     {
-        var nextEventVersion = aggregate.IsNew ? 1UL : aggregate.Version! + 1;
+        var nextEventVersion = aggregate.IsNew ? 1 : aggregate.Version! + 1;
 
         foreach (var domainEvent in aggregate.GetDomainEvents())
         {

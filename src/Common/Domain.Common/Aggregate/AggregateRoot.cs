@@ -14,9 +14,9 @@ public abstract class AggregateRoot : Entity, IAggregateRoot
     /// </summary>
     public bool IsValid => !_businessRuleViolations.Any();
 
-    public bool IsNew => Version.Value == 0;
+    public bool IsNew => Version == 0;
 
-    public virtual AggregateVersion Version { get; set; }
+    public uint Version { get; set; }
 
     /// <summary>
     /// The list of domain events that are created when handling a command.
@@ -31,7 +31,6 @@ public abstract class AggregateRoot : Entity, IAggregateRoot
     {
     }
 
-
     /// <summary>
     /// Constructor for creating an empty aggregate.
     /// </summary>
@@ -44,7 +43,7 @@ public abstract class AggregateRoot : Entity, IAggregateRoot
     /// Constructor for creating an empty aggregate.
     /// </summary>
     /// <remarks>This constructor can be used by an ORM.</remarks>
-    public AggregateRoot(string id, AggregateVersion originalVersion)
+    public AggregateRoot(string id, uint originalVersion)
         : base(id)
     {
         _domainEvents = new();
@@ -56,14 +55,14 @@ public abstract class AggregateRoot : Entity, IAggregateRoot
     /// Constructor for creating a rehydrated aggregate.
     /// </summary>
     public AggregateRoot(string id, IList<Event> domainEvents)
-        : this(id, (ulong)domainEvents.Count)
+        : this(id, (uint)domainEvents.Count)
     {
         foreach (var domainEvent in domainEvents)
         {
             TryHandleDomainEvent(domainEvent);
         }
 
-        ClearDomainEvents();
+        _domainEvents.Clear();
     }    
 
     /// <summary>
@@ -74,12 +73,7 @@ public abstract class AggregateRoot : Entity, IAggregateRoot
         return _domainEvents;
     }
 
-    public void ClearDomainEvents()
-    {
-        _domainEvents.Clear();
-    }
-
-    protected void PublishDomainEvent(Event domainEvent)
+    protected void AddDomainEvent(Event domainEvent)
     {
         _domainEvents.Add(domainEvent);
     }
@@ -120,7 +114,7 @@ public abstract class AggregateRoot : Entity, IAggregateRoot
         }
 
         // publish the domain event
-        PublishDomainEvent(domainEvent);
+        AddDomainEvent(domainEvent);
     }
 
     protected abstract bool TryHandleDomainEvent(Event domainEvent);    

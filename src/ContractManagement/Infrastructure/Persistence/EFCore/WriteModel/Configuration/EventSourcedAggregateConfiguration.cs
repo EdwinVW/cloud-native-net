@@ -15,9 +15,6 @@ public static class EventSourcedAggregateConfiguration
 
         builder
             .Property(e => e.Version)
-            .HasConversion(
-                v => (uint)v.Value,
-                v => new AggregateVersion(v))
             .IsConcurrencyToken();
 
         if (builder.Metadata.GetTableName() == "ContractAggregate")
@@ -45,10 +42,7 @@ public static class EventSourcedAggregateConfiguration
             .HasMaxLength(64);
 
         builder
-            .Property(e => e.Version)
-            .HasConversion(
-                v => (uint)v.Value,
-                v => new AggregateVersion(v));
+            .Property(e => e.Version);
 
         if (builder.Metadata.GetTableName() == "ContractEvent")
         {

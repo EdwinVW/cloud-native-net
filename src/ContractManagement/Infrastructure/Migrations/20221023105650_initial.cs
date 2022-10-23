@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace Infrastructure.Migrations
 {
-    public partial class Initial : Migration
+    public partial class initial : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -31,7 +31,7 @@ namespace Infrastructure.Migrations
                 columns: table => new
                 {
                     AggregateId = table.Column<string>(type: "nvarchar(64)", maxLength: 64, nullable: false),
-                    Version = table.Column<uint>(type: "bigint", nullable: false)
+                    Version = table.Column<long>(type: "bigint", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -44,7 +44,7 @@ namespace Infrastructure.Migrations
                 {
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     AggregateId = table.Column<string>(type: "nvarchar(64)", maxLength: 64, nullable: false),
-                    Version = table.Column<uint>(type: "bigint", nullable: false),
+                    Version = table.Column<long>(type: "bigint", nullable: false),
                     Timestamp = table.Column<DateTime>(type: "datetime2", nullable: false),
                     EventType = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     EventData = table.Column<string>(type: "nvarchar(max)", nullable: false)
@@ -88,12 +88,12 @@ namespace Infrastructure.Migrations
             migrationBuilder.InsertData(
                 table: "ContractAggregate",
                 columns: new[] { "AggregateId", "Version" },
-                values: new object[] { "CTR-20220502-9999", 1u });
+                values: new object[] { "CTR-20220502-9999", 1L });
 
             migrationBuilder.InsertData(
                 table: "ContractEvent",
                 columns: new[] { "Id", "AggregateId", "EventData", "EventType", "Timestamp", "Version" },
-                values: new object[] { new Guid("30be1187-9f8a-4c4c-b9d2-9c7bede5d73b"), "CTR-20220502-9999", "{\"ContractNumber\": \"CTR-20220502-9999\",\"CustomerNumber\": \"C13976\",\"ProductNumber\": \"FAC-00011\",\"Amount\": 20000,\"StartDate\": \"2022-05-02T12:40:35.876Z\",\"EndDate\": \"2034-05-02T12:40:35.877Z\",\"EventId\": \"f0074479-4cea-41ff-a669-bdb3649f6e7b\"}", "ContractRegistered", new DateTime(2022, 10, 23, 10, 5, 56, 413, DateTimeKind.Local).AddTicks(3700), 1u });
+                values: new object[] { new Guid("cf965a82-a1dc-498f-a14a-527b0a972755"), "CTR-20220502-9999", "{\"ContractNumber\": \"CTR-20220502-9999\",\"CustomerNumber\": \"C13976\",\"ProductNumber\": \"FAC-00011\",\"Amount\": 20000,\"StartDate\": \"2022-05-02T12:40:35.876Z\",\"EndDate\": \"2034-05-02T12:40:35.877Z\",\"EventId\": \"f0074479-4cea-41ff-a669-bdb3649f6e7b\"}", "ContractRegistered", new DateTime(2022, 10, 23, 13, 56, 50, 200, DateTimeKind.Local).AddTicks(3173), 1L });
 
             migrationBuilder.InsertData(
                 table: "Customer",

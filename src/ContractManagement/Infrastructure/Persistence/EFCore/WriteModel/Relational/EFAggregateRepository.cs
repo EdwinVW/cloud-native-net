@@ -35,7 +35,7 @@ public class EFAggregateRepository<TAggregateRoot> : IAggregateRepository<TAggre
             aggregate.Id);
 
         // Update Aggregate
-        aggregate.Version = aggregate.Version.Value + 1;
+        aggregate.Version += 1;
 
         _aggregateSet.Update(aggregate);
 

@@ -27,7 +27,7 @@ public class AggregateService<TAggregateRoot> : IAggregateService<TAggregateRoot
 
     public async ValueTask<TAggregateRoot> RehydrateAsync(
         string aggregateId,
-        AggregateVersion? expectedVersion)
+        uint? expectedVersion)
     {
         var aggregate = await TryRehydrateAsync(aggregateId, expectedVersion);
         if (aggregate is null)
@@ -40,7 +40,7 @@ public class AggregateService<TAggregateRoot> : IAggregateService<TAggregateRoot
 
     public async ValueTask<TAggregateRoot?> TryRehydrateAsync(
         string aggregateId,
-        AggregateVersion? expectedVersion)
+        uint? expectedVersion)
     {
         var aggregate = await _repository.GetAggregateAsync(aggregateId);
         if (aggregate is not null)
@@ -58,7 +58,7 @@ public class AggregateService<TAggregateRoot> : IAggregateService<TAggregateRoot
 
     public async ValueTask ProcessChangesAsync(TAggregateRoot aggregate)
     {
-        // Before saving the aggregate, make sure it it is consistent.
+        // Before saving the aggregate, make sure it it is consistent
         if (!aggregate.IsValid)
         {
             var exception = new BusinessRuleViolationException(

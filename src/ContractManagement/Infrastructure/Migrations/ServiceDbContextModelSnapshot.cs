@@ -28,7 +28,7 @@ namespace Infrastructure.Migrations
                         .HasMaxLength(64)
                         .HasColumnType("nvarchar(64)");
 
-                    b.Property<uint>("Version")
+                    b.Property<long>("Version")
                         .IsConcurrencyToken()
                         .HasColumnType("bigint");
 
@@ -66,7 +66,7 @@ namespace Infrastructure.Migrations
                     b.Property<DateTime>("Timestamp")
                         .HasColumnType("datetime2");
 
-                    b.Property<uint>("Version")
+                    b.Property<long>("Version")
                         .HasColumnType("bigint");
 
                     b.HasKey("Id");
@@ -76,11 +76,11 @@ namespace Infrastructure.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("30be1187-9f8a-4c4c-b9d2-9c7bede5d73b"),
+                            Id = new Guid("cf965a82-a1dc-498f-a14a-527b0a972755"),
                             AggregateId = "CTR-20220502-9999",
                             EventData = "{\"ContractNumber\": \"CTR-20220502-9999\",\"CustomerNumber\": \"C13976\",\"ProductNumber\": \"FAC-00011\",\"Amount\": 20000,\"StartDate\": \"2022-05-02T12:40:35.876Z\",\"EndDate\": \"2034-05-02T12:40:35.877Z\",\"EventId\": \"f0074479-4cea-41ff-a669-bdb3649f6e7b\"}",
                             EventType = "ContractRegistered",
-                            Timestamp = new DateTime(2022, 10, 23, 10, 5, 56, 413, DateTimeKind.Local).AddTicks(3700),
+                            Timestamp = new DateTime(2022, 10, 23, 13, 56, 50, 200, DateTimeKind.Local).AddTicks(3173),
                             Version = 1L
                         });
                 });

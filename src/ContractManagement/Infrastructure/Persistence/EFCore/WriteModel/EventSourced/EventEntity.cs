@@ -6,7 +6,7 @@ public class EventEntity
 
     public string AggregateId { get; set; } = default!;
 
-    public AggregateVersion Version { get; set; } = default!;
+    public uint Version { get; set; } = default!;
 
     public DateTime Timestamp { get; set; } = DateTime.UtcNow;
 
