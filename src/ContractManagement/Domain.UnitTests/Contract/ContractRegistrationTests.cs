@@ -22,7 +22,7 @@ public class ContractRegistrationTests
 
         // Assert
         sut.IsValid.Should().BeTrue();
-        sut.ContractNumber.Value.Should().BeEquivalentTo(command.ContractNumber);
+        sut.ContractNumber!.Value.Should().BeEquivalentTo(command.ContractNumber);
         sut.CustomerNumber!.Value.Should().BeEquivalentTo(command.CustomerNumber);
         sut.ProductNumber!.Value.Should().BeEquivalentTo(command.ProductNumber);
         sut.Amount!.Value.Should().Be(command.Amount);
@@ -51,7 +51,7 @@ public class ContractRegistrationTests
 
         // Assert
         sut.IsValid.Should().BeTrue();
-        sut.ContractNumber.Value.Should().BeEquivalentTo(domainEvent.ContractNumber);
+        sut.ContractNumber!.Value.Should().BeEquivalentTo(domainEvent.ContractNumber);
         sut.CustomerNumber!.Value.Should().BeEquivalentTo(domainEvent.CustomerNumber);
         sut.ProductNumber!.Value.Should().BeEquivalentTo(domainEvent.ProductNumber);
         sut.Amount!.Value.Should().Be(domainEvent.Amount);
@@ -79,7 +79,7 @@ public class ContractRegistrationTests
 
         // Assert
         sut.IsValid.Should().BeTrue();
-        sut.ContractNumber.Value.Should().BeEquivalentTo(domainEvent.ContractNumber);
+        sut.ContractNumber!.Value.Should().BeEquivalentTo(domainEvent.ContractNumber);
         sut.CustomerNumber!.Value.Should().BeEquivalentTo(domainEvent.CustomerNumber);
         sut.ProductNumber!.Value.Should().BeEquivalentTo(domainEvent.ProductNumber);
         sut.Amount!.Value.Should().Be(domainEvent.Amount);
