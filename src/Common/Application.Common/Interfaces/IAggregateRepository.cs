@@ -1,9 +1,9 @@
 namespace Application.Common.Interfaces;
 
-public interface IAggregateRepository<TId, TAggregateRoot>
-    where TAggregateRoot : IAggregateRoot<TId>
+public interface IAggregateRepository<TAggregateRoot>
+    where TAggregateRoot : IAggregateRoot
 {
-    ValueTask<TAggregateRoot?> GetAggregateAsync(TId aggregateId);
+    ValueTask<TAggregateRoot?> GetAggregateAsync(string aggregateId);
 
     ValueTask AddAggregateAsync(TAggregateRoot aggregate);
 

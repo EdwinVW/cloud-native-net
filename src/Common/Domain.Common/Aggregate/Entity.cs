@@ -3,14 +3,19 @@ namespace Domain.Common;
 /// <summary>
 /// Represents an Entity in the domain (DDD).
 /// </summary>
-public abstract class Entity<TId> : IEquatable<Entity<TId>>, IEntity<TId>
+public abstract class Entity : IEquatable<Entity>, IEntity
 {
     /// <summary>
     /// The unique Id of the entity.
     /// </summary>
-    public TId Id { get; private set; }
+    public string Id { get; protected set; }
 
-    protected Entity(TId id)
+    public Entity()
+    {
+        Id = string.Empty;
+    }
+
+    public Entity(string id)
     {
         Id = id;
     }
@@ -21,12 +26,12 @@ public abstract class Entity<TId> : IEquatable<Entity<TId>>, IEntity<TId>
     {
         if (obj is not null)
         {
-            return Equals(obj as Entity<TId>);
+            return Equals(obj as Entity);
         }
         return false;
     }
 
-    public virtual bool Equals(Entity<TId>? other)
+    public virtual bool Equals(Entity? other)
     {
         if (Id is null || other is null)
         {
@@ -45,7 +50,7 @@ public abstract class Entity<TId> : IEquatable<Entity<TId>>, IEntity<TId>
         return Id.GetHashCode();
     }
 
-    public static bool operator ==(Entity<TId> left, Entity<TId> right)
+    public static bool operator ==(Entity left, Entity right)
     {
         if (left.Id is null)
         {
@@ -54,7 +59,7 @@ public abstract class Entity<TId> : IEquatable<Entity<TId>>, IEntity<TId>
         return left.Id.Equals(right.Id);
     }
 
-    public static bool operator !=(Entity<TId> left, Entity<TId> right)
+    public static bool operator !=(Entity left, Entity right)
     {
         return !(left == right);
     }

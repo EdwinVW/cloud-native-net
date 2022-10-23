@@ -2,7 +2,7 @@ namespace ContractManagement.Infrastructure.Persistence.EFCore.Repositories.Aggr
 
 public class AggregateEntity
 {
-    public EventSourcedEntityId AggregateId { get; set; } = default!;
+    public string AggregateId { get; set; } = default!;
 
     public AggregateVersion Version { get; set; } = default!;
 }

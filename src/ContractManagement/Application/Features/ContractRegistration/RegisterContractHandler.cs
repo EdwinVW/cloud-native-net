@@ -2,12 +2,12 @@ namespace Contractmanagement.Features.ContractRegistration;
 
 public class RegisterContractHandler : ICommandHandler<RegisterContractV2>
 {
-    private readonly IAggregateService<EventSourcedEntityId, Contract> _aggregateService;
+    private readonly IAggregateService<Contract> _aggregateService;
     private readonly ICustomerService _customerService;
     private readonly IProductService _productService;
 
     public RegisterContractHandler(
-        IAggregateService<EventSourcedEntityId, Contract> aggregateService,
+        IAggregateService<Contract> aggregateService,
         ICustomerService customerService,
         IProductService productService)
     {

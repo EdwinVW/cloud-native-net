@@ -2,17 +2,17 @@ using System.Text;
 
 namespace Application.Common.Services;
 
-public class AggregateService<TAggregateId, TAggregateRoot> : IAggregateService<TAggregateId, TAggregateRoot>
-    where TAggregateRoot : IAggregateRoot<TAggregateId>
+public class AggregateService<TAggregateRoot> : IAggregateService<TAggregateRoot>
+    where TAggregateRoot : IAggregateRoot
 {
-    private readonly IAggregateRepository<TAggregateId, TAggregateRoot> _repository;
+    private readonly IAggregateRepository<TAggregateRoot> _repository;
     private readonly IProjectionEngine _projectionEngine;
     private readonly IEventPublisher _eventPublisher;
     private readonly IUnitOfWork _unitOfWork;
     private readonly ILogger _logger;
 
     public AggregateService(
-        IAggregateRepository<TAggregateId, TAggregateRoot> repository,
+        IAggregateRepository<TAggregateRoot> repository,
         IProjectionEngine projectionEngine,
         IEventPublisher eventPublisher,
         IUnitOfWork unitOfWork,
@@ -22,11 +22,11 @@ public class AggregateService<TAggregateId, TAggregateRoot> : IAggregateService<
         _projectionEngine = projectionEngine;
         _eventPublisher = eventPublisher;
         _unitOfWork = unitOfWork;
-        _logger = loggerFactory.CreateLogger<AggregateService<TAggregateId, TAggregateRoot>>();
+        _logger = loggerFactory.CreateLogger<AggregateService<TAggregateRoot>>();
     }
 
     public async ValueTask<TAggregateRoot> RehydrateAsync(
-        TAggregateId aggregateId,
+        string aggregateId,
         AggregateVersion? expectedVersion)
     {
         var aggregate = await TryRehydrateAsync(aggregateId, expectedVersion);
@@ -39,7 +39,7 @@ public class AggregateService<TAggregateId, TAggregateRoot> : IAggregateService<
     }
 
     public async ValueTask<TAggregateRoot?> TryRehydrateAsync(
-        TAggregateId aggregateId,
+        string aggregateId,
         AggregateVersion? expectedVersion)
     {
         var aggregate = await _repository.GetAggregateAsync(aggregateId);

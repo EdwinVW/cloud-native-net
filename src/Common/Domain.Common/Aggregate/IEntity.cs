@@ -1,8 +1,8 @@
 namespace Domain.Common;
 
-public interface IEntity<TId>
+public interface IEntity
 {
-    TId Id { get; }
+    string Id { get; }
 
     void EnsureConsistency();
 }

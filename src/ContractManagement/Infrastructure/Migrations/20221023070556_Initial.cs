@@ -83,7 +83,7 @@ namespace Infrastructure.Migrations
             migrationBuilder.InsertData(
                 table: "Contract",
                 columns: new[] { "ContractNumber", "Amount", "CustomerNumber", "EndDate", "PaymentPeriod", "ProductNumber", "StartDate" },
-                values: new object[] { "CTR-20220502-9999", 20000m, "C13976", new DateTime(2034, 5, 2, 14, 40, 35, 877, DateTimeKind.Local), "Monthly", "FAC-00011", new DateTime(2022, 5, 2, 14, 40, 35, 876, DateTimeKind.Local) });
+                values: new object[] { "CTR-20220502-9999", 20000m, "C13976", new DateTime(2034, 5, 2, 15, 40, 35, 877, DateTimeKind.Local), "Monthly", "FAC-00011", new DateTime(2022, 5, 2, 15, 40, 35, 876, DateTimeKind.Local) });
 
             migrationBuilder.InsertData(
                 table: "ContractAggregate",
@@ -93,7 +93,7 @@ namespace Infrastructure.Migrations
             migrationBuilder.InsertData(
                 table: "ContractEvent",
                 columns: new[] { "Id", "AggregateId", "EventData", "EventType", "Timestamp", "Version" },
-                values: new object[] { new Guid("a3ca1822-4971-4196-8895-6d51918d887c"), "CTR-20220502-9999", "{\"ContractNumber\": \"CTR-20220502-9999\",\"CustomerNumber\": \"C13976\",\"ProductNumber\": \"FAC-00011\",\"Amount\": 20000,\"StartDate\": \"2022-05-02T12:40:35.876Z\",\"EndDate\": \"2034-05-02T12:40:35.877Z\",\"EventId\": \"f0074479-4cea-41ff-a669-bdb3649f6e7b\"}", "ContractRegistered", new DateTime(2022, 10, 10, 12, 56, 49, 301, DateTimeKind.Local).AddTicks(3447), 1u });
+                values: new object[] { new Guid("30be1187-9f8a-4c4c-b9d2-9c7bede5d73b"), "CTR-20220502-9999", "{\"ContractNumber\": \"CTR-20220502-9999\",\"CustomerNumber\": \"C13976\",\"ProductNumber\": \"FAC-00011\",\"Amount\": 20000,\"StartDate\": \"2022-05-02T12:40:35.876Z\",\"EndDate\": \"2034-05-02T12:40:35.877Z\",\"EventId\": \"f0074479-4cea-41ff-a669-bdb3649f6e7b\"}", "ContractRegistered", new DateTime(2022, 10, 23, 10, 5, 56, 413, DateTimeKind.Local).AddTicks(3700), 1u });
 
             migrationBuilder.InsertData(
                 table: "Customer",

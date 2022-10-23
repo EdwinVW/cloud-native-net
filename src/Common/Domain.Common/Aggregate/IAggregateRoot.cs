@@ -1,10 +1,10 @@
 namespace Domain.Common;
 
-public interface IAggregateRoot<TId> : IEntity<TId>
+public interface IAggregateRoot : IEntity
 {
     bool IsNew { get; }
 
-    AggregateVersion? Version { get; set; }
+    AggregateVersion Version { get; set; }
 
     void AddBusinessRuleViolation(string violation);
 

@@ -1,7 +1,7 @@
 namespace ContractManagement.Infrastructure.Persistence.EFCore.Repositories.Aggregate;
 
-public class EFAggregateRepository<TId, TAggregateRoot> : IAggregateRepository<TId, TAggregateRoot> 
-    where TAggregateRoot : class, IAggregateRoot<TId>
+public class EFAggregateRepository<TId, TAggregateRoot> : IAggregateRepository<TAggregateRoot> 
+    where TAggregateRoot : class, IAggregateRoot
 {
     private readonly DbSet<TAggregateRoot> _aggregateSet;
     private readonly ILogger _logger;
@@ -12,7 +12,7 @@ public class EFAggregateRepository<TId, TAggregateRoot> : IAggregateRepository<T
         _logger = logger;
     }
 
-    public async ValueTask<TAggregateRoot?> GetAggregateAsync(TId aggregateId)
+    public async ValueTask<TAggregateRoot?> GetAggregateAsync(string aggregateId)
     {
         return await _aggregateSet.FindAsync(aggregateId);
     }

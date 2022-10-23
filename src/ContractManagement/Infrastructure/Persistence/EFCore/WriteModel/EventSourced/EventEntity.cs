@@ -4,7 +4,7 @@ public class EventEntity
 {
     public Guid Id { get; set; }
 
-    public EventSourcedEntityId AggregateId { get; set; } = default!;
+    public string AggregateId { get; set; } = default!;
 
     public AggregateVersion Version { get; set; } = default!;
 

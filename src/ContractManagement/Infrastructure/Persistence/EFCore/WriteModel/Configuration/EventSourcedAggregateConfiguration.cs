@@ -11,9 +11,6 @@ public static class EventSourcedAggregateConfiguration
 
         builder
             .Property(e => e.AggregateId)
-            .HasConversion(
-                v => v.Value,
-                v => new EventSourcedEntityId(v))
             .HasMaxLength(64);
 
         builder
@@ -45,9 +42,6 @@ public static class EventSourcedAggregateConfiguration
 
         builder
             .Property(e => e.AggregateId)
-            .HasConversion(
-                v => v.Value,
-                v => new EventSourcedEntityId(v))
             .HasMaxLength(64);
 
         builder

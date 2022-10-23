@@ -17,7 +17,7 @@ namespace Infrastructure.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "6.0.9")
+                .HasAnnotation("ProductVersion", "6.0.10")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder, 1L, 1);
@@ -76,11 +76,11 @@ namespace Infrastructure.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("a3ca1822-4971-4196-8895-6d51918d887c"),
+                            Id = new Guid("30be1187-9f8a-4c4c-b9d2-9c7bede5d73b"),
                             AggregateId = "CTR-20220502-9999",
                             EventData = "{\"ContractNumber\": \"CTR-20220502-9999\",\"CustomerNumber\": \"C13976\",\"ProductNumber\": \"FAC-00011\",\"Amount\": 20000,\"StartDate\": \"2022-05-02T12:40:35.876Z\",\"EndDate\": \"2034-05-02T12:40:35.877Z\",\"EventId\": \"f0074479-4cea-41ff-a669-bdb3649f6e7b\"}",
                             EventType = "ContractRegistered",
-                            Timestamp = new DateTime(2022, 10, 10, 12, 56, 49, 301, DateTimeKind.Local).AddTicks(3447),
+                            Timestamp = new DateTime(2022, 10, 23, 10, 5, 56, 413, DateTimeKind.Local).AddTicks(3700),
                             Version = 1L
                         });
                 });
@@ -125,10 +125,10 @@ namespace Infrastructure.Migrations
                             ContractNumber = "CTR-20220502-9999",
                             Amount = 20000m,
                             CustomerNumber = "C13976",
-                            EndDate = new DateTime(2034, 5, 2, 14, 40, 35, 877, DateTimeKind.Local),
+                            EndDate = new DateTime(2034, 5, 2, 15, 40, 35, 877, DateTimeKind.Local),
                             PaymentPeriod = "Monthly",
                             ProductNumber = "FAC-00011",
-                            StartDate = new DateTime(2022, 5, 2, 14, 40, 35, 876, DateTimeKind.Local)
+                            StartDate = new DateTime(2022, 5, 2, 15, 40, 35, 876, DateTimeKind.Local)
                         });
                 });
 

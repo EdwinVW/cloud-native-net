@@ -1,12 +1,14 @@
+using Domain.Common;
+
 namespace ContractManagement.Domain.Aggregates.Contract;
 
-public class Contract : EventSourcedAggregateRoot
+public class Contract : AggregateRoot
 {
     //===================================================================================
     // The properties hold the state of the aggregate.
     //===================================================================================
 
-    public ContractNumber ContractNumber { get; init; }
+    public ContractNumber? ContractNumber { get; private set; }
 
     public CustomerNumber? CustomerNumber { get; private set; }
 
@@ -25,10 +27,18 @@ public class Contract : EventSourcedAggregateRoot
     /// <summary>
     /// Create a new aggregate instance.
     /// </summary>
-    /// <param name="id">The unique aggregate Id to use.</param>
-    public Contract(EventSourcedEntityId id) : base(id)
+    public Contract()
     {
-        ContractNumber = ContractNumber.Parse(id.Value);
+    }
+
+
+    /// <summary>
+    /// Create a new aggregate instance.
+    /// </summary>
+    /// <param name="id">The unique aggregate Id to use.</param>
+    public Contract(string id) : base(id)
+    {
+        ContractNumber = ContractNumber.Parse(id);
     }
 
     /// <summary>
@@ -37,9 +47,9 @@ public class Contract : EventSourcedAggregateRoot
     /// <param name="id">The unique aggregate Id to use.</param>
     /// <param name="domainEvents">The events from the event-stream for the aggregate.</param>
     /// <remarks>The base implementation will call TryHandleDomainEvent for each event in the specified list of events.</remarks>
-    public Contract(EventSourcedEntityId id, IList<Event> domainEvents) : base(id, domainEvents)
+    public Contract(string id, IList<Event> domainEvents) : base(id, domainEvents)
     {
-        ContractNumber = ContractNumber.Parse(id.Value);
+        ContractNumber = ContractNumber.Parse(id);
     }
 
     #endregion
@@ -175,6 +185,7 @@ public class Contract : EventSourcedAggregateRoot
 
     private void Handle(ContractRegisteredV2 domainEvent)
     {
+        ContractNumber = ContractNumber.Parse(domainEvent.ContractNumber);
         CustomerNumber = CustomerNumber.Parse(domainEvent.CustomerNumber);
         ProductNumber = ProductNumber.Parse(domainEvent.ProductNumber);
         Amount = MoneyAmount.Parse(domainEvent.Amount);

@@ -2,9 +2,9 @@ namespace Contractmanagement.Features.ContractCancellation;
 
 public class CancelContractHandler : ICommandHandler<CancelContract>
 {
-    private readonly IAggregateService<EventSourcedEntityId, Contract> _aggregateService;
+    private readonly IAggregateService<Contract> _aggregateService;
 
-    public CancelContractHandler(IAggregateService<EventSourcedEntityId, Contract> aggregateService)
+    public CancelContractHandler(IAggregateService<Contract> aggregateService)
     {
         _aggregateService = aggregateService;
     }
