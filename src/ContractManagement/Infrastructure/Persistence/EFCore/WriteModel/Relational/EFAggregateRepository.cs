@@ -1,12 +1,12 @@
 namespace ContractManagement.Infrastructure.Persistence.EFCore.Repositories.Aggregate;
 
-public class EFAggregateRepository<TId, TAggregateRoot> : IAggregateRepository<TAggregateRoot> 
+public class EFAggregateRepository<TAggregateRoot> : IAggregateRepository<TAggregateRoot> 
     where TAggregateRoot : class, IAggregateRoot
 {
     private readonly DbSet<TAggregateRoot> _aggregateSet;
     private readonly ILogger _logger;
 
-    public EFAggregateRepository(ServiceDbContext context, ILogger<EFAggregateRepository<TId, TAggregateRoot>> logger)
+    public EFAggregateRepository(ServiceDbContext context, ILogger<EFAggregateRepository<TAggregateRoot>> logger)
     {
         _aggregateSet = context.Set<TAggregateRoot>();
         _logger = logger;
@@ -35,18 +35,7 @@ public class EFAggregateRepository<TId, TAggregateRoot> : IAggregateRepository<T
             aggregate.Id);
 
         // Update Aggregate
-        // Because we've just queried the aggregate and it's tracked,
-        // the original version number is in the context. We update it
-        // to the new version number and get a optimistic concurrency check
-        // because OriginalVersion is marked as a concurrency token.
-        if (aggregate.Version is null)
-        {
-            aggregate.Version = 0;
-        }
-        else
-        {
-            aggregate.Version = aggregate.Version!.Value + 1;
-        }
+        aggregate.Version = aggregate.Version.Value + 1;
 
         _aggregateSet.Update(aggregate);
 
