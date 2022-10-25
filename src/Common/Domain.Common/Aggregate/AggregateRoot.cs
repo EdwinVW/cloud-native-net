@@ -136,7 +136,10 @@ public abstract class AggregateRoot : Entity, IAggregateRoot
     /// <param name="domainEvent">The domain event to handle.</param>
     /// <returns>An indication whether the aggregate was able to handle to event (true) 
     /// or not (false).</returns>
-    protected abstract bool TryHandleDomainEvent(Event domainEvent);    
+    protected virtual bool TryHandleDomainEvent(Event domainEvent)
+    {
+        return false;
+    }
 
     /// <summary>
     /// Check overall consistency of the aggregate. This method must be implemented by 
