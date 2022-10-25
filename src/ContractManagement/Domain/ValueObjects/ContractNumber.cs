@@ -43,4 +43,12 @@ public record ContractNumber
         contractNumber = null;
         return false;
     }
+
+    public static ContractNumber Undefined
+    {
+        get
+        {
+            return new ContractNumber("CTR-00000000-0000");
+        }
+    }
 }

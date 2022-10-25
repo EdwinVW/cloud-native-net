@@ -4,11 +4,13 @@ namespace ContractManagement.Domain.Aggregates.Contract;
 
 public class Contract : AggregateRoot
 {
+    public override string Id => this.ContractNumber.Value;
+
     //===================================================================================
     // The properties hold the state of the aggregate.
     //===================================================================================
 
-    public ContractNumber? ContractNumber { get; private set; }
+    public ContractNumber ContractNumber { get; private set; } = ContractNumber.Undefined;
 
     public CustomerNumber? CustomerNumber { get; private set; }
 
@@ -29,16 +31,7 @@ public class Contract : AggregateRoot
     /// </summary>
     public Contract()
     {
-    }
 
-
-    /// <summary>
-    /// Create a new aggregate instance.
-    /// </summary>
-    /// <param name="id">The unique aggregate Id to use.</param>
-    public Contract(string id) : base(id)
-    {
-        ContractNumber = ContractNumber.Parse(id);
     }
 
     /// <summary>
@@ -47,9 +40,8 @@ public class Contract : AggregateRoot
     /// <param name="id">The unique aggregate Id to use.</param>
     /// <param name="domainEvents">The events from the event-stream for the aggregate.</param>
     /// <remarks>The base implementation will call TryHandleDomainEvent for each event in the specified list of events.</remarks>
-    public Contract(string id, IList<Event> domainEvents) : base(id, domainEvents)
+    public Contract(IList<Event> domainEvents) : base(domainEvents)
     {
-        ContractNumber = ContractNumber.Parse(id);
     }
 
     #endregion

@@ -10,12 +10,19 @@ public abstract class AggregateRoot : Entity, IAggregateRoot
     private List<string> _businessRuleViolations;
 
     /// <summary>
-    /// Indication whether the aggregate in in a valid state (true) or not (false).
+    /// Indication whether the aggregate is in a valid state (true) or not (false).
     /// </summary>
     public bool IsValid => !_businessRuleViolations.Any();
 
+    /// <summary>
+    /// Indication whether the aggregate is new (true) or not (false). New means that no 
+    /// events have been applied to this aggregate yet.
+    /// </summary>
     public bool IsNew => Version == 0;
 
+    /// <summary>
+    /// The current version of the Aggregate.
+    /// </summary>
     public uint Version { get; set; }
 
     /// <summary>
@@ -27,7 +34,7 @@ public abstract class AggregateRoot : Entity, IAggregateRoot
     /// Constructor for creating an empty aggregate.
     /// </summary>
     /// <remarks>This constructor can be used by an ORM.</remarks>
-    public AggregateRoot() : this(string.Empty, 0)
+    public AggregateRoot() : this(0)
     {
     }
 
@@ -35,16 +42,7 @@ public abstract class AggregateRoot : Entity, IAggregateRoot
     /// Constructor for creating an empty aggregate.
     /// </summary>
     /// <remarks>This constructor can be used by an ORM.</remarks>
-    public AggregateRoot(string id) : this(id, 0)
-    {
-    }
-
-    /// <summary>
-    /// Constructor for creating an empty aggregate.
-    /// </summary>
-    /// <remarks>This constructor can be used by an ORM.</remarks>
-    public AggregateRoot(string id, uint originalVersion)
-        : base(id)
+    public AggregateRoot(uint originalVersion)
     {
         _domainEvents = new();
         _businessRuleViolations = new();
@@ -54,8 +52,7 @@ public abstract class AggregateRoot : Entity, IAggregateRoot
     /// <summary>
     /// Constructor for creating a rehydrated aggregate.
     /// </summary>
-    public AggregateRoot(string id, IList<Event> domainEvents)
-        : this(id, (uint)domainEvents.Count)
+    public AggregateRoot(IList<Event> domainEvents) : this((uint)domainEvents.Count)
     {
         foreach (var domainEvent in domainEvents)
         {
@@ -73,16 +70,29 @@ public abstract class AggregateRoot : Entity, IAggregateRoot
         return _domainEvents;
     }
 
+    /// <summary>
+    /// Add a domainevent as the result of handling a command for later processing.
+    /// </summary>
+    /// <param name="domainEvent">The domain event to add.</param>
     protected void AddDomainEvent(Event domainEvent)
     {
         _domainEvents.Add(domainEvent);
     }
 
+    /// <summary>
+    /// Add a business-rule violation. This violation must be a clear description of the 
+    /// business-rule that was violated.
+    /// </summary>
+    /// <param name="violation">The business-rule violation message to add.</param>
     public void AddBusinessRuleViolation(string violation)
     {
         _businessRuleViolations.Add(violation);
     }
 
+    /// <summary>
+    /// Get the list of business-rule violations that occurred.
+    /// </summary>
+    /// <returns></returns>
     public IEnumerable<string> GetBusinessRuleViolations()
     {
         return _businessRuleViolations;
@@ -113,9 +123,19 @@ public abstract class AggregateRoot : Entity, IAggregateRoot
             return;
         }
 
-        // publish the domain event
+        // add the domain event
         AddDomainEvent(domainEvent);
     }
 
+
+    /// <summary>
+    /// Try to handle a domain event. This method must be implemented by deriving 
+    /// aggregate roots. In this method, only internal state changes are allowed. This 
+    /// is because this method is also called when replaying events when rehydrating 
+    /// the state of the aggregate from the event store.
+    /// </summary>
+    /// <param name="domainEvent">The domain event to handle.</param>
+    /// <returns>An indication whether the aggregate was able to handle to event (true) 
+    /// or not (false).</returns>
     protected abstract bool TryHandleDomainEvent(Event domainEvent);    
 }

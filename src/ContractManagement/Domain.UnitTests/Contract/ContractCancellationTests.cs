@@ -10,7 +10,7 @@ public class ContractCancellationTests
         string aggregateId = "CTR-20220424-0001";
         var contractRegistered = ContractRegisteredV2Builder.Build(aggregateId);
         var cancelContract = CancelContractBuilder.Build(aggregateId);
-        var sut = new Contract(aggregateId, new List<Event> { contractRegistered });
+        var sut = new Contract(new List<Event> { contractRegistered });
 
         // Act
         sut.CancelContract(cancelContract);

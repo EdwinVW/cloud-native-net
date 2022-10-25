@@ -25,7 +25,7 @@ public class RegisterContractHandler : ICommandHandler<RegisterContractV2>
         // If the aggregate wasn't found, create a new one
         if (contract is null)
         {
-            contract = new Contract(command.ContractNumber);
+            contract = new Contract();
         }
 
         await contract.RegisterContractAsync(command, _customerService, _productService);

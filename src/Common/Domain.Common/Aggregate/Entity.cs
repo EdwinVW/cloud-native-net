@@ -8,17 +8,7 @@ public abstract class Entity : IEquatable<Entity>, IEntity
     /// <summary>
     /// The unique Id of the entity.
     /// </summary>
-    public string Id { get; protected set; }
-
-    public Entity()
-    {
-        Id = string.Empty;
-    }
-
-    public Entity(string id)
-    {
-        Id = id;
-    }
+    public abstract string Id { get; }
 
     public virtual void EnsureConsistency() { }
 

@@ -11,7 +11,7 @@ public class ContractRegistrationTests
         var command = RegisterContractV2Builder.Build(aggregateId);
         var customerServiceMock = CustomerServiceMock.ForExistingCustomer(command.CustomerNumber);
         var productServiceMock = ProductServiceMock.ForExistingProduct(command.ProductNumber);
-        var sut = new Contract(aggregateId);
+        var sut = new Contract();
 
         // Act
         await sut.RegisterContractAsync(
@@ -46,7 +46,6 @@ public class ContractRegistrationTests
 
         // Act
         var sut = new Contract(
-            aggregateId, 
             new List<Event> { domainEvent });
 
         // Assert
@@ -75,7 +74,7 @@ public class ContractRegistrationTests
         { PaymentPeriod = PaymentPeriod.Quarterly };
 
         // Act
-        var sut = new Contract(aggregateId, new List<Event> { domainEvent });
+        var sut = new Contract(new List<Event> { domainEvent });
 
         // Assert
         sut.IsValid.Should().BeTrue();
@@ -99,7 +98,7 @@ public class ContractRegistrationTests
         var command = RegisterContractV2Builder.Build(aggregateId);
         var customerServiceMock = CustomerServiceMock.ForNonExistingCustomer(command.CustomerNumber);
         var productServiceMock = ProductServiceMock.ForExistingProduct(command.ProductNumber);
-        var sut = new Contract(aggregateId);
+        var sut = new Contract();
 
         // Act
         await sut.RegisterContractAsync(
@@ -121,7 +120,7 @@ public class ContractRegistrationTests
         var command = RegisterContractV2Builder.Build(aggregateId);
         var customerServiceMock = CustomerServiceMock.ForExistingCustomer(command.CustomerNumber);
         var productServiceMock = ProductServiceMock.ForNonExistingProduct(command.ProductNumber);
-        var sut = new Contract(aggregateId);
+        var sut = new Contract();
 
         // Act
         await sut.RegisterContractAsync(
@@ -144,7 +143,7 @@ public class ContractRegistrationTests
             with { EndDate = new DateTime(2025, 4, 24, 18, 33, 5) };
         var customerServiceMock = CustomerServiceMock.ForExistingCustomer(command.CustomerNumber);
         var productServiceMock = ProductServiceMock.ForExistingProduct(command.ProductNumber);
-        var sut = new Contract(aggregateId);
+        var sut = new Contract();
 
         // Act
         await sut.RegisterContractAsync(
@@ -167,7 +166,7 @@ public class ContractRegistrationTests
             with { EndDate = new DateTime(2085, 4, 24, 18, 33, 5) };
         var customerServiceMock = CustomerServiceMock.ForExistingCustomer(command.CustomerNumber);
         var productServiceMock = ProductServiceMock.ForExistingProduct(command.ProductNumber);
-        var sut = new Contract(aggregateId);
+        var sut = new Contract();
 
         // Act
         await sut.RegisterContractAsync(
@@ -190,7 +189,7 @@ public class ContractRegistrationTests
             with { Amount = 20000000 };
         var customerServiceMock = CustomerServiceMock.ForExistingCustomer(command.CustomerNumber);
         var productServiceMock = ProductServiceMock.ForExistingProduct(command.ProductNumber);
-        var sut = new Contract(aggregateId);        
+        var sut = new Contract();        
 
         // Act
         await sut.RegisterContractAsync(
@@ -213,7 +212,7 @@ public class ContractRegistrationTests
             with { Amount = 6000000, PaymentPeriod = PaymentPeriod.Yearly };
         var customerServiceMock = CustomerServiceMock.ForExistingCustomer(command.CustomerNumber);
         var productServiceMock = ProductServiceMock.ForExistingProduct(command.ProductNumber);
-        var sut = new Contract(aggregateId);          
+        var sut = new Contract();          
 
         // Act
         await sut.RegisterContractAsync(
