@@ -10,15 +10,15 @@ public abstract class AggregateRoot : Entity, IAggregateRoot
     private List<string> _businessRuleViolations;
 
     /// <summary>
-    /// Indication whether the aggregate is in a valid state (true) or not (false).
-    /// </summary>
-    public bool IsValid => !_businessRuleViolations.Any();
-
-    /// <summary>
     /// Indication whether the aggregate is new (true) or not (false). New means that no 
     /// events have been applied to this aggregate yet.
     /// </summary>
     public bool IsNew => Version == 0;
+
+    /// <summary>
+    /// Indication whether the aggregate is in a valid state (true) or not (false).
+    /// </summary>
+    public bool IsValid => !_businessRuleViolations.Any();
 
     /// <summary>
     /// The current version of the Aggregate.

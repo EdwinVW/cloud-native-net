@@ -2,18 +2,18 @@
 
 !include styling.puml
 
-interface IAggregateRoot
+interface IEquatable<Entity> 
+interface IEntity 
+interface IAggregateRoot 
+class Entity 
+class AggregateRoot 
+class Contract 
 
-class Entity
-
-class AggregateRoot
-
-class EventSourcedAggregateRoot
-
-class Contract
-EventSourcedAggregateRoot <|-- Contract
-AggregateRoot <|-- EventSourcedAggregateRoot
+AggregateRoot <|-- Contract
 Entity <|-- AggregateRoot
 IAggregateRoot <|-- AggregateRoot
+IEquatable <|-- Entity
+IEntity <|-- Entity
+IEntity <|-- IAggregateRoot
 
 @enduml
