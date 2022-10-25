@@ -127,7 +127,6 @@ public abstract class AggregateRoot : Entity, IAggregateRoot
         AddDomainEvent(domainEvent);
     }
 
-
     /// <summary>
     /// Try to handle a domain event. This method must be implemented by deriving 
     /// aggregate roots. In this method, only internal state changes are allowed. This 
@@ -138,4 +137,12 @@ public abstract class AggregateRoot : Entity, IAggregateRoot
     /// <returns>An indication whether the aggregate was able to handle to event (true) 
     /// or not (false).</returns>
     protected abstract bool TryHandleDomainEvent(Event domainEvent);    
+
+    /// <summary>
+    /// Check overall consistency of the aggregate. This method must be implemented by 
+    /// deriving aggregate roots. Never throw an exception from this method. If a 
+    /// consistency issues is detected, edd a business-rule violation (using the the 
+    /// AddBusinessRuleViolation method) that clearly describes the violation.
+    /// </summary>
+    public abstract void EnsureConsistency();
 }

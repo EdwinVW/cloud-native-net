@@ -8,6 +8,8 @@ public interface IAggregateRoot : IEntity
 
     uint Version { get; set; }
 
+    void EnsureConsistency();
+
     void AddBusinessRuleViolation(string violation);
 
     IEnumerable<string> GetBusinessRuleViolations();

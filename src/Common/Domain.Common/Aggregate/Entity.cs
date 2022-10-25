@@ -8,9 +8,8 @@ public abstract class Entity : IEquatable<Entity>, IEntity
     /// <summary>
     /// The unique Id of the entity.
     /// </summary>
+    /// <remarks></remarks>
     public abstract string Id { get; }
-
-    public virtual void EnsureConsistency() { }
 
     public override bool Equals(object? obj)
     {
