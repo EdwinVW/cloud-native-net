@@ -32,7 +32,7 @@ public class EFEventSourcedAggregateRepository<TAggregateRoot> :
         _logger.LogDebug("Retrieved events {@events}", domainEvents);
 
         return domainEvents.Any() ? 
-            RehydrateAggregate(aggregateId, domainEvents) : 
+            RehydrateAggregate(domainEvents) : 
             default(TAggregateRoot);
     }
 
@@ -125,11 +125,9 @@ public class EFEventSourcedAggregateRepository<TAggregateRoot> :
     }
 
     private static TAggregateRoot RehydrateAggregate(
-        string aggregateId, 
         IList<Event> domainEvents) =>
             (TAggregateRoot)Activator.CreateInstance(
                 typeof(TAggregateRoot),
-                aggregateId,
                 domainEvents)!;
 
     /// <remarks>
