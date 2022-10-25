@@ -144,5 +144,8 @@ public abstract class AggregateRoot : Entity, IAggregateRoot
     /// consistency issues is detected, edd a business-rule violation (using the the 
     /// AddBusinessRuleViolation method) that clearly describes the violation.
     /// </summary>
-    public abstract void EnsureConsistency();
+    public virtual void EnsureConsistency()
+    {
+        
+    }
 }
