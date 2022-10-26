@@ -1,5 +1,3 @@
-using Domain.Common;
-
 namespace ContractManagement.Domain.Aggregates.Contract;
 
 public class Contract : AggregateRoot
