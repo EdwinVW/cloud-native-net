@@ -1,5 +1,3 @@
-using Domain.Common;
-
 namespace ContractManagement.WebAPI.Controllers;
 
 /// <summary>
@@ -62,6 +60,12 @@ public class CommandController : ControllerBase
 
         return BadRequest();
     }
+
+    [HttpPost("addpayment")]
+    public async Task<IActionResult> AddPayment(
+        [FromBody] AddPayment command,
+        [FromServices] ICommandHandler<AddPayment> commandHandler) => 
+            await HandleCommand(command, commandHandler);    
 
     private async Task<IActionResult> HandleCommand<T>(
         Command command, ICommandHandler<T> commandHandler) where T : Command

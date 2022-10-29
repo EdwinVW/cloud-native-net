@@ -1,5 +1,3 @@
-using Domain.Common.Exceptions;
-
 namespace Domain.Common;
 
 /// <summary>
@@ -34,32 +32,23 @@ public abstract class AggregateRoot : Entity, IAggregateRoot
     /// Constructor for creating an empty aggregate.
     /// </summary>
     /// <remarks>This constructor can be used by an ORM.</remarks>
-    public AggregateRoot() : this(0)
-    {
-    }
-
-    /// <summary>
-    /// Constructor for creating an empty aggregate.
-    /// </summary>
-    /// <remarks>This constructor can be used by an ORM.</remarks>
-    public AggregateRoot(uint originalVersion)
+    public AggregateRoot()
     {
         _domainEvents = new();
         _businessRuleViolations = new();
-        Version = originalVersion;
+        Version = 0;
     }
 
     /// <summary>
     /// Constructor for creating a rehydrated aggregate.
     /// </summary>
-    public AggregateRoot(IList<Event> domainEvents) : this((uint)domainEvents.Count)
+    public void ReplayEvents(IList<Event> domainEvents)
     {
         foreach (var domainEvent in domainEvents)
         {
-            TryHandleDomainEvent(domainEvent);
+            HandleDomainEvent(domainEvent);
         }
-
-        _domainEvents.Clear();
+        Version = (uint)domainEvents.Count;
     }    
 
     /// <summary>
@@ -107,14 +96,7 @@ public abstract class AggregateRoot : Entity, IAggregateRoot
     protected void ApplyDomainEvent(Event domainEvent)
     {
         // let the derived aggregate handle the event
-        bool domainEventHandled = TryHandleDomainEvent(domainEvent);
-
-        // if it was not handled, there is no handler implemented for it
-        if (!domainEventHandled)
-        {
-            throw new DomainEventHandlerNotFoundException(
-                $"No handler found for {domainEvent.Type} domain event.");
-        }
+        HandleDomainEvent(domainEvent);
 
         // check the overall consistency of the aggregate after the changes
         EnsureConsistency();
@@ -128,17 +110,15 @@ public abstract class AggregateRoot : Entity, IAggregateRoot
     }
 
     /// <summary>
-    /// Try to handle a domain event. This method must be implemented by deriving 
-    /// aggregate roots. In this method, only internal state changes are allowed. This 
-    /// is because this method is also called when replaying events when rehydrating 
-    /// the state of the aggregate from the event store.
+    /// Handle a domain event. This method must be implemented by deriving aggregate roots. 
+    /// In this method, only internal state changes are allowed. This is because this method 
+    /// is also called when replaying events when rehydrating the state of the aggregate from 
+    /// the event store.
     /// </summary>
     /// <param name="domainEvent">The domain event to handle.</param>
-    /// <returns>An indication whether the aggregate was able to handle to event (true) 
-    /// or not (false).</returns>
-    protected virtual bool TryHandleDomainEvent(Event domainEvent)
+    protected virtual void HandleDomainEvent(Event domainEvent)
     {
-        return false;
+        
     }
 
     /// <summary>
@@ -149,6 +129,6 @@ public abstract class AggregateRoot : Entity, IAggregateRoot
     /// </summary>
     public virtual void EnsureConsistency()
     {
-        
+        // Implement in derived class
     }
 }

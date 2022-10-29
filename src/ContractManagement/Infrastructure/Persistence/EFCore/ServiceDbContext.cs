@@ -6,6 +6,10 @@ public class ServiceDbContext : DbContext
 {
     private const int SQL_ERROR_KEY_CONSTRAINT_VIOLATION = 2627;
 
+    // Write models
+    public DbSet<ContractManagement.Domain.Aggregates.Account.Account> Accounts => 
+        Set<ContractManagement.Domain.Aggregates.Account.Account>();
+
     // Event Sourced write models 
     private static readonly string[] EventSourcedAggregates = new[]
     {

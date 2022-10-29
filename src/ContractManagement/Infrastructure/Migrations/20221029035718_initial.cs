@@ -10,6 +10,19 @@ namespace Infrastructure.Migrations
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
+                name: "Account",
+                columns: table => new
+                {
+                    AccountNumber = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    Balance = table.Column<decimal>(type: "decimal(10,2)", precision: 10, scale: 2, nullable: false),
+                    Version = table.Column<long>(type: "bigint", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Account", x => x.AccountNumber);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Contract",
                 columns: table => new
                 {
@@ -81,9 +94,14 @@ namespace Infrastructure.Migrations
                 });
 
             migrationBuilder.InsertData(
+                table: "Account",
+                columns: new[] { "AccountNumber", "Balance", "Version" },
+                values: new object[] { "CTR-20220502-9999", 12500m, 0L });
+
+            migrationBuilder.InsertData(
                 table: "Contract",
                 columns: new[] { "ContractNumber", "Amount", "CustomerNumber", "EndDate", "PaymentPeriod", "ProductNumber", "StartDate" },
-                values: new object[] { "CTR-20220502-9999", 20000m, "C13976", new DateTime(2034, 5, 2, 15, 40, 35, 877, DateTimeKind.Local), "Monthly", "FAC-00011", new DateTime(2022, 5, 2, 15, 40, 35, 876, DateTimeKind.Local) });
+                values: new object[] { "CTR-20220502-9999", 20000m, "C13976", new DateTime(2034, 5, 2, 14, 40, 35, 877, DateTimeKind.Local), "Monthly", "FAC-00011", new DateTime(2022, 5, 2, 14, 40, 35, 876, DateTimeKind.Local) });
 
             migrationBuilder.InsertData(
                 table: "ContractAggregate",
@@ -93,7 +111,7 @@ namespace Infrastructure.Migrations
             migrationBuilder.InsertData(
                 table: "ContractEvent",
                 columns: new[] { "Id", "AggregateId", "EventData", "EventType", "Timestamp", "Version" },
-                values: new object[] { new Guid("cf965a82-a1dc-498f-a14a-527b0a972755"), "CTR-20220502-9999", "{\"ContractNumber\": \"CTR-20220502-9999\",\"CustomerNumber\": \"C13976\",\"ProductNumber\": \"FAC-00011\",\"Amount\": 20000,\"StartDate\": \"2022-05-02T12:40:35.876Z\",\"EndDate\": \"2034-05-02T12:40:35.877Z\",\"EventId\": \"f0074479-4cea-41ff-a669-bdb3649f6e7b\"}", "ContractRegistered", new DateTime(2022, 10, 23, 13, 56, 50, 200, DateTimeKind.Local).AddTicks(3173), 1L });
+                values: new object[] { new Guid("694985c5-9b01-4a52-a984-8670a17237a1"), "CTR-20220502-9999", "{\"ContractNumber\": \"CTR-20220502-9999\",\"CustomerNumber\": \"C13976\",\"ProductNumber\": \"FAC-00011\",\"Amount\": 20000,\"StartDate\": \"2022-05-02T12:40:35.876Z\",\"EndDate\": \"2034-05-02T12:40:35.877Z\",\"EventId\": \"f0074479-4cea-41ff-a669-bdb3649f6e7b\"}", "ContractRegistered", new DateTime(2022, 10, 29, 5, 57, 18, 225, DateTimeKind.Local).AddTicks(1167), 1L });
 
             migrationBuilder.InsertData(
                 table: "Customer",
@@ -112,6 +130,9 @@ namespace Infrastructure.Migrations
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.DropTable(
+                name: "Account");
+
             migrationBuilder.DropTable(
                 name: "Contract");
 

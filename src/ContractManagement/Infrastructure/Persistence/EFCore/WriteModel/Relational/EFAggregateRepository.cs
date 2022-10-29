@@ -23,6 +23,7 @@ public class EFAggregateRepository<TAggregateRoot> : IAggregateRepository<TAggre
             typeof(TAggregateRoot).Name,
             aggregate.Id);
 
+        aggregate.Version = 1;
         _aggregateSet.Add(aggregate);
 
         return ValueTask.CompletedTask;

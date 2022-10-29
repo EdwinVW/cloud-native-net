@@ -76,11 +76,11 @@ namespace Infrastructure.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("cf965a82-a1dc-498f-a14a-527b0a972755"),
+                            Id = new Guid("694985c5-9b01-4a52-a984-8670a17237a1"),
                             AggregateId = "CTR-20220502-9999",
                             EventData = "{\"ContractNumber\": \"CTR-20220502-9999\",\"CustomerNumber\": \"C13976\",\"ProductNumber\": \"FAC-00011\",\"Amount\": 20000,\"StartDate\": \"2022-05-02T12:40:35.876Z\",\"EndDate\": \"2034-05-02T12:40:35.877Z\",\"EventId\": \"f0074479-4cea-41ff-a669-bdb3649f6e7b\"}",
                             EventType = "ContractRegistered",
-                            Timestamp = new DateTime(2022, 10, 23, 13, 56, 50, 200, DateTimeKind.Local).AddTicks(3173),
+                            Timestamp = new DateTime(2022, 10, 29, 5, 57, 18, 225, DateTimeKind.Local).AddTicks(1167),
                             Version = 1L
                         });
                 });
@@ -125,10 +125,10 @@ namespace Infrastructure.Migrations
                             ContractNumber = "CTR-20220502-9999",
                             Amount = 20000m,
                             CustomerNumber = "C13976",
-                            EndDate = new DateTime(2034, 5, 2, 15, 40, 35, 877, DateTimeKind.Local),
+                            EndDate = new DateTime(2034, 5, 2, 14, 40, 35, 877, DateTimeKind.Local),
                             PaymentPeriod = "Monthly",
                             ProductNumber = "FAC-00011",
-                            StartDate = new DateTime(2022, 5, 2, 15, 40, 35, 876, DateTimeKind.Local)
+                            StartDate = new DateTime(2022, 5, 2, 14, 40, 35, 876, DateTimeKind.Local)
                         });
                 });
 
@@ -191,6 +191,31 @@ namespace Infrastructure.Migrations
                         {
                             ProductNumber = "FAC-00011",
                             Description = "Standard long term loan"
+                        });
+                });
+
+            modelBuilder.Entity("ContractManagement.Domain.Aggregates.Account.Account", b =>
+                {
+                    b.Property<string>("AccountNumber")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<decimal>("Balance")
+                        .HasPrecision(10, 2)
+                        .HasColumnType("decimal(10,2)");
+
+                    b.Property<long>("Version")
+                        .HasColumnType("bigint");
+
+                    b.HasKey("AccountNumber");
+
+                    b.ToTable("Account", (string)null);
+
+                    b.HasData(
+                        new
+                        {
+                            AccountNumber = "CTR-20220502-9999",
+                            Balance = 12500m,
+                            Version = 0L
                         });
                 });
 #pragma warning restore 612, 618

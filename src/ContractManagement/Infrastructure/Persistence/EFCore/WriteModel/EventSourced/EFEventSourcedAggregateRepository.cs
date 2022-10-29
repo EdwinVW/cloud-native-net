@@ -2,7 +2,7 @@ namespace ContractManagement.Infrastructure.Persistence.EFCore.Repositories.Aggr
 
 public class EFEventSourcedAggregateRepository<TAggregateRoot> : 
     IAggregateRepository<TAggregateRoot>
-        where TAggregateRoot : AggregateRoot
+        where TAggregateRoot : AggregateRoot, new()
 {
     private readonly string _eventTypeFormatString;
 
@@ -125,10 +125,12 @@ public class EFEventSourcedAggregateRepository<TAggregateRoot> :
     }
 
     private static TAggregateRoot RehydrateAggregate(
-        IList<Event> domainEvents) =>
-            (TAggregateRoot)Activator.CreateInstance(
-                typeof(TAggregateRoot),
-                domainEvents)!;
+        IList<Event> domainEvents)
+    {
+        var aggregate = new TAggregateRoot();
+        aggregate.ReplayEvents(domainEvents);
+        return aggregate;
+    }
 
     /// <remarks>
     /// Method must be static because it's used in an EF Core Linq expression.

@@ -45,8 +45,8 @@ public class ContractRegistrationTests
         var domainEvent = ContractRegisteredBuilder.Build(aggregateId);
 
         // Act
-        var sut = new Contract(
-            new List<Event> { domainEvent });
+        var sut = new Contract();
+        sut.ReplayEvents(new List<Event> { domainEvent });
 
         // Assert
         sut.IsValid.Should().BeTrue();
@@ -74,7 +74,8 @@ public class ContractRegistrationTests
         { PaymentPeriod = PaymentPeriod.Quarterly };
 
         // Act
-        var sut = new Contract(new List<Event> { domainEvent });
+        var sut = new Contract();
+        sut.ReplayEvents(new List<Event> { domainEvent });
 
         // Assert
         sut.IsValid.Should().BeTrue();
