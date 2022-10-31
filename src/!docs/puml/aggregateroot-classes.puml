@@ -23,7 +23,7 @@ interface IAggregateRoot {
 class Entity {
     # {abstract} string Id { get; }
     + override bool Equals(object? obj)
-    + {abstract} virtual bool Equals(Entity? other)
+    + {abstract} virtual bool Equals(IEntity? other)
     + override int GetHashCode()
     + {static} bool operator ==(Entity left, Entity right)
     + {static} bool operator !=(Entity left, Entity right)
@@ -81,7 +81,7 @@ class Contract {
 AggregateRoot <|-- Contract
 Entity <|-- AggregateRoot
 IAggregateRoot <|-- AggregateRoot
-IEquatable <|-- Entity
+IEquatable <|-- IEntity
 IEntity <|-- Entity
 IEntity <|-- IAggregateRoot
 
