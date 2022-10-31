@@ -2,12 +2,12 @@ namespace Contractmanagement.Features.ContractRegistration;
 
 public class RegisterContractHandler : ICommandHandler<RegisterContractV2>
 {
-    private readonly IAggregateService<EventSourcedEntityId, Contract> _aggregateService;
+    private readonly IAggregateService<Contract> _aggregateService;
     private readonly ICustomerService _customerService;
     private readonly IProductService _productService;
 
     public RegisterContractHandler(
-        IAggregateService<EventSourcedEntityId, Contract> aggregateService,
+        IAggregateService<Contract> aggregateService,
         ICustomerService customerService,
         IProductService productService)
     {
@@ -25,7 +25,7 @@ public class RegisterContractHandler : ICommandHandler<RegisterContractV2>
         // If the aggregate wasn't found, create a new one
         if (contract is null)
         {
-            contract = new Contract(command.ContractNumber);
+            contract = new Contract();
         }
 
         await contract.RegisterContractAsync(command, _customerService, _productService);

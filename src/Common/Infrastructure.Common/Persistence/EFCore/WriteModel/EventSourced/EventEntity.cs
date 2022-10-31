@@ -1,12 +1,12 @@
-namespace ContractManagement.Infrastructure.Persistence.EFCore.Repositories.Aggregate;
+namespace Infrastructure.Common.Persistence.EFCore.Repositories.Aggregate;
 
 public class EventEntity
 {
     public Guid Id { get; set; }
 
-    public EventSourcedEntityId AggregateId { get; set; } = default!;
+    public string AggregateId { get; set; } = default!;
 
-    public AggregateVersion Version { get; set; } = default!;
+    public uint Version { get; set; } = default!;
 
     public DateTime Timestamp { get; set; } = DateTime.UtcNow;
 

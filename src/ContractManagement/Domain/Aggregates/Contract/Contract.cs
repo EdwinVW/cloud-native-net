@@ -1,12 +1,14 @@
 namespace ContractManagement.Domain.Aggregates.Contract;
 
-public class Contract : EventSourcedAggregateRoot
+public class Contract : AggregateRoot
 {
+    public override string Id => this.ContractNumber.Value;
+
     //===================================================================================
     // The properties hold the state of the aggregate.
     //===================================================================================
 
-    public ContractNumber ContractNumber { get; init; }
+    public ContractNumber ContractNumber { get; private set; } = ContractNumber.Undefined;
 
     public CustomerNumber? CustomerNumber { get; private set; }
 
@@ -25,21 +27,9 @@ public class Contract : EventSourcedAggregateRoot
     /// <summary>
     /// Create a new aggregate instance.
     /// </summary>
-    /// <param name="id">The unique aggregate Id to use.</param>
-    public Contract(EventSourcedEntityId id) : base(id)
+    public Contract()
     {
-        ContractNumber = ContractNumber.Parse(id.Value);
-    }
 
-    /// <summary>
-    /// Create a new aggregate instance and rehydrate the state of the aggregate from an event-stream.
-    /// </summary>
-    /// <param name="id">The unique aggregate Id to use.</param>
-    /// <param name="domainEvents">The events from the event-stream for the aggregate.</param>
-    /// <remarks>The base implementation will call TryHandleDomainEvent for each event in the specified list of events.</remarks>
-    public Contract(EventSourcedEntityId id, IList<Event> domainEvents) : base(id, domainEvents)
-    {
-        ContractNumber = ContractNumber.Parse(id.Value);
     }
 
     #endregion
@@ -124,7 +114,7 @@ public class Contract : EventSourcedAggregateRoot
     // state of the aggregate from the event-store.
     //===================================================================================    
 
-    protected override bool TryHandleDomainEvent(Event domainEvent)
+    protected override void HandleDomainEvent(Event domainEvent)
     {
         // Upgrade events to latest version
         switch (domainEvent)
@@ -139,42 +129,34 @@ public class Contract : EventSourcedAggregateRoot
         {
             case ContractRegisteredV2 contractRegisteredV2:
                 Handle(contractRegisteredV2);
-                return true;
+                break;
 
             case ContractAmountChanged contractAmountChanged:
                 Handle(contractAmountChanged);
-                return true;
+                break;
 
             case ContractTermChanged contractTermChanged:
                 Handle(contractTermChanged);
-                return true;
+                break;
 
             case ContractCancelled contractCancelled:
                 Handle(contractCancelled);
-                return true;
+                break;
 
             default:
-                return false;
+                throw new DomainEventHandlerNotFoundException(
+                    $"No handler found for {domainEvent.Type} domain event.");
         }
 
         // An alternative (a bit hacky) implementation, is using a cast to a dynamic:
         // --------------------------------
         // Handle((dynamic)domainEvent);
         // --------------------------------
-        // In that case, you leave it to .NET to call the correct overload based on the .NET 
-        // type of the event. 
-        // The advantage is that when a new eventhandler is added, you don't need to explicitely 
-        // add a new case to the switch statement. On the other hand, if we use the switch 
-        // mechanism and forget to add a new case to the switch, returning false will result in
-        // a DomainEventHandlerNotFoundException exception with a clear error message being 
-        // thrown from the bass-class. In case of the dynamic cast, you must handle the absence 
-        // of an event-handling method yourself in this method, by adding an exceptionhandler. 
-        // And because we're in the domain layer, this should not be here (accidental complexity).
-        // That's why I chose to use the explicit switch mechanism.
     }
 
     private void Handle(ContractRegisteredV2 domainEvent)
     {
+        ContractNumber = ContractNumber.Parse(domainEvent.ContractNumber);
         CustomerNumber = CustomerNumber.Parse(domainEvent.CustomerNumber);
         ProductNumber = ProductNumber.Parse(domainEvent.ProductNumber);
         Amount = MoneyAmount.Parse(domainEvent.Amount);
@@ -227,7 +209,7 @@ public class Contract : EventSourcedAggregateRoot
     {
         if (Cancelled)
         {
-            AddBusinessRuleViolation("The contract was cancelled.");
+            AddBusinessRuleViolation("It is not allowed to change a cancelled contract.");
         }
     }
 

@@ -1,18 +1,18 @@
 namespace Domain.Common;
 
-public interface IAggregateRoot<TId> : IEntity<TId>
+public interface IAggregateRoot : IEntity
 {
     bool IsNew { get; }
 
-    AggregateVersion? Version { get; set; }
+    bool IsValid { get; }
+
+    uint Version { get; set; }
+
+    void EnsureConsistency();
 
     void AddBusinessRuleViolation(string violation);
-
-    bool IsValid { get; }
 
     IEnumerable<string> GetBusinessRuleViolations();
 
     IEnumerable<Event> GetDomainEvents();
-
-    void ClearDomainEvents();
 }

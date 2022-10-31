@@ -1,8 +1,7 @@
 namespace Domain.Common;
 
-public abstract class EntityCollection<TId, TEntity> : KeyedCollection<TId, TEntity>
-    where TId: notnull
-    where TEntity : Entity<TId>
+public abstract class EntityCollection<TEntity> : KeyedCollection<string, TEntity>
+    where TEntity : Entity
 {
     protected EntityCollection()
     {
@@ -16,5 +15,5 @@ public abstract class EntityCollection<TId, TEntity> : KeyedCollection<TId, TEnt
         }
     }
 
-    protected override TId GetKeyForItem(TEntity item) => item.Id;
+    protected override string GetKeyForItem(TEntity item) => item.Id;
 }

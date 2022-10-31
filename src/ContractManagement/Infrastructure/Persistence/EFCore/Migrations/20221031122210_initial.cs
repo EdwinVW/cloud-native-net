@@ -3,9 +3,9 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
-namespace Infrastructure.Migrations
+namespace Infrastructure.Persistence.EFCore.Migrations
 {
-    public partial class Initial : Migration
+    public partial class initial : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -31,7 +31,7 @@ namespace Infrastructure.Migrations
                 columns: table => new
                 {
                     AggregateId = table.Column<string>(type: "nvarchar(64)", maxLength: 64, nullable: false),
-                    Version = table.Column<uint>(type: "bigint", nullable: false)
+                    Version = table.Column<long>(type: "bigint", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -44,7 +44,7 @@ namespace Infrastructure.Migrations
                 {
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     AggregateId = table.Column<string>(type: "nvarchar(64)", maxLength: 64, nullable: false),
-                    Version = table.Column<uint>(type: "bigint", nullable: false),
+                    Version = table.Column<long>(type: "bigint", nullable: false),
                     Timestamp = table.Column<DateTime>(type: "datetime2", nullable: false),
                     EventType = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     EventData = table.Column<string>(type: "nvarchar(max)", nullable: false)
@@ -69,6 +69,18 @@ namespace Infrastructure.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Portfolio",
+                columns: table => new
+                {
+                    PortfolioId = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    Version = table.Column<long>(type: "bigint", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Portfolio", x => x.PortfolioId);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Product",
                 columns: table => new
                 {
@@ -80,6 +92,26 @@ namespace Infrastructure.Migrations
                     table.PrimaryKey("PK_Product", x => x.ProductNumber);
                 });
 
+            migrationBuilder.CreateTable(
+                name: "Document",
+                columns: table => new
+                {
+                    DocumentId = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    PortfolioId = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    DocumentType = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
+                    DocumentUrl = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Document", x => x.DocumentId);
+                    table.ForeignKey(
+                        name: "FK_Document_Portfolio_PortfolioId",
+                        column: x => x.PortfolioId,
+                        principalTable: "Portfolio",
+                        principalColumn: "PortfolioId",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
             migrationBuilder.InsertData(
                 table: "Contract",
                 columns: new[] { "ContractNumber", "Amount", "CustomerNumber", "EndDate", "PaymentPeriod", "ProductNumber", "StartDate" },
@@ -88,12 +120,12 @@ namespace Infrastructure.Migrations
             migrationBuilder.InsertData(
                 table: "ContractAggregate",
                 columns: new[] { "AggregateId", "Version" },
-                values: new object[] { "CTR-20220502-9999", 1u });
+                values: new object[] { "CTR-20220502-9999", 1L });
 
             migrationBuilder.InsertData(
                 table: "ContractEvent",
                 columns: new[] { "Id", "AggregateId", "EventData", "EventType", "Timestamp", "Version" },
-                values: new object[] { new Guid("a3ca1822-4971-4196-8895-6d51918d887c"), "CTR-20220502-9999", "{\"ContractNumber\": \"CTR-20220502-9999\",\"CustomerNumber\": \"C13976\",\"ProductNumber\": \"FAC-00011\",\"Amount\": 20000,\"StartDate\": \"2022-05-02T12:40:35.876Z\",\"EndDate\": \"2034-05-02T12:40:35.877Z\",\"EventId\": \"f0074479-4cea-41ff-a669-bdb3649f6e7b\"}", "ContractRegistered", new DateTime(2022, 10, 10, 12, 56, 49, 301, DateTimeKind.Local).AddTicks(3447), 1u });
+                values: new object[] { new Guid("6177ea8b-d5c7-4462-9106-9b73a681a21a"), "CTR-20220502-9999", "{\"ContractNumber\": \"CTR-20220502-9999\",\"CustomerNumber\": \"C13976\",\"ProductNumber\": \"FAC-00011\",\"Amount\": 20000,\"StartDate\": \"2022-05-02T12:40:35.876Z\",\"EndDate\": \"2034-05-02T12:40:35.877Z\",\"EventId\": \"f0074479-4cea-41ff-a669-bdb3649f6e7b\"}", "ContractRegistered", new DateTime(2022, 10, 31, 13, 22, 9, 945, DateTimeKind.Local).AddTicks(4420), 1L });
 
             migrationBuilder.InsertData(
                 table: "Customer",
@@ -105,9 +137,24 @@ namespace Infrastructure.Migrations
                 });
 
             migrationBuilder.InsertData(
+                table: "Portfolio",
+                columns: new[] { "PortfolioId", "Version" },
+                values: new object[] { "CTR-20220502-9999", 1L });
+
+            migrationBuilder.InsertData(
                 table: "Product",
                 columns: new[] { "ProductNumber", "Description" },
                 values: new object[] { "FAC-00011", "Standard long term loan" });
+
+            migrationBuilder.InsertData(
+                table: "Document",
+                columns: new[] { "DocumentId", "DocumentType", "DocumentUrl", "PortfolioId" },
+                values: new object[] { "F656C97A-B211-4618-A39F-E14C6CB2D003", "Passport", "file://archivesrv01/contracts/CTR-20220502-9999/F656C97A-B211-4618-A39F-E14C6CB2D003.png", "CTR-20220502-9999" });
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Document_PortfolioId",
+                table: "Document",
+                column: "PortfolioId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
@@ -125,7 +172,13 @@ namespace Infrastructure.Migrations
                 name: "Customer");
 
             migrationBuilder.DropTable(
+                name: "Document");
+
+            migrationBuilder.DropTable(
                 name: "Product");
+
+            migrationBuilder.DropTable(
+                name: "Portfolio");
         }
     }
 }

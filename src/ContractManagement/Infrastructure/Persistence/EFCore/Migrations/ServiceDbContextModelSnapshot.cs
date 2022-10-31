@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
 
-namespace Infrastructure.Migrations
+namespace Infrastructure.Persistence.EFCore.Migrations
 {
     [DbContext(typeof(ServiceDbContext))]
     partial class ServiceDbContextModelSnapshot : ModelSnapshot
@@ -17,7 +17,7 @@ namespace Infrastructure.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "6.0.9")
+                .HasAnnotation("ProductVersion", "6.0.10")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder, 1L, 1);
@@ -28,7 +28,7 @@ namespace Infrastructure.Migrations
                         .HasMaxLength(64)
                         .HasColumnType("nvarchar(64)");
 
-                    b.Property<uint>("Version")
+                    b.Property<long>("Version")
                         .IsConcurrencyToken()
                         .HasColumnType("bigint");
 
@@ -66,7 +66,7 @@ namespace Infrastructure.Migrations
                     b.Property<DateTime>("Timestamp")
                         .HasColumnType("datetime2");
 
-                    b.Property<uint>("Version")
+                    b.Property<long>("Version")
                         .HasColumnType("bigint");
 
                     b.HasKey("Id");
@@ -76,11 +76,11 @@ namespace Infrastructure.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("a3ca1822-4971-4196-8895-6d51918d887c"),
+                            Id = new Guid("6177ea8b-d5c7-4462-9106-9b73a681a21a"),
                             AggregateId = "CTR-20220502-9999",
                             EventData = "{\"ContractNumber\": \"CTR-20220502-9999\",\"CustomerNumber\": \"C13976\",\"ProductNumber\": \"FAC-00011\",\"Amount\": 20000,\"StartDate\": \"2022-05-02T12:40:35.876Z\",\"EndDate\": \"2034-05-02T12:40:35.877Z\",\"EventId\": \"f0074479-4cea-41ff-a669-bdb3649f6e7b\"}",
                             EventType = "ContractRegistered",
-                            Timestamp = new DateTime(2022, 10, 10, 12, 56, 49, 301, DateTimeKind.Local).AddTicks(3447),
+                            Timestamp = new DateTime(2022, 10, 31, 13, 22, 9, 945, DateTimeKind.Local).AddTicks(4420),
                             Version = 1L
                         });
                 });
@@ -192,6 +192,75 @@ namespace Infrastructure.Migrations
                             ProductNumber = "FAC-00011",
                             Description = "Standard long term loan"
                         });
+                });
+
+            modelBuilder.Entity("ContractManagement.Domain.Aggregates.Portfolio.Document", b =>
+                {
+                    b.Property<string>("DocumentId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("DocumentType")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
+
+                    b.Property<string>("DocumentUrl")
+                        .IsRequired()
+                        .HasMaxLength(256)
+                        .HasColumnType("nvarchar(256)");
+
+                    b.Property<string>("PortfolioId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
+                    b.HasKey("DocumentId");
+
+                    b.HasIndex("PortfolioId");
+
+                    b.ToTable("Document", (string)null);
+
+                    b.HasData(
+                        new
+                        {
+                            DocumentId = "F656C97A-B211-4618-A39F-E14C6CB2D003",
+                            DocumentType = "Passport",
+                            DocumentUrl = "file://archivesrv01/contracts/CTR-20220502-9999/F656C97A-B211-4618-A39F-E14C6CB2D003.png",
+                            PortfolioId = "CTR-20220502-9999"
+                        });
+                });
+
+            modelBuilder.Entity("ContractManagement.Domain.Aggregates.Portfolio.Portfolio", b =>
+                {
+                    b.Property<string>("PortfolioId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<long>("Version")
+                        .HasColumnType("bigint");
+
+                    b.HasKey("PortfolioId");
+
+                    b.ToTable("Portfolio", (string)null);
+
+                    b.HasData(
+                        new
+                        {
+                            PortfolioId = "CTR-20220502-9999",
+                            Version = 1L
+                        });
+                });
+
+            modelBuilder.Entity("ContractManagement.Domain.Aggregates.Portfolio.Document", b =>
+                {
+                    b.HasOne("ContractManagement.Domain.Aggregates.Portfolio.Portfolio", null)
+                        .WithMany("Documents")
+                        .HasForeignKey("PortfolioId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("ContractManagement.Domain.Aggregates.Portfolio.Portfolio", b =>
+                {
+                    b.Navigation("Documents");
                 });
 #pragma warning restore 612, 618
         }

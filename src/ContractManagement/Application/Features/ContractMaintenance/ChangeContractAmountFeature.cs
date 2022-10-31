@@ -8,12 +8,12 @@ public class ChangeContractAmountFeature :
     IEventHandler<DomainEvents.ContractAmountChanged>,
     IProjection<ContractAmountChanged>
 {
-    private readonly IAggregateService<EventSourcedEntityId, Contract> _aggregateService;
+    private readonly IAggregateService<Contract> _aggregateService;
     private readonly IUnitOfWork _unitOfWork;
     private readonly IContractReadModelRepository _contractReadModelRepository;
 
     public ChangeContractAmountFeature(
-        IAggregateService<EventSourcedEntityId, Contract> aggregateService,
+        IAggregateService<Contract> aggregateService,
         IUnitOfWork unitOfWork, 
         IContractReadModelRepository contractReadModelRepository)
     {

@@ -1,5 +1,3 @@
-using Microsoft.Extensions.Configuration;
-
 namespace ContractManagement.Infrastructure.Persistence.EFCore;
 
 public class ServiceDbContextFactory : IDesignTimeDbContextFactory<ServiceDbContext>

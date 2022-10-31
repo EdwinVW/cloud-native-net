@@ -6,6 +6,13 @@ public class ServiceDbContext : DbContext
 {
     private const int SQL_ERROR_KEY_CONSTRAINT_VIOLATION = 2627;
 
+    // Write models
+    public DbSet<ContractManagement.Domain.Aggregates.Portfolio.Portfolio> Portfolios =>
+        Set<ContractManagement.Domain.Aggregates.Portfolio.Portfolio>();
+        
+    public DbSet<ContractManagement.Domain.Aggregates.Portfolio.Document> Documents =>
+        Set<ContractManagement.Domain.Aggregates.Portfolio.Document>();
+
     // Event Sourced write models 
     private static readonly string[] EventSourcedAggregates = new[]
     {
@@ -14,10 +21,10 @@ public class ServiceDbContext : DbContext
 
     // Read models
     public DbSet<ReadModels.Contract> Contracts => Set<ReadModels.Contract>();
-    
-    public DbSet<ReadModels.Customer> Customers => Set <ReadModels.Customer>();
 
-    public DbSet<ReadModels.Product> Products => Set <ReadModels.Product>();
+    public DbSet<ReadModels.Customer> Customers => Set<ReadModels.Customer>();
+
+    public DbSet<ReadModels.Product> Products => Set<ReadModels.Product>();
 
     public ServiceDbContext(DbContextOptions<ServiceDbContext> options)
         : base(options)

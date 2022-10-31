@@ -10,14 +10,15 @@ public class ContractMaintenanceTests
         string aggregateId = "CTR-20220424-0001";
         var contractRegistered = ContractRegisteredV2Builder.Build(aggregateId);
         var changeContractAmount = ChangeContractAmountBuilder.Build(aggregateId);
-        var sut = new Contract(aggregateId, new List<Event> { contractRegistered });
+        var sut = new Contract();
+        sut.ReplayEvents(new List<Event> { contractRegistered });
 
         // Act
         sut.ChangeContractAmount(changeContractAmount);
 
         // Assert
         sut.IsValid.Should().BeTrue();
-        sut.ContractNumber.Value.Should().BeEquivalentTo(contractRegistered.ContractNumber);
+        sut.ContractNumber!.Value.Should().BeEquivalentTo(contractRegistered.ContractNumber);
         sut.CustomerNumber!.Value.Should().BeEquivalentTo(contractRegistered.CustomerNumber);
         sut.ProductNumber!.Value.Should().BeEquivalentTo(contractRegistered.ProductNumber);
         sut.Amount!.Value.Should().Be(changeContractAmount.NewAmount);
@@ -40,7 +41,8 @@ public class ContractMaintenanceTests
         var contractRegistered = ContractRegisteredV2Builder.Build(aggregateId);
         var changeContractAmount = ChangeContractAmountBuilder.Build(aggregateId)
             with { NewAmount = 500 }; // minimum amount is 1000
-        var sut = new Contract(aggregateId, new List<Event> { contractRegistered });
+        var sut = new Contract();
+        sut.ReplayEvents(new List<Event> { contractRegistered });
 
         // Act
         sut.ChangeContractAmount(changeContractAmount);
@@ -59,7 +61,8 @@ public class ContractMaintenanceTests
         var contractRegistered = ContractRegisteredV2Builder.Build(aggregateId);
         var changeContractAmount = ChangeContractAmountBuilder.Build(aggregateId)
             with { NewAmount = 20000000 }; // maximum amount is 10000000
-        var sut = new Contract(aggregateId, new List<Event> { contractRegistered });
+        var sut = new Contract();
+        sut.ReplayEvents(new List<Event> { contractRegistered });
 
         // Act
         sut.ChangeContractAmount(changeContractAmount);
@@ -77,14 +80,15 @@ public class ContractMaintenanceTests
         string aggregateId = "CTR-20220424-0001";
         var contractRegistered = ContractRegisteredV2Builder.Build(aggregateId);
         var changeContractTerm = ChangeContractTermBuilder.Build(aggregateId);
-        var sut = new Contract(aggregateId, new List<Event> { contractRegistered });
+        var sut = new Contract();
+        sut.ReplayEvents(new List<Event> { contractRegistered });
 
         // Act
         sut.ChangeContractTerm(changeContractTerm);
 
         // Assert
         sut.IsValid.Should().BeTrue();
-        sut.ContractNumber.Value.Should().BeEquivalentTo(contractRegistered.ContractNumber);
+        sut.ContractNumber!.Value.Should().BeEquivalentTo(contractRegistered.ContractNumber);
         sut.CustomerNumber!.Value.Should().BeEquivalentTo(contractRegistered.CustomerNumber);
         sut.ProductNumber!.Value.Should().BeEquivalentTo(contractRegistered.ProductNumber);
         sut.Amount!.Value.Should().Be(contractRegistered.Amount);
@@ -107,7 +111,8 @@ public class ContractMaintenanceTests
         var contractRegistered = ContractRegisteredV2Builder.Build(aggregateId);
         var changeContractTerm = ChangeContractTermBuilder.Build(aggregateId)
             with { EndDate = new DateTime(2025, 4, 24, 18, 33, 5) };
-        var sut = new Contract(aggregateId, new List<Event> { contractRegistered });
+        var sut = new Contract();
+        sut.ReplayEvents(new List<Event> { contractRegistered });
 
         // Act
         sut.ChangeContractTerm(changeContractTerm);
@@ -126,7 +131,8 @@ public class ContractMaintenanceTests
         var contractRegistered = ContractRegisteredV2Builder.Build(aggregateId);
         var changeContractTerm = ChangeContractTermBuilder.Build(aggregateId)
             with { EndDate = new DateTime(2085, 4, 24, 18, 33, 5) };
-        var sut = new Contract(aggregateId, new List<Event> { contractRegistered });
+        var sut = new Contract();
+        sut.ReplayEvents(new List<Event> { contractRegistered });
 
         // Act
         sut.ChangeContractTerm(changeContractTerm);
@@ -146,7 +152,8 @@ public class ContractMaintenanceTests
             with { PaymentPeriod = PaymentPeriod.Yearly };
         var changeContractAmount = ChangeContractAmountBuilder.Build(aggregateId)
             with { NewAmount = 6000000 };
-        var sut = new Contract(aggregateId, new List<Event> { contractRegistered });
+        var sut = new Contract();
+        sut.ReplayEvents(new List<Event> { contractRegistered });
 
         // Act
         sut.ChangeContractAmount(changeContractAmount);

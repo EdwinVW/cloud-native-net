@@ -83,6 +83,24 @@ Content-Type: application/json
 
 ###
 
+# AddDocument Command
+
+@contractId = CTR-{{$datetime 'YYYYMMDD'}}-0002
+@documentId = {{$guid}}
+@documentType = Passport
+
+POST https://localhost:7044/contractmanagement/command/adddocument
+Content-Type: application/json
+
+{
+    "portfolioId": "{{contractId}}",
+    "documentId": "{{documentId}}",
+    "documentType": "{{documentType}}",
+    "documentUrl": "file://archivesrv01/contracts/{{contractId}}/{{documentType}}/{{documentId}}.pdf"
+}
+
+###
+
 # Query Contracts
 
 GET https://localhost:7044/contractmanagement/query/contracts

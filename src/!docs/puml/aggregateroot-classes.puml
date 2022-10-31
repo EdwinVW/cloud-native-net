@@ -2,59 +2,54 @@
 
 !include styling.puml
 
-interface IEquatable<Entity<TId>> {
+interface IEquatable<Entity> {
     bool Equals(TId other)
 }
 
-interface IEntity<TId> {
-    TId Id
-    void EnsureConsistency();
+interface IEntity {
+    TId Id { get; }
 }
 
-interface IAggregateRoot<TId> {
+interface IAggregateRoot {
     bool IsNew { get; }
-    AggregateVersion? Version { get; set; }
-    void AddBusinessRuleViolation(string violation);
     bool IsValid { get; }
+    uint Version { get; set; }
+    void EnsureConsistency();
+    void AddBusinessRuleViolation(string violation);
     IEnumerable<string> GetBusinessRuleViolations();
     IEnumerable<Event> GetDomainEvents();
-    void ClearDomainEvents();    
 }
 
-class Entity<TId> {
-    + TId Id
-    # Entity(TId id)
-    # {abstract} void EnsureConsistency()
+class Entity {
+    # {abstract} string Id { get; }
     + override bool Equals(object? obj)
-    + {abstract} virtual bool Equals(Entity<TId>? other)
+    + {abstract} virtual bool Equals(IEntity? other)
     + override int GetHashCode()
-    + {static} bool operator ==(Entity<TId> left, Entity<TId> right)
-    + {static} bool operator !=(Entity<TId> left, Entity<TId> right)
+    + {static} bool operator ==(Entity left, Entity right)
+    + {static} bool operator !=(Entity left, Entity right)
 }
 
-class AggregateRoot<TId> {
+class AggregateRoot {
     - List<string> _businessRuleViolations
     # List<Event> _domainEvents
     + bool IsNew
-    + {abstract} AggregateVersion? Version
     + bool IsValid
+    + uint Version
 
-    + AggregateRoot(TId id, AggregateVersion? originalVersion)
+    + AggregateRoot()
+    + AggregateRoot(uint originalVersion)
+    + AggregateRoot(IList<Event> domainEvents)
     + IEnumerable<Event> GetDomainEvents()
-    + void ClearDomainEvents()
-    + void PublishDomainEvents(Event domainEvent)
+    + void AddDomainEvents(Event domainEvent)
     + void AddBusinessRuleViolation(string violation)
     + IEnumerable<string> GetBusinessRuleViolations()
-}
-
-class EventSourcedAggregateRoot<EventSourcedEntityId> {
-    # EventSourcedAggregateRoot(EventSourcedEntityId id)
-    # EventSourcedAggregateRoot(EventSourcedEntityId id, IList<Event> domainEvents)
     # void ApplyDomainEvent(Event domainEvent)
     # {abstract} bool TryHandleDomainEvent(Event domainEvent)
+    + virtual void EnsureConsistency()
 }
 
 class Contract {
+    + override string Id { get; }
     + ContractNumber ContractNumber
     + CustomerNumber? CustomerNumber
     + ProductNumber? ProductNumber
@@ -63,8 +58,8 @@ class Contract {
     + PaymentPeriod PaymentPeriod
     + bool Cancelled
     
-    + Contract(EventSourcedEntityId id)
-    + Contract(EventSourcedEntityId id, IList<Event> domainEvents)
+    + Contract()
+    + Contract(IList<Event> domainEvents)
     + ValueTask RegisterContractAsync()
     + ValueTask ChangeContractAmount()
     + ValueTask ChangeContractTerm()
@@ -83,11 +78,11 @@ class Contract {
     + override void EnsureConsistency()
 }
 
-EventSourcedAggregateRoot <|-- Contract
-AggregateRoot <|-- EventSourcedAggregateRoot
+AggregateRoot <|-- Contract
 Entity <|-- AggregateRoot
 IAggregateRoot <|-- AggregateRoot
-IEquatable <|-- Entity
+IEquatable <|-- IEntity
 IEntity <|-- Entity
+IEntity <|-- IAggregateRoot
 
 @enduml

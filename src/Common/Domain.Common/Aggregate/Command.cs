@@ -15,7 +15,7 @@ public record Command
     /// The expected version of the aggregate to apply the command to. This is 
     /// used for optimistic concurrency control.
     /// </summary>
-    public ulong? ExpectedVersion { get; set; }
+    public uint? ExpectedVersion { get; set; }
 
     /// <summary>
     /// The type of the command. This value is primarily used for logging and 

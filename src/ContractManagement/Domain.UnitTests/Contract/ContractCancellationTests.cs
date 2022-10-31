@@ -10,14 +10,15 @@ public class ContractCancellationTests
         string aggregateId = "CTR-20220424-0001";
         var contractRegistered = ContractRegisteredV2Builder.Build(aggregateId);
         var cancelContract = CancelContractBuilder.Build(aggregateId);
-        var sut = new Contract(aggregateId, new List<Event> { contractRegistered });
+        var sut = new Contract();
+        sut.ReplayEvents(new List<Event> { contractRegistered });
 
         // Act
         sut.CancelContract(cancelContract);
 
         // Assert
         sut.IsValid.Should().BeTrue();
-        sut.ContractNumber.Value.Should().BeEquivalentTo(contractRegistered.ContractNumber);
+        sut.ContractNumber!.Value.Should().BeEquivalentTo(contractRegistered.ContractNumber);
         sut.CustomerNumber!.Value.Should().BeEquivalentTo(contractRegistered.CustomerNumber);
         sut.ProductNumber!.Value.Should().BeEquivalentTo(contractRegistered.ProductNumber);
         sut.Amount!.Value.Should().Be(contractRegistered.Amount);
@@ -31,4 +32,22 @@ public class ContractCancellationTests
                 .ExcludingMissingMembers()
                 .Excluding(e => e.Type));          
     }
+
+    public void CancelContract_Of_Cancelled_Contract_ShouldYieldViolation()
+    {
+        // Arrange
+        string aggregateId = "CTR-20220424-0001";
+        var contractRegistered = ContractRegisteredV2Builder.Build(aggregateId);
+        var contractCancelled = ContractCancelledBuilder.Build(aggregateId);
+        var cancelContract = CancelContractBuilder.Build(aggregateId);
+        var sut = new Contract();
+        sut.ReplayEvents(new List<Event> { contractRegistered });
+
+        // Act
+        sut.CancelContract(cancelContract);
+
+        // Assert
+        sut.IsValid.Should().BeFalse();
+        sut.GetBusinessRuleViolations().Should().ContainSingle(
+            "It is not allowed to change a cancelled contract.");    }    
 }

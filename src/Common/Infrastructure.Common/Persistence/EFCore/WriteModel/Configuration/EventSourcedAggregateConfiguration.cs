@@ -1,4 +1,4 @@
-﻿namespace ContractManagement.Infrastructure.Persistence.EFCore.Configurations;
+﻿namespace Infrastructure.Common.Persistence.EFCore.Configurations;
 
 public static class EventSourcedAggregateConfiguration
 {
@@ -11,16 +11,10 @@ public static class EventSourcedAggregateConfiguration
 
         builder
             .Property(e => e.AggregateId)
-            .HasConversion(
-                v => v.Value,
-                v => new EventSourcedEntityId(v))
             .HasMaxLength(64);
 
         builder
             .Property(e => e.Version)
-            .HasConversion(
-                v => (uint)v.Value,
-                v => new AggregateVersion(v))
             .IsConcurrencyToken();
 
         if (builder.Metadata.GetTableName() == "ContractAggregate")
@@ -45,16 +39,10 @@ public static class EventSourcedAggregateConfiguration
 
         builder
             .Property(e => e.AggregateId)
-            .HasConversion(
-                v => v.Value,
-                v => new EventSourcedEntityId(v))
             .HasMaxLength(64);
 
         builder
-            .Property(e => e.Version)
-            .HasConversion(
-                v => (uint)v.Value,
-                v => new AggregateVersion(v));
+            .Property(e => e.Version);
 
         if (builder.Metadata.GetTableName() == "ContractEvent")
         {

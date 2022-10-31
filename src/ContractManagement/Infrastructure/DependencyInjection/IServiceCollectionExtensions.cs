@@ -90,7 +90,8 @@ public static class IServiceCollectionExtensions
     private static IServiceCollection AddRepositories(this IServiceCollection services)
     {
         services
-            .AddScoped<IAggregateRepository<EventSourcedEntityId, Contract>, EFEventSourcedAggregateRepository<Contract>>()
+            .AddScoped<IAggregateRepository<Contract>, EFEventSourcedAggregateRepository<Contract>>()
+            .AddScoped<IAggregateRepository<Portfolio>, EFAggregateRepository<Portfolio>>()
             .AddScoped<IContractReadModelRepository, EFContractReadModelRepository>()
             .AddScoped<ICustomerReadModelRepository, EFCustomerReadModelRepository>()
             .AddScoped<IProductReadModelRepository, EFProductReadModelRepository>();

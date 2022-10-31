@@ -12,4 +12,7 @@ global using ContractManagement.Domain.Aggregates.Contract.Commands;
 global using ContractManagement.Domain.Aggregates.Contract.DomainEvents;
 global using ContractManagement.Domain.Aggregates.Contract.Enums;
 
+global using ContractManagement.Domain.Aggregates.Portfolio;
+global using ContractManagement.Domain.Aggregates.Portfolio.Commands;
+
 global using ContractManagement.Domain.Services;

@@ -18,7 +18,7 @@ public static class IServiceCollectionExtensions
             .Scan(scan => scan
                 .FromApplicationDependencies(a => a.FullName!.StartsWith(assemblyNamePrefix))
                 .AddClasses(classes => classes
-                    .AssignableTo(typeof(IAggregateService<,>)), publicOnly: true)
+                    .AssignableTo(typeof(IAggregateService<>)), publicOnly: true)
                     .AsImplementedInterfaces()
                     .WithScopedLifetime());
 

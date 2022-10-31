@@ -8,12 +8,12 @@ public class ChangeContractTermFeature :
     IEventHandler<ContractTermChanged>,
     IProjection<ContractTermChanged>
 {
-    private readonly IAggregateService<EventSourcedEntityId, Contract> _aggregateService;
+    private readonly IAggregateService<Contract> _aggregateService;
     private readonly IUnitOfWork _unitOfWork;
     private readonly IContractReadModelRepository _contractReadModelRepository;
 
     public ChangeContractTermFeature(
-        IAggregateService<EventSourcedEntityId, Contract> aggregateService,
+        IAggregateService<Contract> aggregateService,
         IUnitOfWork unitOfWork, 
         IContractReadModelRepository contractReadModelRepository)
     {

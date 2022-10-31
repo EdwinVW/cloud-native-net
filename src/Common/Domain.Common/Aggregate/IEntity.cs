@@ -1,8 +1,6 @@
 namespace Domain.Common;
 
-public interface IEntity<TId>
+public interface IEntity : IEquatable<IEntity>
 {
-    TId Id { get; }
-
-    void EnsureConsistency();
+    string Id { get; }
 }

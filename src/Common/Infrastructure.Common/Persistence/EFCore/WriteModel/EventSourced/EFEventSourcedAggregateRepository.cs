@@ -1,8 +1,8 @@
-namespace ContractManagement.Infrastructure.Persistence.EFCore.Repositories.Aggregate;
+namespace Infrastructure.Common.Persistence.EFCore.Repositories.Aggregate;
 
 public class EFEventSourcedAggregateRepository<TAggregateRoot> : 
-    IAggregateRepository<EventSourcedEntityId, TAggregateRoot>
-        where TAggregateRoot : EventSourcedAggregateRoot
+    IAggregateRepository<TAggregateRoot>
+        where TAggregateRoot : AggregateRoot, new()
 {
     private readonly string _eventTypeFormatString;
 
@@ -11,7 +11,7 @@ public class EFEventSourcedAggregateRepository<TAggregateRoot> :
     private readonly ILogger _logger;
 
     public EFEventSourcedAggregateRepository(
-        ServiceDbContext context,
+        DbContext context,
         ILogger<EFEventSourcedAggregateRepository<TAggregateRoot>> logger)
     {
         var aggregateType = typeof(TAggregateRoot);
@@ -22,7 +22,7 @@ public class EFEventSourcedAggregateRepository<TAggregateRoot> :
         _logger = logger;
     }
 
-    public async ValueTask<TAggregateRoot?> GetAggregateAsync(EventSourcedEntityId aggregateId)
+    public async ValueTask<TAggregateRoot?> GetAggregateAsync(string aggregateId)
     {
         var domainEvents = await _eventSet
             .Where(a => a.AggregateId == aggregateId)
@@ -32,7 +32,7 @@ public class EFEventSourcedAggregateRepository<TAggregateRoot> :
         _logger.LogDebug("Retrieved events {@events}", domainEvents);
 
         return domainEvents.Any() ? 
-            RehydrateAggregate(aggregateId, domainEvents) : 
+            RehydrateAggregate(domainEvents) : 
             default(TAggregateRoot);
     }
 
@@ -70,7 +70,7 @@ public class EFEventSourcedAggregateRepository<TAggregateRoot> :
         AggregateEntity newAggregate = new()
         {
             AggregateId = aggregate.Id,
-            Version = (ulong)aggregate.GetDomainEvents().Count()
+            Version = (uint)aggregate.GetDomainEvents().Count()
         };
 
         _aggregateSet.Add(newAggregate);
@@ -96,7 +96,7 @@ public class EFEventSourcedAggregateRepository<TAggregateRoot> :
             // the original version number is in the context. We update it
             // to the new version number and get a optimistic concurrency check
             // because Version is marked as a concurrency token.
-            aggregateEntity.Version += (ulong)aggregate.GetDomainEvents().Count();
+            aggregateEntity.Version += (uint)aggregate.GetDomainEvents().Count();
         }
         else
         {
@@ -107,7 +107,7 @@ public class EFEventSourcedAggregateRepository<TAggregateRoot> :
 
     private void AddEventEntities(TAggregateRoot aggregate)
     {
-        var nextEventVersion = aggregate.IsNew ? 1UL : aggregate.Version! + 1;
+        var nextEventVersion = aggregate.IsNew ? 1 : aggregate.Version! + 1;
 
         foreach (var domainEvent in aggregate.GetDomainEvents())
         {
@@ -125,12 +125,12 @@ public class EFEventSourcedAggregateRepository<TAggregateRoot> :
     }
 
     private static TAggregateRoot RehydrateAggregate(
-        EventSourcedEntityId aggregateId, 
-        IList<Event> domainEvents) =>
-            (TAggregateRoot)Activator.CreateInstance(
-                typeof(TAggregateRoot),
-                aggregateId,
-                domainEvents)!;
+        IList<Event> domainEvents)
+    {
+        var aggregate = new TAggregateRoot();
+        aggregate.ReplayEvents(domainEvents);
+        return aggregate;
+    }
 
     /// <remarks>
     /// Method must be static because it's used in an EF Core Linq expression.
