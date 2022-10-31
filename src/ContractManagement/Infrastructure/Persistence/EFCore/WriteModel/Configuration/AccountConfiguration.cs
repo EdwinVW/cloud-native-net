@@ -17,7 +17,8 @@ public class AccountConfiguration : IEntityTypeConfiguration<Account>
                 new Account
                 {
                     AccountNumber = "CTR-20220502-9999",
-                    Balance = 12500
+                    Balance = 12500,
+                    Version = 1
                 }
             });
     }

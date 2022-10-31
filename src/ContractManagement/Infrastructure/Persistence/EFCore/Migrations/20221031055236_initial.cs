@@ -96,7 +96,7 @@ namespace Infrastructure.Persistence.EFCore.Migrations
             migrationBuilder.InsertData(
                 table: "Account",
                 columns: new[] { "AccountNumber", "Balance", "Version" },
-                values: new object[] { "CTR-20220502-9999", 12500m, 0L });
+                values: new object[] { "CTR-20220502-9999", 12500m, 1L });
 
             migrationBuilder.InsertData(
                 table: "Contract",
@@ -111,7 +111,7 @@ namespace Infrastructure.Persistence.EFCore.Migrations
             migrationBuilder.InsertData(
                 table: "ContractEvent",
                 columns: new[] { "Id", "AggregateId", "EventData", "EventType", "Timestamp", "Version" },
-                values: new object[] { new Guid("62c74807-5c13-476e-bcb3-e3e94cbc8b39"), "CTR-20220502-9999", "{\"ContractNumber\": \"CTR-20220502-9999\",\"CustomerNumber\": \"C13976\",\"ProductNumber\": \"FAC-00011\",\"Amount\": 20000,\"StartDate\": \"2022-05-02T12:40:35.876Z\",\"EndDate\": \"2034-05-02T12:40:35.877Z\",\"EventId\": \"f0074479-4cea-41ff-a669-bdb3649f6e7b\"}", "ContractRegistered", new DateTime(2022, 10, 31, 6, 7, 35, 505, DateTimeKind.Local).AddTicks(7401), 1L });
+                values: new object[] { new Guid("f8d73986-e885-4b66-968b-a228d3613b30"), "CTR-20220502-9999", "{\"ContractNumber\": \"CTR-20220502-9999\",\"CustomerNumber\": \"C13976\",\"ProductNumber\": \"FAC-00011\",\"Amount\": 20000,\"StartDate\": \"2022-05-02T12:40:35.876Z\",\"EndDate\": \"2034-05-02T12:40:35.877Z\",\"EventId\": \"f0074479-4cea-41ff-a669-bdb3649f6e7b\"}", "ContractRegistered", new DateTime(2022, 10, 31, 6, 52, 36, 555, DateTimeKind.Local).AddTicks(1751), 1L });
 
             migrationBuilder.InsertData(
                 table: "Customer",

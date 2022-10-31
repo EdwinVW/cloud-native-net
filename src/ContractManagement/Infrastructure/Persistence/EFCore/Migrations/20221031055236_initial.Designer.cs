@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Infrastructure.Persistence.EFCore.Migrations
 {
     [DbContext(typeof(ServiceDbContext))]
-    [Migration("20221031050735_initial")]
+    [Migration("20221031055236_initial")]
     partial class initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -78,11 +78,11 @@ namespace Infrastructure.Persistence.EFCore.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("62c74807-5c13-476e-bcb3-e3e94cbc8b39"),
+                            Id = new Guid("f8d73986-e885-4b66-968b-a228d3613b30"),
                             AggregateId = "CTR-20220502-9999",
                             EventData = "{\"ContractNumber\": \"CTR-20220502-9999\",\"CustomerNumber\": \"C13976\",\"ProductNumber\": \"FAC-00011\",\"Amount\": 20000,\"StartDate\": \"2022-05-02T12:40:35.876Z\",\"EndDate\": \"2034-05-02T12:40:35.877Z\",\"EventId\": \"f0074479-4cea-41ff-a669-bdb3649f6e7b\"}",
                             EventType = "ContractRegistered",
-                            Timestamp = new DateTime(2022, 10, 31, 6, 7, 35, 505, DateTimeKind.Local).AddTicks(7401),
+                            Timestamp = new DateTime(2022, 10, 31, 6, 52, 36, 555, DateTimeKind.Local).AddTicks(1751),
                             Version = 1L
                         });
                 });
@@ -217,7 +217,7 @@ namespace Infrastructure.Persistence.EFCore.Migrations
                         {
                             AccountNumber = "CTR-20220502-9999",
                             Balance = 12500m,
-                            Version = 0L
+                            Version = 1L
                         });
                 });
 #pragma warning restore 612, 618
