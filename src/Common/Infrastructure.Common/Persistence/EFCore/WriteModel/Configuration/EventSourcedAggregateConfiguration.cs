@@ -1,4 +1,4 @@
-﻿namespace ContractManagement.Infrastructure.Persistence.EFCore.Configurations;
+﻿namespace Infrastructure.Common.Persistence.EFCore.Configurations;
 
 public static class EventSourcedAggregateConfiguration
 {

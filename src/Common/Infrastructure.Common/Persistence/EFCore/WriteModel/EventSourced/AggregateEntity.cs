@@ -1,4 +1,4 @@
-namespace ContractManagement.Infrastructure.Persistence.EFCore.Repositories.Aggregate;
+namespace Infrastructure.Common.Persistence.EFCore.Repositories.Aggregate;
 
 public class AggregateEntity
 {

@@ -1,4 +1,4 @@
-namespace ContractManagement.Infrastructure.Persistence.EFCore.Repositories.Aggregate;
+namespace Infrastructure.Common.Persistence.EFCore.Repositories.Aggregate;
 
 public class EFAggregateRepository<TAggregateRoot> : IAggregateRepository<TAggregateRoot> 
     where TAggregateRoot : class, IAggregateRoot
@@ -6,7 +6,7 @@ public class EFAggregateRepository<TAggregateRoot> : IAggregateRepository<TAggre
     private readonly DbSet<TAggregateRoot> _aggregateSet;
     private readonly ILogger _logger;
 
-    public EFAggregateRepository(ServiceDbContext context, ILogger<EFAggregateRepository<TAggregateRoot>> logger)
+    public EFAggregateRepository(DbContext context, ILogger<EFAggregateRepository<TAggregateRoot>> logger)
     {
         _aggregateSet = context.Set<TAggregateRoot>();
         _logger = logger;

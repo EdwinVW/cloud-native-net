@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
 
-namespace Infrastructure.Migrations
+namespace Infrastructure.Persistence.EFCore.Migrations
 {
     [DbContext(typeof(ServiceDbContext))]
     partial class ServiceDbContextModelSnapshot : ModelSnapshot
@@ -76,11 +76,11 @@ namespace Infrastructure.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("694985c5-9b01-4a52-a984-8670a17237a1"),
+                            Id = new Guid("62c74807-5c13-476e-bcb3-e3e94cbc8b39"),
                             AggregateId = "CTR-20220502-9999",
                             EventData = "{\"ContractNumber\": \"CTR-20220502-9999\",\"CustomerNumber\": \"C13976\",\"ProductNumber\": \"FAC-00011\",\"Amount\": 20000,\"StartDate\": \"2022-05-02T12:40:35.876Z\",\"EndDate\": \"2034-05-02T12:40:35.877Z\",\"EventId\": \"f0074479-4cea-41ff-a669-bdb3649f6e7b\"}",
                             EventType = "ContractRegistered",
-                            Timestamp = new DateTime(2022, 10, 29, 5, 57, 18, 225, DateTimeKind.Local).AddTicks(1167),
+                            Timestamp = new DateTime(2022, 10, 31, 6, 7, 35, 505, DateTimeKind.Local).AddTicks(7401),
                             Version = 1L
                         });
                 });

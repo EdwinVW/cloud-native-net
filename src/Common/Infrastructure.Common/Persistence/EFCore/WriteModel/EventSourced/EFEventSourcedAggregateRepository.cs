@@ -1,4 +1,4 @@
-namespace ContractManagement.Infrastructure.Persistence.EFCore.Repositories.Aggregate;
+namespace Infrastructure.Common.Persistence.EFCore.Repositories.Aggregate;
 
 public class EFEventSourcedAggregateRepository<TAggregateRoot> : 
     IAggregateRepository<TAggregateRoot>
@@ -11,7 +11,7 @@ public class EFEventSourcedAggregateRepository<TAggregateRoot> :
     private readonly ILogger _logger;
 
     public EFEventSourcedAggregateRepository(
-        ServiceDbContext context,
+        DbContext context,
         ILogger<EFEventSourcedAggregateRepository<TAggregateRoot>> logger)
     {
         var aggregateType = typeof(TAggregateRoot);
