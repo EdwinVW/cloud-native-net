@@ -83,14 +83,20 @@ Content-Type: application/json
 
 ###
 
-# AddPayment Command
+# AddDocument Command
 
-POST https://localhost:7044/contractmanagement/command/addpayment
+@contractId = CTR-{{$datetime 'YYYYMMDD'}}-0002
+@documentId = {{$guid}}
+@documentType = Passport
+
+POST https://localhost:7044/contractmanagement/command/adddocument
 Content-Type: application/json
 
 {
-    "accountNumber": "CTR-{{$datetime 'YYYYMMDD'}}-0002",
-    "amount": 150
+    "portfolioId": "{{contractId}}",
+    "documentId": "{{documentId}}",
+    "documentType": "{{documentType}}",
+    "documentUrl": "file://archivesrv01/contracts/{{contractId}}/{{documentType}}/{{documentId}}.pdf"
 }
 
 ###

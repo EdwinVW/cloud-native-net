@@ -13,7 +13,8 @@ global using CustomerManagement.Application.IntegrationEvents;
 global using ContractManagement.Domain.Aggregates.Contract;
 global using ContractManagement.Domain.Aggregates.Contract.DomainEvents;
 
-global using ContractManagement.Domain.Aggregates.Account;
+global using ContractManagement.Domain.Aggregates.Portfolio;
+global using ContractManagement.Domain.Aggregates.Portfolio.Enums;
 
 global using ContractManagement.Infrastructure.Persistence.EFCore;
 global using ContractManagement.Infrastructure.Persistence.EFCore.Repositories;

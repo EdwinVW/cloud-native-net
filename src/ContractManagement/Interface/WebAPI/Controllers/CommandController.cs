@@ -61,10 +61,10 @@ public class CommandController : ControllerBase
         return BadRequest();
     }
 
-    [HttpPost("addpayment")]
-    public async Task<IActionResult> AddPayment(
-        [FromBody] AddPayment command,
-        [FromServices] ICommandHandler<AddPayment> commandHandler) => 
+    [HttpPost("adddocument")]
+    public async Task<IActionResult> AddDocument(
+        [FromBody] AddDocument command,
+        [FromServices] ICommandHandler<AddDocument> commandHandler) => 
             await HandleCommand(command, commandHandler);    
 
     private async Task<IActionResult> HandleCommand<T>(

@@ -9,9 +9,10 @@ global using ContractManagement.Domain.Aggregates.Contract.Commands;
 global using ContractManagement.Domain.Aggregates.Contract.DomainEvents;
 global using ContractManagement.Domain.Aggregates.Contract.Enums;
 
-global using ContractManagement.Domain.Aggregates.Account;
-global using ContractManagement.Domain.Aggregates.Account.Commands;
-global using ContractManagement.Domain.Aggregates.Account.DomainEvents;
+global using ContractManagement.Domain.Aggregates.Portfolio;
+global using ContractManagement.Domain.Aggregates.Portfolio.Commands;
+global using ContractManagement.Domain.Aggregates.Portfolio.DomainEvents;
+global using ContractManagement.Domain.Aggregates.Portfolio.Enums;
 
 
 global using ContractManagement.Domain.Services;

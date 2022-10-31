@@ -13,7 +13,8 @@ global using Domain.Common;
 global using Domain.Common.Exceptions;
 
 global using ContractManagement.Domain.Aggregates.Contract.Commands;
-global using ContractManagement.Domain.Aggregates.Account.Commands;
+global using ContractManagement.Domain.Aggregates.Portfolio.Commands;
+
 
 global using ContractManagement.Infrastructure.Persistence.EFCore;
 

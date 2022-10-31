@@ -10,19 +10,6 @@ namespace Infrastructure.Persistence.EFCore.Migrations
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
-                name: "Account",
-                columns: table => new
-                {
-                    AccountNumber = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    Balance = table.Column<decimal>(type: "decimal(10,2)", precision: 10, scale: 2, nullable: false),
-                    Version = table.Column<long>(type: "bigint", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Account", x => x.AccountNumber);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "Contract",
                 columns: table => new
                 {
@@ -82,6 +69,18 @@ namespace Infrastructure.Persistence.EFCore.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Portfolio",
+                columns: table => new
+                {
+                    PortfolioId = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    Version = table.Column<long>(type: "bigint", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Portfolio", x => x.PortfolioId);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Product",
                 columns: table => new
                 {
@@ -93,10 +92,25 @@ namespace Infrastructure.Persistence.EFCore.Migrations
                     table.PrimaryKey("PK_Product", x => x.ProductNumber);
                 });
 
-            migrationBuilder.InsertData(
-                table: "Account",
-                columns: new[] { "AccountNumber", "Balance", "Version" },
-                values: new object[] { "CTR-20220502-9999", 12500m, 1L });
+            migrationBuilder.CreateTable(
+                name: "Document",
+                columns: table => new
+                {
+                    DocumentId = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    PortfolioId = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    DocumentType = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
+                    DocumentUrl = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Document", x => x.DocumentId);
+                    table.ForeignKey(
+                        name: "FK_Document_Portfolio_PortfolioId",
+                        column: x => x.PortfolioId,
+                        principalTable: "Portfolio",
+                        principalColumn: "PortfolioId",
+                        onDelete: ReferentialAction.Cascade);
+                });
 
             migrationBuilder.InsertData(
                 table: "Contract",
@@ -111,7 +125,7 @@ namespace Infrastructure.Persistence.EFCore.Migrations
             migrationBuilder.InsertData(
                 table: "ContractEvent",
                 columns: new[] { "Id", "AggregateId", "EventData", "EventType", "Timestamp", "Version" },
-                values: new object[] { new Guid("f8d73986-e885-4b66-968b-a228d3613b30"), "CTR-20220502-9999", "{\"ContractNumber\": \"CTR-20220502-9999\",\"CustomerNumber\": \"C13976\",\"ProductNumber\": \"FAC-00011\",\"Amount\": 20000,\"StartDate\": \"2022-05-02T12:40:35.876Z\",\"EndDate\": \"2034-05-02T12:40:35.877Z\",\"EventId\": \"f0074479-4cea-41ff-a669-bdb3649f6e7b\"}", "ContractRegistered", new DateTime(2022, 10, 31, 6, 52, 36, 555, DateTimeKind.Local).AddTicks(1751), 1L });
+                values: new object[] { new Guid("6177ea8b-d5c7-4462-9106-9b73a681a21a"), "CTR-20220502-9999", "{\"ContractNumber\": \"CTR-20220502-9999\",\"CustomerNumber\": \"C13976\",\"ProductNumber\": \"FAC-00011\",\"Amount\": 20000,\"StartDate\": \"2022-05-02T12:40:35.876Z\",\"EndDate\": \"2034-05-02T12:40:35.877Z\",\"EventId\": \"f0074479-4cea-41ff-a669-bdb3649f6e7b\"}", "ContractRegistered", new DateTime(2022, 10, 31, 13, 22, 9, 945, DateTimeKind.Local).AddTicks(4420), 1L });
 
             migrationBuilder.InsertData(
                 table: "Customer",
@@ -123,16 +137,28 @@ namespace Infrastructure.Persistence.EFCore.Migrations
                 });
 
             migrationBuilder.InsertData(
+                table: "Portfolio",
+                columns: new[] { "PortfolioId", "Version" },
+                values: new object[] { "CTR-20220502-9999", 1L });
+
+            migrationBuilder.InsertData(
                 table: "Product",
                 columns: new[] { "ProductNumber", "Description" },
                 values: new object[] { "FAC-00011", "Standard long term loan" });
+
+            migrationBuilder.InsertData(
+                table: "Document",
+                columns: new[] { "DocumentId", "DocumentType", "DocumentUrl", "PortfolioId" },
+                values: new object[] { "F656C97A-B211-4618-A39F-E14C6CB2D003", "Passport", "file://archivesrv01/contracts/CTR-20220502-9999/F656C97A-B211-4618-A39F-E14C6CB2D003.png", "CTR-20220502-9999" });
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Document_PortfolioId",
+                table: "Document",
+                column: "PortfolioId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.DropTable(
-                name: "Account");
-
             migrationBuilder.DropTable(
                 name: "Contract");
 
@@ -146,7 +172,13 @@ namespace Infrastructure.Persistence.EFCore.Migrations
                 name: "Customer");
 
             migrationBuilder.DropTable(
+                name: "Document");
+
+            migrationBuilder.DropTable(
                 name: "Product");
+
+            migrationBuilder.DropTable(
+                name: "Portfolio");
         }
     }
 }
